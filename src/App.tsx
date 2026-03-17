@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom'
 import Nav from './components/Nav'
 import Footer from './components/Footer'
+import WelcomeModal from './components/WelcomeModal'
 import Home from './pages/Home'
 import Collection from './pages/Collection'
 import ProductPage from './pages/ProductPage'
@@ -14,6 +15,7 @@ import Shipping from './pages/Shipping'
 function App() {
   return (
     <div className="min-h-screen bg-parchment text-charcoal">
+      <WelcomeModal />
       <Nav />
       <main>
         <Routes>

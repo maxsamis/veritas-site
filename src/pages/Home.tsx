@@ -315,9 +315,9 @@ export default function Home() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
           {craftItems.map(({ key, icon }) => (
-            <div key={key} className="text-center lg:text-left">
-              <div className="mb-5 flex justify-center lg:justify-start">{icon}</div>
-              <div className="h-px w-8 bg-umber/20 mb-5 mx-auto lg:mx-0" />
+            <div key={key} className="text-center">
+              <div className="mb-5 flex justify-center">{icon}</div>
+              <div className="h-px w-8 bg-umber/20 mb-5 mx-auto" />
               <h3 className="font-cormorant font-light text-xl lg:text-2xl text-charcoal mb-3">
                 {t(`home.${key}_title`)}
               </h3>
