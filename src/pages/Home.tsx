@@ -133,7 +133,7 @@ export default function Home() {
 
       {/* ── Hero ─────────────────────────────────────────── */}
       <section
-        className="relative min-h-[92vh] lg:min-h-screen flex flex-col items-center justify-center text-center px-6"
+        className="relative min-h-[92vh] lg:min-h-screen flex flex-col items-center justify-center text-center px-6 pt-[104px] lg:pt-0"
         style={{
           backgroundImage: 'url(https://i.imgur.com/zQCIOqy.jpeg)',
           backgroundSize: 'cover',
@@ -246,27 +246,20 @@ export default function Home() {
             padding: 0 32px;
           }
           .press-track:hover { animation-play-state: paused; }
+          .press-logo {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 13px;
+            letter-spacing: 0.05em;
+            color: #A1A1AA;
+            opacity: 0.6;
+            white-space: nowrap;
+            flex-shrink: 0;
+          }
         `}</style>
         <div className="press-track">
-          {[
-            { src: 'https://upload.wikimedia.org/wikipedia/commons/0/02/The_New_York_Times_Logo.svg', alt: 'The New York Times', h: 22 },
-            { src: 'https://upload.wikimedia.org/wikipedia/commons/1/13/Architectural_Digest_logo.svg', alt: 'Architectural Digest', h: 20 },
-            { src: 'https://upload.wikimedia.org/wikipedia/commons/4/4a/WSJ_Logo.svg', alt: 'The Wall Street Journal', h: 22 },
-            { src: 'https://upload.wikimedia.org/wikipedia/commons/2/2a/Elle_logo.svg', alt: 'Elle', h: 32 },
-            { src: 'https://upload.wikimedia.org/wikipedia/commons/d/db/Forbes_logo.svg', alt: 'Forbes', h: 22 },
-            { src: 'https://upload.wikimedia.org/wikipedia/commons/0/02/The_New_York_Times_Logo.svg', alt: 'The New York Times 2', h: 22 },
-            { src: 'https://upload.wikimedia.org/wikipedia/commons/1/13/Architectural_Digest_logo.svg', alt: 'Architectural Digest 2', h: 20 },
-            { src: 'https://upload.wikimedia.org/wikipedia/commons/4/4a/WSJ_Logo.svg', alt: 'The Wall Street Journal 2', h: 22 },
-            { src: 'https://upload.wikimedia.org/wikipedia/commons/2/2a/Elle_logo.svg', alt: 'Elle 2', h: 32 },
-            { src: 'https://upload.wikimedia.org/wikipedia/commons/d/db/Forbes_logo.svg', alt: 'Forbes 2', h: 22 },
-          ].map((logo, i) => (
-            <img
-              key={i}
-              src={logo.src}
-              alt={logo.alt}
-              loading="lazy"
-              style={{ height: `${logo.h}px`, width: 'auto', filter: 'grayscale(1) opacity(0.4)', flexShrink: 0 }}
-            />
+          {['The New York Times', 'Architectural Digest', 'The Wall Street Journal', 'Elle Decor', 'Forbes',
+            'The New York Times', 'Architectural Digest', 'The Wall Street Journal', 'Elle Decor', 'Forbes'].map((name, i) => (
+            <span key={i} className="press-logo">{name}</span>
           ))}
         </div>
       </section>
