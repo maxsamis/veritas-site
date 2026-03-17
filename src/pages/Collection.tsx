@@ -98,6 +98,16 @@ export default function Collection() {
         </p>
       </div>
 
+      <div className="flex items-center justify-center gap-6 py-3 border-y border-[#E8E2D9] mb-8 text-[10px] tracking-widest uppercase font-garamond text-[#8B7355]">
+        <span>Edition of 250</span>
+        <span>·</span>
+        <span>Archival paper</span>
+        <span>·</span>
+        <span>Free worldwide shipping</span>
+        <span>·</span>
+        <span>4.9 stars · 127 reviews</span>
+      </div>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-14">
         {PRODUCTS.map((product) => (
           <div key={product.slug} className="relative">

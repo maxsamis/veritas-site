@@ -6,8 +6,8 @@ const FAQ_ITEMS = [
     a: 'Each portrait is limited to 250 numbered impressions worldwide. Once sold out, it will never be reprinted.',
   },
   {
-    q: 'What paper and frame are used?',
-    a: 'Printed on 310 GSM Hahnemühle Photo Rag, a museum-grade archival fine art paper used by galleries worldwide. Frames are hand-assembled in Austin, TX using kiln-dried hardwood mouldings.',
+    q: 'What paper and printing method do you use?',
+    a: 'Printed on 310 GSM Hahnemühle Photo Rag, a museum-grade archival fine art paper used by galleries worldwide. We use archival pigment printing — the same process used by major art museums — rated for 200+ years of light fastness. Frames are hand-assembled in Austin, TX using kiln-dried hardwood mouldings.',
   },
   {
     q: 'How long does shipping take?',
@@ -22,8 +22,16 @@ const FAQ_ITEMS = [
     a: 'Yes. We ship to over 40 countries. Shipping rates are calculated at checkout.',
   },
   {
-    q: 'What is the return policy?',
-    a: 'We accept returns within 14 days of delivery. Contact us at studio@veritaseditions.com.',
+    q: 'Can I return or exchange?',
+    a: 'Yes. We accept returns and exchanges within 30 days of delivery. Contact us at studio@veritaseditions.com and we will arrange complimentary pickup.',
+  },
+  {
+    q: 'Are the prints framed?',
+    a: 'Yes — every order ships fully assembled in your chosen frame (Matte Black, Walnut Brown, Ivory White, Burnished Gold, or Antique Gold). You may also order the print unframed as a rolled edition.',
+  },
+  {
+    q: 'What is your quality guarantee?',
+    a: 'We stand behind every print with a lifetime guarantee. If your print arrives damaged or deteriorates under normal conditions, we will replace it at no charge. Our archival materials are rated for 200+ years.',
   },
   {
     q: 'Does it come with a certificate of authenticity?',

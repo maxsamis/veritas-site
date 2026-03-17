@@ -177,14 +177,14 @@ export default function Home() {
           </div>
 
           <h1 className="font-cormorant italic font-light text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-parchment leading-tight max-w-3xl">
-            {t('home.hero_headline')}
+            Every edition. Limited to 250.
           </h1>
 
           <p
             className="font-cormorant italic text-xl lg:text-2xl"
             style={{ color: '#C4A55A' }}
           >
-            Limited to 250 impressions worldwide.
+            Archival fine art portraits of Christ. Hand numbered. Ready to hang.
           </p>
 
           <Link to="/collection">
