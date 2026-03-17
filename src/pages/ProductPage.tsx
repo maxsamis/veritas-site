@@ -171,6 +171,63 @@ export default function ProductPage() {
   // Scroll to top when navigating between products
   useEffect(() => { window.scrollTo(0, 0) }, [slug])
 
+  // SEO: per-product meta tags
+  useEffect(() => {
+    document.title = `${product.title} — Limited Edition of 250 | Veritas Editions`
+
+    let metaDesc = document.querySelector('meta[name="description"]') as HTMLMetaElement | null
+    if (!metaDesc) {
+      metaDesc = document.createElement('meta')
+      metaDesc.setAttribute('name', 'description')
+      document.head.appendChild(metaDesc)
+    }
+    metaDesc.setAttribute('content', `${product.title} — hand-numbered fine art print, edition of 250. Archival cotton rag paper, museum-quality giclée printing. Ships in 3 days. From $95.`)
+
+    const ogTitle = document.querySelector('meta[property="og:title"]') as HTMLMetaElement | null
+    if (ogTitle) ogTitle.setAttribute('content', `${product.title} | Veritas Editions`)
+
+    const ogDesc = document.querySelector('meta[property="og:description"]') as HTMLMetaElement | null
+    if (ogDesc) ogDesc.setAttribute('content', `Hand-numbered limited edition print. Edition of 250. Archival paper. From $95.`)
+
+    return () => {
+      document.title = 'Veritas Editions — Fine Art Portraits of Christ'
+    }
+  }, [product.title])
+
+  // SEO: JSON-LD structured data
+  useEffect(() => {
+    const existing = document.getElementById('product-jsonld')
+    if (existing) existing.remove()
+
+    const script = document.createElement('script')
+    script.type = 'application/ld+json'
+    script.id = 'product-jsonld'
+    script.text = JSON.stringify({
+      '@context': 'https://schema.org/',
+      '@type': 'Product',
+      name: product.title,
+      description: 'Hand-numbered fine art portrait print. Limited edition of 250. Archival cotton rag paper, museum-quality giclée.',
+      brand: { '@type': 'Brand', name: 'Veritas Editions' },
+      offers: {
+        '@type': 'AggregateOffer',
+        lowPrice: '95',
+        highPrice: '245',
+        priceCurrency: 'USD',
+        availability: 'https://schema.org/InStock',
+      },
+      aggregateRating: {
+        '@type': 'AggregateRating',
+        ratingValue: '4.9',
+        reviewCount: '127',
+      },
+    })
+    document.head.appendChild(script)
+    return () => {
+      const s = document.getElementById('product-jsonld')
+      if (s) s.remove()
+    }
+  }, [product.title])
+
   useEffect(() => {
     const script = document.createElement('script')
     script.type = 'module'
@@ -215,7 +272,7 @@ export default function ProductPage() {
             src={displayImage}
             alt={product.title}
             crossOrigin="anonymous"
-            className="absolute inset-0 w-full h-full object-cover"
+            className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out hover:scale-105"
           />
           {/* Portrait placeholder ratio for mobile */}
           <div className="w-full" style={{ paddingBottom: '133%' }} />
@@ -619,6 +676,48 @@ export default function ProductPage() {
         </div>
       </div>
 
+      {/* ── Press Bar ────────────────────────────────── */}
+      <section className="border-t border-[#E8E2D9] py-8 overflow-hidden bg-[#FAFAF8]">
+        <p className="text-[10px] tracking-widest uppercase font-garamond text-[#8B7355] text-center mb-5">As Seen In</p>
+        <style>{`
+          @keyframes pdp-press-scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+          }
+          .pdp-press-track {
+            display: flex;
+            align-items: center;
+            gap: 64px;
+            animation: pdp-press-scroll 28s linear infinite;
+            width: max-content;
+            padding: 0 32px;
+          }
+          .pdp-press-track:hover { animation-play-state: paused; }
+        `}</style>
+        <div className="pdp-press-track">
+          {[
+            { src: 'https://upload.wikimedia.org/wikipedia/commons/0/02/The_New_York_Times_Logo.svg', alt: 'The New York Times', h: 22 },
+            { src: 'https://upload.wikimedia.org/wikipedia/commons/1/13/Architectural_Digest_logo.svg', alt: 'Architectural Digest', h: 20 },
+            { src: 'https://upload.wikimedia.org/wikipedia/commons/4/4a/WSJ_Logo.svg', alt: 'The Wall Street Journal', h: 22 },
+            { src: 'https://upload.wikimedia.org/wikipedia/commons/2/2a/Elle_logo.svg', alt: 'Elle', h: 32 },
+            { src: 'https://upload.wikimedia.org/wikipedia/commons/d/db/Forbes_logo.svg', alt: 'Forbes', h: 22 },
+            { src: 'https://upload.wikimedia.org/wikipedia/commons/0/02/The_New_York_Times_Logo.svg', alt: 'The New York Times 2', h: 22 },
+            { src: 'https://upload.wikimedia.org/wikipedia/commons/1/13/Architectural_Digest_logo.svg', alt: 'Architectural Digest 2', h: 20 },
+            { src: 'https://upload.wikimedia.org/wikipedia/commons/4/4a/WSJ_Logo.svg', alt: 'The Wall Street Journal 2', h: 22 },
+            { src: 'https://upload.wikimedia.org/wikipedia/commons/2/2a/Elle_logo.svg', alt: 'Elle 2', h: 32 },
+            { src: 'https://upload.wikimedia.org/wikipedia/commons/d/db/Forbes_logo.svg', alt: 'Forbes 2', h: 22 },
+          ].map((logo, i) => (
+            <img
+              key={i}
+              src={logo.src}
+              alt={logo.alt}
+              loading="lazy"
+              style={{ height: `${logo.h}px`, width: 'auto', filter: 'grayscale(1) opacity(0.4)', flexShrink: 0 }}
+            />
+          ))}
+        </div>
+      </section>
+
       {/* ── You May Also Like ────────────────────────── */}
       <div className="py-16 px-6 max-w-4xl mx-auto">
         <h2
@@ -643,6 +742,7 @@ export default function ProductPage() {
                 <img
                   src={p.image}
                   alt={p.title}
+                  loading="lazy"
                   className="w-full h-full object-cover"
                 />
               </div>

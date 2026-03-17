@@ -264,6 +264,7 @@ export default function Home() {
               key={i}
               src={logo.src}
               alt={logo.alt}
+              loading="lazy"
               style={{ height: `${logo.h}px`, width: 'auto', filter: 'grayscale(1) opacity(0.4)', flexShrink: 0 }}
             />
           ))}
@@ -462,6 +463,7 @@ export default function Home() {
                   <img
                     src={item.url}
                     alt="Customer home"
+                    loading="lazy"
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                   />
                 </div>

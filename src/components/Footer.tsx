@@ -38,6 +38,7 @@ export default function Footer() {
             <div className="flex flex-col gap-3">
               <Link to="/faq" className="font-garamond text-sm text-[#D4C9B4] hover:text-white transition-colors">FAQ</Link>
               <Link to="/shipping" className="font-garamond text-sm text-[#D4C9B4] hover:text-white transition-colors">Shipping &amp; Returns</Link>
+              <Link to="/care" className="font-garamond text-sm text-[#D4C9B4] hover:text-white transition-colors">Care Guide</Link>
               <a href="mailto:studio@veritaseditions.com" className="font-garamond text-sm text-[#D4C9B4] hover:text-white transition-colors">Contact Us</a>
             </div>
           </div>

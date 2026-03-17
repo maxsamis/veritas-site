@@ -13,6 +13,8 @@ import Policies from './pages/Policies'
 import Reviews from './pages/Reviews'
 import Craftsmanship from './pages/Craftsmanship'
 import Shipping from './pages/Shipping'
+import CareGuide from './pages/CareGuide'
+import NotFound from './pages/NotFound'
 
 function App() {
   return (
@@ -33,6 +35,8 @@ function App() {
             <Route path="/reviews" element={<Reviews />} />
             <Route path="/craftsmanship" element={<Craftsmanship />} />
             <Route path="/shipping" element={<Shipping />} />
+            <Route path="/care" element={<CareGuide />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
         <Footer />
