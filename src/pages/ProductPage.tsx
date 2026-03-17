@@ -419,66 +419,6 @@ export default function ProductPage() {
             </div>
           </div>
 
-          {/* Dimension diagram — mobile only */}
-          <div className="mb-6 lg:hidden">
-            <svg
-              viewBox="0 0 340 110"
-              width="100%"
-              style={{ maxHeight: '100px', display: 'block' }}
-              aria-label="Size comparison diagram"
-            >
-              {/* Scale: 36in = 100px → 1in = 2.78px. Heights: 33, 50, 75, 100. Widths: 22, 33, 50, 67. Baseline y=100. */}
-              {/* 8x12 */}
-              <rect
-                x="10" y={100 - 33} width={22} height={33}
-                fill="none"
-                stroke={selectedSize === 0 ? '#2A2927' : '#C4BDB3'}
-                strokeWidth={selectedSize === 0 ? 1.5 : 1}
-              />
-              <text x={10 + 11} y={100 - 33 - 4} textAnchor="middle" style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '7px', fill: selectedSize === 0 ? '#2A2927' : '#C4BDB3' }}>8×12</text>
-
-              {/* 12x18 */}
-              <rect
-                x="44" y={100 - 50} width={33} height={50}
-                fill="none"
-                stroke={selectedSize === 1 ? '#2A2927' : '#C4BDB3'}
-                strokeWidth={selectedSize === 1 ? 1.5 : 1}
-              />
-              <text x={44 + 16} y={100 - 50 - 4} textAnchor="middle" style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '7px', fill: selectedSize === 1 ? '#2A2927' : '#C4BDB3' }}>12×18</text>
-
-              {/* 18x27 */}
-              <rect
-                x="90" y={100 - 75} width={50} height={75}
-                fill="none"
-                stroke={selectedSize === 2 ? '#2A2927' : '#C4BDB3'}
-                strokeWidth={selectedSize === 2 ? 1.5 : 1}
-              />
-              <text x={90 + 25} y={100 - 75 - 4} textAnchor="middle" style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '7px', fill: selectedSize === 2 ? '#2A2927' : '#C4BDB3' }}>18×27</text>
-
-              {/* 24x36 */}
-              <rect
-                x="154" y={100 - 100} width={67} height={100}
-                fill="none"
-                stroke={selectedSize === 3 ? '#2A2927' : '#C4BDB3'}
-                strokeWidth={selectedSize === 3 ? 1.5 : 1}
-              />
-              <text x={154 + 33} y={100 - 100 - 4} textAnchor="middle" style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '7px', fill: selectedSize === 3 ? '#2A2927' : '#C4BDB3' }}>24×36</text>
-
-              {/* Human silhouette ~5px wide, ~70px tall at x=240 */}
-              {/* Head */}
-              <circle cx="243" cy="34" r="3" fill="#C4BDB3" />
-              {/* Body */}
-              <line x1="243" y1="37" x2="243" y2="68" stroke="#C4BDB3" strokeWidth="1" />
-              {/* Arms */}
-              <line x1="238" y1="47" x2="248" y2="47" stroke="#C4BDB3" strokeWidth="1" />
-              {/* Left leg */}
-              <line x1="243" y1="68" x2="239" y2="100" stroke="#C4BDB3" strokeWidth="1" />
-              {/* Right leg */}
-              <line x1="243" y1="68" x2="247" y2="100" stroke="#C4BDB3" strokeWidth="1" />
-              <text x="243" y="108" textAnchor="middle" style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '6px', fill: '#C4BDB3' }}>5\'9"</text>
-            </svg>
-          </div>
-
           {/* Frame selector */}
           <div className="mb-8">
             <p className="font-garamond text-xs tracking-widest uppercase text-umber mb-3">
