@@ -1,131 +1,105 @@
 import { Link } from 'react-router-dom'
-import { useTranslation } from 'react-i18next'
 
 export default function About() {
-  const { t } = useTranslation()
-
   return (
     <div>
 
-      {/* ── Hero ─────────────────────────────────────────── */}
+      {/* Dark hero */}
       <section
-        className="relative min-h-[75vh] flex items-end justify-center pb-0 overflow-hidden"
-        style={{ backgroundColor: '#2A2927' }}
+        className="py-24 flex items-center justify-center text-center"
+        style={{ backgroundColor: '#1C1A17' }}
       >
-        {/* Portrait — right side, cropped artfully */}
-        <div className="absolute inset-0 flex items-center justify-end pointer-events-none">
-          <div className="w-1/2 h-full relative overflow-hidden opacity-30">
-            <img
-              src="https://i.imgur.com/VqFWzKB.jpeg"
-              alt=""
-              className="absolute inset-0 w-full h-full object-cover object-top"
-              aria-hidden="true"
-            />
-            {/* Gradient fade to charcoal on left side */}
-            <div
-              className="absolute inset-0"
-              style={{
-                background: 'linear-gradient(to right, #2A2927 0%, transparent 60%)',
-              }}
-            />
-          </div>
+        <div className="max-w-3xl px-6 mx-auto">
+          <h1
+            className="font-garamond"
+            style={{
+              fontFamily: 'Cormorant Garamond, serif',
+              fontSize: 'clamp(2.5rem, 6vw, 5rem)',
+              fontWeight: 300,
+              color: '#ffffff',
+              lineHeight: 1.15,
+              fontStyle: 'italic',
+            }}
+          >
+            We make the sacred available.
+          </h1>
         </div>
-
-        {/* Text content */}
-        <div className="relative z-10 max-w-3xl px-6 py-24 lg:py-36 text-center mx-auto">
-          <span className="wordmark text-xs text-parchment/30 tracking-widest2 block mb-10">
-            VERITAS
-          </span>
-          <blockquote className="font-cormorant italic font-light text-3xl md:text-4xl lg:text-5xl text-parchment leading-snug">
-            {t('about.hero_quote')}
-          </blockquote>
-          <div className="h-px w-12 bg-parchment/20 mx-auto mt-10" />
-        </div>
-
-        {/* Fade to parchment */}
-        <div
-          className="absolute bottom-0 left-0 right-0 h-16"
-          style={{ background: 'linear-gradient(to bottom, transparent, #EFECE5)' }}
-        />
       </section>
 
-      {/* ── Content ──────────────────────────────────────── */}
-      <div className="max-w-3xl mx-auto px-6 lg:px-10 py-20 lg:py-28">
-
-        {/* Section 1 */}
-        <section className="mb-20">
-          <h2 className="font-cormorant font-light text-3xl lg:text-4xl text-charcoal mb-8">
-            {t('about.section1_title')}
-          </h2>
-          {t('about.section1_body').split('\n\n').map((para, i) => (
-            <p key={i} className="font-garamond text-base lg:text-lg leading-relaxed text-umber mb-6">
-              {para}
-            </p>
-          ))}
-        </section>
-
-        {/* Portrait break */}
-        <div className="mb-20 relative overflow-hidden" style={{ paddingBottom: '45%' }}>
-          <img
-            src="https://i.imgur.com/ThF68zp.jpeg"
-            alt="The Good Shepherd — classical oil portrait"
-            className="absolute inset-0 w-full h-full object-cover object-top"
-            loading="lazy"
-          />
-        </div>
-
-        {/* Section 2 */}
-        <section className="mb-20">
-          <h2 className="font-cormorant font-light text-3xl lg:text-4xl text-charcoal mb-8">
-            {t('about.section2_title')}
-          </h2>
-          {t('about.section2_body').split('\n\n').map((para, i) => (
-            <p key={i} className="font-garamond text-base lg:text-lg leading-relaxed text-umber mb-6">
-              {para}
-            </p>
-          ))}
-        </section>
-
-        {/* Divider */}
-        <div className="flex items-center gap-6 mb-20">
-          <div className="flex-1 h-px bg-umber/20" />
-          <div className="w-1 h-1 rounded-full bg-umber/30" />
-          <div className="flex-1 h-px bg-umber/20" />
-        </div>
-
-        {/* Section 3 */}
-        <section className="mb-20">
-          <h2 className="font-cormorant font-light text-3xl lg:text-4xl text-charcoal mb-8">
-            {t('about.section3_title')}
-          </h2>
-          {t('about.section3_body').split('\n\n').map((para, i) => (
-            <p key={i} className="font-garamond text-base lg:text-lg leading-relaxed text-umber mb-6">
-              {para}
-            </p>
-          ))}
-        </section>
-
-        {/* Closing Quote */}
-        <div
-          className="border-l-2 border-umber/30 pl-8 py-6 mb-12"
-          style={{ backgroundColor: 'transparent' }}
-        >
-          <blockquote className="font-cormorant italic font-light text-xl lg:text-2xl text-charcoal leading-relaxed">
-            &ldquo;{t('about.closing_quote')}&rdquo;
-          </blockquote>
-        </div>
-
-        {/* CTA */}
-        <div className="text-center">
-          <Link
-            to="/collection"
-            className="inline-block bg-charcoal text-parchment font-garamond text-sm tracking-widest uppercase px-10 py-4 hover:bg-umber transition-colors duration-200"
+      {/* Three paragraphs */}
+      <section
+        className="py-16 px-8"
+        style={{ backgroundColor: '#EFECE5' }}
+      >
+        <div className="max-w-2xl mx-auto">
+          <p
+            className="font-garamond"
+            style={{
+              fontFamily: 'Cormorant Garamond, serif',
+              fontSize: '1.125rem',
+              color: '#2C2C2C',
+              lineHeight: '1.75',
+              marginBottom: '1.5rem',
+            }}
           >
-            View the Collection
-          </Link>
-        </div>
+            For centuries, sacred portraiture lived in churches, chapels, and the homes of collectors who knew where to look. The rest of the world made do with mass-produced reproductions on paper that yellows and fades.
+          </p>
+          <p
+            className="font-garamond"
+            style={{
+              fontFamily: 'Cormorant Garamond, serif',
+              fontSize: '1.125rem',
+              color: '#2C2C2C',
+              lineHeight: '1.75',
+              marginBottom: '1.5rem',
+            }}
+          >
+            Veritas Editions exists to change that. We work with studio artists in the Flemish and Renaissance tradition to produce limited-edition archival prints — 250 per portrait, never reprinted — on the same museum-grade paper used by the Louvre.
+          </p>
+          <p
+            className="font-garamond"
+            style={{
+              fontFamily: 'Cormorant Garamond, serif',
+              fontSize: '1.125rem',
+              color: '#2C2C2C',
+              lineHeight: '1.75',
+              marginBottom: '1.5rem',
+            }}
+          >
+            This is not decoration. It is portraiture with a point of view. The faces in these works are not illustrations. They are presences.
+          </p>
 
-      </div>
+          {/* Closing italic line */}
+          <p
+            className="font-garamond text-center mt-12"
+            style={{
+              fontFamily: 'Cormorant Garamond, serif',
+              fontSize: '1.125rem',
+              color: '#2C2C2C',
+              fontStyle: 'italic',
+              letterSpacing: '0.08em',
+            }}
+          >
+            Veritas. Truth.
+          </p>
+
+          {/* CTA */}
+          <div className="text-center mt-12">
+            <Link
+              to="/collection"
+              className="inline-block font-garamond text-sm tracking-widest uppercase px-10 py-4 transition-colors duration-200"
+              style={{
+                backgroundColor: '#2A2927',
+                color: '#EFECE5',
+                fontFamily: 'Cormorant Garamond, serif',
+              }}
+            >
+              View the Collection
+            </Link>
+          </div>
+        </div>
+      </section>
+
     </div>
   )
 }
