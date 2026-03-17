@@ -4,10 +4,10 @@ import { Link, useParams } from 'react-router-dom'
 import { useCart } from '../contexts/CartContext'
 
 const SIZES = [
-  { key: 'size_xs', label: '8"×12"',  price: 95 },
-  { key: 'size_sm', label: '12"×18"', price: 125 },
-  { key: 'size_md', label: '18"×27"', price: 185 },
-  { key: 'size_lg', label: '24"×36"', price: 245 },
+  { key: 'size_xs', label: '8"\u00d712"',  price: 95 },
+  { key: 'size_sm', label: '12"\u00d718"', price: 125 },
+  { key: 'size_md', label: '18"\u00d727"', price: 185 },
+  { key: 'size_lg', label: '24"\u00d736"', price: 245 },
 ]
 
 const FRAME_ADDONS = [50, 70, 110, 150]
@@ -24,7 +24,7 @@ const SHOPIFY_VARIANTS: Record<string, string[]> = {
 const FRAMES = [
   { key: 'frame_black',   color: '#1a1a1a', imageKey: 'black',        label: 'Matte Black' },
   { key: 'frame_walnut',  color: '#5c3d1e', imageKey: 'walnut',       label: 'Walnut Brown' },
-  { key: 'frame_white',   color: '#f0ece2', imageKey: 'ivory',        label: 'Ivory White' },
+  { key: 'frame_white',   color: '#f0ece2', imageKey: 'ivory',        label: 'Ivory White',  border: '#d4cfc4' },
   { key: 'frame_gold',    color: '#b89040', imageKey: 'gold',         label: 'Burnished Gold' },
   { key: 'frame_natural', color: '#c4a55a', imageKey: 'antique_gold', label: 'Antique Gold' },
 ]
@@ -51,6 +51,12 @@ const FRAME_IMAGES: Record<string, Record<string, string>> = {
     gold:         'https://i.imgur.com/FBRueMr.jpeg',
     antique_gold: 'https://i.imgur.com/VPXWZp0.jpeg',
   },
+}
+
+const PRINT_COMPOSITES: Record<string, string> = {
+  renaissance:  'https://i.imgur.com/LWZzIsG.jpeg',
+  flemish:      'https://i.imgur.com/dyhqeLR.jpeg',
+  contemporary: 'https://i.imgur.com/3IqEEby.jpeg',
 }
 
 const PORTRAIT_IMAGES: Record<string, string> = {
@@ -80,70 +86,69 @@ interface ProductData {
 const PRODUCTS: Record<string, ProductData> = {
   'the-good-shepherd': {
     title: 'The Good Shepherd',
-    style: 'Classical Oil · Limited Edition',
-    edition: 'Edition of 250 · Certificate of authenticity included',
-    image: 'https://i.imgur.com/whtAlx1.jpeg',
+    style: 'Classical Oil \u00b7 Limited Edition',
+    edition: 'Edition of 250 \u00b7 Certificate of authenticity included',
+    image: 'https://i.imgur.com/dyhqeLR.jpeg',
     description:
-      'A rendering of profound stillness — the shepherd who leaves the ninety-nine. This composition draws from the Flemish tradition, rendered in the warm ochres and umbers of old master painting. Printed on 300 GSM archival fine art paper and hand-assembled into your chosen frame in the United States.',
+      'A rendering of profound stillness \u2014 the shepherd who leaves the ninety-nine. This composition draws from the Flemish tradition, rendered in the warm ochres and umbers of old master painting. Printed on 300 GSM archival fine art paper and hand-assembled into your chosen frame in the United States.',
     basePrice: 95,
   },
   'christ-the-redeemer': {
     title: 'Christ the Redeemer',
-    style: 'Renaissance · Limited Edition',
-    edition: 'Edition of 250 · Certificate of authenticity included',
-    image: 'https://i.imgur.com/zQCIOqy.jpeg',
+    style: 'Renaissance \u00b7 Limited Edition',
+    edition: 'Edition of 250 \u00b7 Certificate of authenticity included',
+    image: 'https://i.imgur.com/LWZzIsG.jpeg',
     description:
-      'Chiaroscuro at its most reverent — light and shadow drawn from the Flemish masters, the figure emerging from darkness as if called forth by grace itself. Deep blacks, warm golds, and an expression that rewards every hour spent in its presence. Printed on 300 GSM archival cotton rag, assembled by hand in Austin, Texas.',
+      'Chiaroscuro at its most reverent \u2014 light and shadow drawn from the Flemish masters, the figure emerging from darkness as if called forth by grace itself. Deep blacks, warm golds, and an expression that rewards every hour spent in its presence. Printed on 300 GSM archival cotton rag, assembled by hand in Austin, Texas.',
     basePrice: 95,
   },
   'light-of-the-world': {
     title: 'Light of the World',
-    style: 'Contemporary Sacred · Limited Edition',
-    edition: 'Edition of 250 · Certificate of authenticity included',
-    image: 'https://i.imgur.com/WGRNmXf.jpeg',
+    style: 'Contemporary Sacred \u00b7 Limited Edition',
+    edition: 'Edition of 250 \u00b7 Certificate of authenticity included',
+    image: 'https://i.imgur.com/3IqEEby.jpeg',
     description:
       'A contemporary sacred composition that speaks the language of today without surrendering the reverence of centuries. Luminous and still, this piece occupies the rare space between tradition and the modern interior. Printed on 300 GSM archival fine art paper, hand-assembled in the United States.',
     basePrice: 95,
   },
   'prince-of-peace': {
     title: 'Prince of Peace',
-    style: 'Minimalist · Limited Edition',
-    edition: 'Edition of 250 · Certificate of authenticity included',
-    image: 'https://i.imgur.com/whtAlx1.jpeg',
+    style: 'Minimalist \u00b7 Limited Edition',
+    edition: 'Edition of 250 \u00b7 Certificate of authenticity included',
+    image: 'https://i.imgur.com/dyhqeLR.jpeg',
     description:
-      'Restraint as devotion. This composition strips the sacred portrait to its essential gesture — a gaze of absolute peace rendered with economy and grace. For homes that understand that less, when it is the right less, says everything. Printed on 300 GSM archival fine art paper, hand-assembled in the United States.',
+      'Restraint as devotion. This composition strips the sacred portrait to its essential gesture \u2014 a gaze of absolute peace rendered with economy and grace. For homes that understand that less, when it is the right less, says everything. Printed on 300 GSM archival fine art paper, hand-assembled in the United States.',
     basePrice: 95,
   },
   'the-sacred-heart': {
     title: 'The Sacred Heart',
-    style: 'Baroque · Limited Edition',
-    edition: 'Edition of 250 · Certificate of authenticity included',
-    image: 'https://i.imgur.com/zQCIOqy.jpeg',
+    style: 'Baroque \u00b7 Limited Edition',
+    edition: 'Edition of 250 \u00b7 Certificate of authenticity included',
+    image: 'https://i.imgur.com/LWZzIsG.jpeg',
     description:
-      'The oldest symbol of love made radiant again. This Baroque composition honors the iconographic tradition with depth and formal rigor — each element considered, nothing accidental. A piece that rewards years of living with it. Printed on 300 GSM archival cotton rag, assembled by hand in Austin, Texas.',
+      'The oldest symbol of love made radiant again. This Baroque composition honors the iconographic tradition with depth and formal rigor \u2014 each element considered, nothing accidental. A piece that rewards years of living with it. Printed on 300 GSM archival cotton rag, assembled by hand in Austin, Texas.',
     basePrice: 95,
   },
   emmanuel: {
     title: 'Emmanuel',
-    style: 'Icon Tradition · Limited Edition',
-    edition: 'Edition of 250 · Certificate of authenticity included',
-    image: 'https://i.imgur.com/WGRNmXf.jpeg',
+    style: 'Icon Tradition \u00b7 Limited Edition',
+    edition: 'Edition of 250 \u00b7 Certificate of authenticity included',
+    image: 'https://i.imgur.com/3IqEEby.jpeg',
     description:
-      'God with us. This composition draws from the Byzantine icon tradition — the gold ground, the frontal gaze, the timeless stillness that has sustained communities across two millennia. Nothing is decorative here. Every choice is theological. Printed on 300 GSM archival fine art paper, hand-assembled in the United States.',
+      'God with us. This composition draws from the Byzantine icon tradition \u2014 the gold ground, the frontal gaze, the timeless stillness that has sustained communities across two millennia. Nothing is decorative here. Every choice is theological. Printed on 300 GSM archival fine art paper, hand-assembled in the United States.',
     basePrice: 95,
   },
 }
 
 const FALLBACK: ProductData = {
   title: 'Original Composition',
-  style: 'Classical Oil · Limited Edition',
-  edition: 'Edition of 250 · Certificate of authenticity included',
-  image: 'https://i.imgur.com/whtAlx1.jpeg',
+  style: 'Classical Oil \u00b7 Limited Edition',
+  edition: 'Edition of 250 \u00b7 Certificate of authenticity included',
+  image: 'https://i.imgur.com/dyhqeLR.jpeg',
   description:
     'A rendering of profound stillness. Printed on 300 GSM archival fine art paper and hand-assembled into your chosen frame in the United States.',
   basePrice: 95,
 }
-
 
 export default function ProductPage() {
   const { t } = useTranslation()
@@ -154,18 +159,21 @@ export default function ProductPage() {
   const [selectedSize, setSelectedSize] = useState(0)
   const [selectedFrame, setSelectedFrame] = useState(1)
   const [selectedFormat, setSelectedFormat] = useState<'framed' | 'rolled'>('rolled')
-  const [showARModal, setShowARModal] = useState(false)
   const [lightboxOpen, setLightboxOpen] = useState(false)
-  const [viewMode, setViewMode] = useState<'room' | 'print'>('print')
+  // 0 = print composite, 1 = frame/room composite, 2 = raw portrait
+  const [selectedImageIdx, setSelectedImageIdx] = useState(0)
   const [justAdded, setJustAdded] = useState(false)
   const [openSection, setOpenSection] = useState<string | null>('description')
 
   const portraitKey = (slug && SLUG_TO_PORTRAIT[slug]) ?? null
   const selectedFrameKey = FRAMES[selectedFrame].imageKey
-  const heroImage = (portraitKey && FRAME_IMAGES[portraitKey]?.[selectedFrameKey]) ?? product.image
-  const displayImage = viewMode === 'print' && portraitKey
-    ? PORTRAIT_IMAGES[portraitKey]
-    : heroImage
+
+  const printComposite = portraitKey ? (PRINT_COMPOSITES[portraitKey] ?? product.image) : product.image
+  const frameComposite = portraitKey ? (FRAME_IMAGES[portraitKey]?.[selectedFrameKey] ?? product.image) : product.image
+  const rawPortrait    = portraitKey ? (PORTRAIT_IMAGES[portraitKey] ?? product.image) : product.image
+
+  const imageList = [printComposite, frameComposite, rawPortrait]
+  const displayImage = imageList[selectedImageIdx] ?? printComposite
 
   const similarProducts = Object.entries(PRODUCTS)
     .filter(([key]) => key !== slug)
@@ -175,24 +183,10 @@ export default function ProductPage() {
     ? SIZES[selectedSize].price + FRAME_ADDONS[selectedSize]
     : SIZES[selectedSize].price
 
-  // Scroll to top when navigating between products
   useEffect(() => { window.scrollTo(0, 0) }, [slug])
 
-  // Sync viewMode with format
-  useEffect(() => {
-    if (selectedFormat === 'rolled') setViewMode('print')
-    else setViewMode('room')
-  }, [selectedFormat])
-
-  useEffect(() => {
-    const script = document.createElement('script')
-    script.type = 'module'
-    script.src = 'https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js'
-    document.head.appendChild(script)
-    return () => {
-      document.head.removeChild(script)
-    }
-  }, [])
+  // Reset to print composite when slug changes
+  useEffect(() => { setSelectedImageIdx(0) }, [slug])
 
   const handleAddToCart = () => {
     const isFramed = selectedFormat === 'framed'
@@ -222,95 +216,48 @@ export default function ProductPage() {
 
       <div className="flex flex-col lg:flex-row">
 
-        {/* Left: Image */}
-        <div
-          className="w-full lg:w-[55%] lg:sticky lg:top-20 lg:h-[calc(100vh-5rem)] relative overflow-hidden cursor-zoom-in"
-          onClick={() => setLightboxOpen(true)}
-        >
-          <img
-            src={displayImage}
-            alt={product.title}
-            crossOrigin="anonymous"
-            className="absolute inset-0 w-full h-full object-cover"
-          />
-          {/* Portrait placeholder ratio for mobile */}
-          <div className="w-full" style={{ paddingBottom: '133%' }} />
+        {/* Left: Image gallery */}
+        <div className="w-full lg:w-[55%] lg:sticky lg:top-20 lg:h-[calc(100vh-5rem)] flex flex-col">
 
-          {/* View mode toggle pill */}
+          {/* Main image */}
+          <div
+            className="relative overflow-hidden cursor-zoom-in flex-1"
+            onClick={() => setLightboxOpen(true)}
+          >
+            <img
+              src={displayImage}
+              alt={product.title}
+              crossOrigin="anonymous"
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+            <div className="w-full" style={{ paddingBottom: '133%' }} />
+          </div>
+
+          {/* Thumbnail row */}
           {portraitKey && (
-            <div
-              className="absolute bottom-[4.5rem] left-1/2 -translate-x-1/2 z-10"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="bg-white/85 backdrop-blur-sm rounded-2xl px-4 py-1.5 shadow-lg flex items-center gap-3">
+            <div className="flex gap-2 p-3 bg-alabaster">
+              {[
+                { src: printComposite,  label: 'Print presentation' },
+                { src: frameComposite,  label: 'Framed view' },
+                { src: rawPortrait,     label: 'Portrait detail' },
+              ].map((thumb, idx) => (
                 <button
-                  onClick={() => setViewMode('room')}
-                  style={{
-                    fontFamily: 'Cormorant Garamond, serif',
-                    fontSize: '10px',
-                    letterSpacing: '0.08em',
-                    color: viewMode === 'room' ? '#2C2C2C' : '#8C8C7A',
-                    textDecoration: viewMode === 'room' ? 'underline' : 'none',
-                    textUnderlineOffset: '3px',
-                    background: 'none',
-                    border: 'none',
-                    cursor: 'pointer',
-                    padding: '0',
-                    textTransform: 'uppercase',
-                  }}
+                  key={idx}
+                  onClick={() => setSelectedImageIdx(idx)}
+                  aria-label={thumb.label}
+                  className={`w-16 h-16 overflow-hidden flex-shrink-0 transition-all duration-150 ${
+                    selectedImageIdx === idx
+                      ? 'ring-2 ring-[#2A2927] ring-offset-1'
+                      : 'ring-1 ring-[#E8E2D9] opacity-70 hover:opacity-100'
+                  }`}
                 >
-                  Room
+                  <img
+                    src={thumb.src}
+                    alt={thumb.label}
+                    className="w-full h-full object-cover"
+                  />
                 </button>
-                <span style={{ color: '#C4BDB3', fontSize: '10px' }}>|</span>
-                <button
-                  onClick={() => setViewMode('print')}
-                  style={{
-                    fontFamily: 'Cormorant Garamond, serif',
-                    fontSize: '10px',
-                    letterSpacing: '0.08em',
-                    color: viewMode === 'print' ? '#2C2C2C' : '#8C8C7A',
-                    textDecoration: viewMode === 'print' ? 'underline' : 'none',
-                    textUnderlineOffset: '3px',
-                    background: 'none',
-                    border: 'none',
-                    cursor: 'pointer',
-                    padding: '0',
-                    textTransform: 'uppercase',
-                  }}
-                >
-                  Print
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* Floating swatch panel — only show when viewing room + framed */}
-          {viewMode === 'room' && selectedFormat === 'framed' && (
-            <div
-              className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="bg-white/85 backdrop-blur-sm rounded-2xl px-4 py-2 shadow-lg flex flex-col items-center gap-1.5">
-                <p style={{ fontSize: '9px', letterSpacing: '0.1em', color: '#8C8C7A', fontFamily: 'Cormorant Garamond, serif', textTransform: 'uppercase' }}>
-                  Select Frame Style
-                </p>
-                <div className="flex gap-3">
-                  {FRAMES.map((f, i) => (
-                    <button
-                      key={f.key}
-                      onClick={() => setSelectedFrame(i)}
-                      aria-label={f.label}
-                      className={`w-6 h-6 rounded-full border-2 cursor-pointer transition-all duration-150 ${
-                        selectedFrame === i ? 'border-[#2C2C2C] scale-110' : 'border-transparent'
-                      }`}
-                      style={{ backgroundColor: f.color }}
-                    />
-                  ))}
-                </div>
-                <p style={{ fontSize: '10px', color: '#3C3C3C', fontFamily: 'Cormorant Garamond, serif', fontStyle: 'italic' }}>
-                  {FRAMES[selectedFrame].label}
-                </p>
-              </div>
+              ))}
             </div>
           )}
         </div>
@@ -318,50 +265,40 @@ export default function ProductPage() {
         {/* Right: Details */}
         <div className="w-full lg:w-[45%] px-8 lg:px-14 py-12 lg:py-16 bg-alabaster">
 
-          {/* Wordmark */}
-          <Link to="/collection">
-            <span className="wordmark text-xs text-umber tracking-widest2 hover:text-charcoal transition-colors">
-              VERITAS
-            </span>
-          </Link>
+          {/* 1. Artist line */}
+          <p className="font-garamond text-xs tracking-[0.2em] uppercase text-[#8B7355] mb-3">
+            VERITAS EDITIONS
+          </p>
 
-          {/* Title */}
-          <h1 className="font-cormorant italic font-light text-4xl lg:text-5xl text-charcoal mt-5 mb-3 leading-tight">
+          {/* 2. Title */}
+          <h1 className="font-garamond text-4xl font-normal text-[#2A2927] mb-4 leading-tight">
             {product.title}
           </h1>
 
-          {/* Price */}
-          <div className="mb-4">
-            <p className="font-cormorant font-light text-4xl lg:text-5xl text-charcoal">
-              ${price}
+          {/* 3. Price */}
+          <div className="mb-2">
+            <p className="font-garamond text-3xl text-[#2A2927]">
+              {selectedFormat === 'rolled' ? 'From ' : ''}\${price}
             </p>
-            {selectedFormat === 'rolled' && (
-              <p className="font-garamond text-xs text-umber/60 tracking-wide mt-1">
-                Print only — framing available in cart
-              </p>
-            )}
           </div>
 
-          {/* Style + Edition */}
-          <p className="font-garamond text-xs tracking-[0.18em] uppercase text-umber mb-1">
-            {product.style}
-          </p>
-          <p className="font-garamond text-xs tracking-[0.12em] uppercase text-umber/60 mb-2">
-            {product.edition}
-          </p>
-
-          {/* Edition + scarcity badge */}
-          <div className="flex items-center gap-3 mt-2 mb-3">
-            <span className="font-garamond text-xs text-[#4A4A3A] tracking-wide">Limited edition of 250</span>
-            <span style={{ backgroundColor: '#EDD9A3', color: '#5C3D00', fontSize: '10px', padding: '2px 10px', borderRadius: '20px', fontFamily: 'Cormorant Garamond, serif', letterSpacing: '0.08em', fontWeight: 600 }}>
-              Only a few remaining
-            </span>
+          {/* 4. Edition metadata block */}
+          <div className="border-t border-[#E8E2D9] mt-4 mb-4">
+            <div className="flex justify-between py-2 border-b border-[#E8E2D9]">
+              <span className="text-xs tracking-widest uppercase text-[#2A2927]">Limited Edition</span>
+              <span className="text-xs text-[#8B7355]">Fine art archival print</span>
+            </div>
+            <div className="flex justify-between py-2 border-b border-[#E8E2D9]">
+              <span className="text-xs tracking-widest uppercase text-[#2A2927]">Edition of 250</span>
+              <span className="text-xs text-[#8B7355]">Hand numbered</span>
+            </div>
+            <div className="flex justify-between py-2 border-b border-[#E8E2D9]">
+              <span className="text-xs tracking-widest uppercase text-[#2A2927]">Ships in 3 Days</span>
+              <span className="text-xs text-[#8B7355]">Worldwide</span>
+            </div>
           </div>
 
-          {/* Divider */}
-          <div className="section-divider mb-8 mt-6" />
-
-          {/* Size selector */}
+          {/* 5. Size selector */}
           <div className="mb-7">
             <p className="font-garamond text-xs tracking-widest uppercase text-umber mb-3">
               {t('product.size_label')}
@@ -381,67 +318,16 @@ export default function ProductPage() {
                 </button>
               ))}
             </div>
+            <p className="font-garamond text-xs text-[#8B7355] mt-2">
+              {selectedFormat === 'rolled'
+                ? '(framing available at checkout)'
+                : `(includes ${FRAMES[selectedFrame].label} frame)`}
+            </p>
           </div>
 
-          {/* Dimension diagram — mobile only */}
-          <div className="mb-6 lg:hidden">
-            <svg
-              viewBox="0 0 340 110"
-              width="100%"
-              style={{ maxHeight: '100px', display: 'block' }}
-              aria-label="Size comparison diagram"
-            >
-              {/* Scale: 36in = 100px. Baseline y=100. */}
-              {/* 8x12 */}
-              <rect
-                x="10" y={100 - 33} width={22} height={33}
-                fill="none"
-                stroke={selectedSize === 0 ? '#2A2927' : '#C4BDB3'}
-                strokeWidth={selectedSize === 0 ? 1.5 : 1}
-              />
-              <text x={10 + 11} y={100 - 33 - 4} textAnchor="middle" style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '7px', fill: selectedSize === 0 ? '#2A2927' : '#C4BDB3' }}>8×12</text>
-
-              {/* 12x18 */}
-              <rect
-                x="44" y={100 - 50} width={33} height={50}
-                fill="none"
-                stroke={selectedSize === 1 ? '#2A2927' : '#C4BDB3'}
-                strokeWidth={selectedSize === 1 ? 1.5 : 1}
-              />
-              <text x={44 + 16} y={100 - 50 - 4} textAnchor="middle" style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '7px', fill: selectedSize === 1 ? '#2A2927' : '#C4BDB3' }}>12×18</text>
-
-              {/* 18x27 */}
-              <rect
-                x="90" y={100 - 75} width={50} height={75}
-                fill="none"
-                stroke={selectedSize === 2 ? '#2A2927' : '#C4BDB3'}
-                strokeWidth={selectedSize === 2 ? 1.5 : 1}
-              />
-              <text x={90 + 25} y={100 - 75 - 4} textAnchor="middle" style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '7px', fill: selectedSize === 2 ? '#2A2927' : '#C4BDB3' }}>18×27</text>
-
-              {/* 24x36 */}
-              <rect
-                x="154" y={100 - 100} width={67} height={100}
-                fill="none"
-                stroke={selectedSize === 3 ? '#2A2927' : '#C4BDB3'}
-                strokeWidth={selectedSize === 3 ? 1.5 : 1}
-              />
-              <text x={154 + 33} y={100 - 100 - 4} textAnchor="middle" style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '7px', fill: selectedSize === 3 ? '#2A2927' : '#C4BDB3' }}>24×36</text>
-
-              {/* Human silhouette */}
-              <circle cx="243" cy="34" r="3" fill="#C4BDB3" />
-              <line x1="243" y1="37" x2="243" y2="68" stroke="#C4BDB3" strokeWidth="1" />
-              <line x1="238" y1="47" x2="248" y2="47" stroke="#C4BDB3" strokeWidth="1" />
-              <line x1="243" y1="68" x2="239" y2="100" stroke="#C4BDB3" strokeWidth="1" />
-              <line x1="243" y1="68" x2="247" y2="100" stroke="#C4BDB3" strokeWidth="1" />
-              <text x="243" y="108" textAnchor="middle" style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '6px', fill: '#C4BDB3' }}>5'9"</text>
-            </svg>
-          </div>
-
-          {/* Format toggle: Print Only / Add a Frame */}
+          {/* 6. Format toggle */}
           <div className="mb-8">
             <div className="flex gap-2">
-              {/* Print Only */}
               <button
                 onClick={() => setSelectedFormat('rolled')}
                 className={`font-garamond text-xs tracking-widest uppercase px-5 py-2.5 border transition-all duration-150 ${
@@ -452,8 +338,6 @@ export default function ProductPage() {
               >
                 Print Only
               </button>
-
-              {/* Add a Frame */}
               <button
                 onClick={() => setSelectedFormat('framed')}
                 className={`font-garamond text-xs tracking-widest uppercase px-5 py-2.5 border transition-all duration-150 flex items-center gap-2 ${
@@ -467,17 +351,17 @@ export default function ProductPage() {
                   className="font-garamond text-xs"
                   style={{ opacity: selectedFormat === 'framed' ? 0.7 : 0.6 }}
                 >
-                  +${FRAME_ADDONS[selectedSize]}
+                  +\${FRAME_ADDONS[selectedSize]}
                 </span>
               </button>
             </div>
           </div>
 
-          {/* Frame swatches — only when framed selected */}
+          {/* 7. Frame swatches */}
           {selectedFormat === 'framed' && (
             <div className="mb-7">
               <p className="font-garamond text-xs tracking-widest uppercase text-umber mb-3">
-                {t('product.frame_label')} — <span className="normal-case">{FRAMES[selectedFrame].label}</span>
+                {t('product.frame_label')} &mdash; <span className="normal-case">{FRAMES[selectedFrame].label}</span>
               </p>
               <div className="flex gap-3">
                 {FRAMES.map((f, i) => (
@@ -485,44 +369,38 @@ export default function ProductPage() {
                     key={f.key}
                     onClick={() => setSelectedFrame(i)}
                     aria-label={f.label}
-                    className={`w-8 h-8 rounded-full transition-all duration-150 ${
+                    className={`w-8 h-8 rounded-sm cursor-pointer transition-all duration-150 ${
                       selectedFrame === i
-                        ? 'ring-2 ring-charcoal ring-offset-2 ring-offset-alabaster'
-                        : 'ring-1 ring-umber/30 hover:ring-umber'
+                        ? 'ring-2 ring-offset-1 ring-[#2A2927]'
+                        : ''
                     }`}
-                    style={{ backgroundColor: f.color }}
+                    style={{
+                      backgroundColor: f.color,
+                      border: (f as { border?: string }).border ? `1px solid ${(f as { border?: string }).border}` : undefined,
+                    }}
                   />
                 ))}
               </div>
             </div>
           )}
 
-          {/* Add to Cart */}
-          <button onClick={handleAddToCart} className="btn-charcoal w-full mb-4 text-center">
-            {justAdded ? 'Added to Cart \u2713' : t('product.add_to_collection')}
-          </button>
-
-          {/* View in Your Room */}
+          {/* 8. Add to Cart */}
           <button
-            onClick={() => setShowARModal(true)}
-            className="w-full py-3.5 border border-[#2A2927] text-[#2A2927] font-garamond text-sm tracking-widest uppercase hover:bg-[#2A2927] hover:text-parchment transition-colors duration-200 flex items-center justify-center gap-2 mb-4"
+            onClick={handleAddToCart}
+            className="w-full py-4 bg-[#2A2927] text-parchment font-garamond text-sm tracking-widest uppercase mb-4 transition-opacity hover:opacity-90"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z" />
-              <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z" />
-            </svg>
-            View in Your Room
+            {justAdded ? 'Added to Cart' : t('product.add_to_collection')}
           </button>
 
           {/* Trust signals */}
           <p className="font-garamond text-xs text-[#A1A1AA] text-center tracking-wide mt-5 mb-2">
-            200-year archival · Museum UV glazing · Lifetime guarantee · Ships from Austin, TX
+            200-year archival \u00b7 Museum UV glazing \u00b7 Lifetime guarantee \u00b7 Ships from Austin, TX
           </p>
 
           {/* Divider */}
           <div className="section-divider my-8" />
 
-          {/* Accordion: Description / Materials / Shipping */}
+          {/* 9. Accordion sections */}
           <div>
             {/* Description */}
             <div className="border-t border-umber/20">
@@ -559,7 +437,7 @@ export default function ProductPage() {
               </button>
               {openSection === 'materials' && (
                 <p className="pt-2 pb-4" style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '14px', color: '#6B6B5A', lineHeight: '1.65' }}>
-                  Printed on 310 GSM Hahnemühle Photo Rag fine art paper. Museum-grade archival inks rated 200+ years. Solid wood frame, hand-assembled in Austin, TX. Museum UV-protective glazing. Available in 8×12", 12×18", 18×27", and 24×36" (all 2:3 ratio). Ships fully assembled in custom double-wall packaging.
+                  Printed on 310 GSM Hahnem\u00fchle Photo Rag fine art paper. Museum-grade archival inks rated 200+ years. Solid wood frame, hand-assembled in Austin, TX. Museum UV-protective glazing. Available in 8\u00d712", 12\u00d718", 18\u00d727", and 24\u00d736" (all 2:3 ratio). Ships fully assembled in custom double-wall packaging.
                 </p>
               )}
             </div>
@@ -579,7 +457,7 @@ export default function ProductPage() {
               </button>
               {openSection === 'shipping' && (
                 <p className="pt-2 pb-4" style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '14px', color: '#6B6B5A', lineHeight: '1.65' }}>
-                  Free shipping within the US. International shipping available. Ships within 3–5 business days. 30-day free returns — we&apos;ll arrange pickup. Questions? Contact us at studio@veritaseditions.com
+                  Free shipping within the US. International shipping available. Ships within 3\u20135 business days. 30-day free returns \u2014 we&apos;ll arrange pickup. Questions? Contact us at studio@veritaseditions.com
                 </p>
               )}
             </div>
@@ -599,7 +477,7 @@ export default function ProductPage() {
               </button>
               {openSection === 'provenance' && (
                 <p className="pt-2 pb-4" style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '14px', color: '#6B6B5A', lineHeight: '1.65' }}>
-                  These portraits are original compositions rendered in archival pigments by studio artists working in the Flemish oil tradition and the Italian Renaissance manner. Each work is produced as a limited edition of 250 impressions on 310 GSM Hahnemühle Photo Rag. Hand-assembled in Austin, TX. Certificate of authenticity included.
+                  These portraits are original compositions rendered in archival pigments by studio artists working in the Flemish oil tradition and the Italian Renaissance manner. Each work is produced as a limited edition of 250 impressions on 310 GSM Hahnem\u00fchle Photo Rag. Hand-assembled in Austin, TX. Certificate of authenticity included.
                 </p>
               )}
             </div>
@@ -664,7 +542,7 @@ export default function ProductPage() {
                     color: '#8C8C7A',
                   }}
                 >
-                  From ${p.basePrice}
+                  From \${p.basePrice}
                 </p>
               </div>
             </Link>
@@ -676,7 +554,7 @@ export default function ProductPage() {
       <div className="fixed bottom-0 left-0 right-0 z-30 md:hidden bg-[#EFECE5] border-t border-[#E4E4E7] px-4 py-3 flex items-center justify-between">
         <div>
           <p className="max-w-[160px] truncate" style={{ fontSize: '14px', color: '#2C2C2C' }}>{product.title}</p>
-          <p style={{ fontSize: '14px', color: '#8C8C7A' }}>${price}</p>
+          <p style={{ fontSize: '14px', color: '#8C8C7A' }}>\${price}</p>
         </div>
         <button
           onClick={handleAddToCart}
@@ -716,54 +594,6 @@ export default function ProductPage() {
             className="max-h-[90vh] max-w-[90vw] object-contain"
             onClick={(e) => e.stopPropagation()}
           />
-        </div>
-      )}
-
-      {/* AR Modal */}
-      {showARModal && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center px-4"
-          style={{ backgroundColor: 'rgba(0,0,0,0.6)' }}
-          onClick={(e) => { if (e.target === e.currentTarget) setShowARModal(false) }}
-        >
-          <div className="relative w-full max-w-md bg-alabaster rounded-[14px] p-8 shadow-2xl">
-            <button
-              onClick={() => setShowARModal(false)}
-              className="absolute top-4 right-4 text-umber hover:text-charcoal transition-colors text-xl leading-none"
-              aria-label="Close"
-            >
-              ×
-            </button>
-            <h2 className="font-cormorant italic font-light text-3xl text-charcoal mb-3">
-              View in Your Room
-            </h2>
-            <p className="font-garamond text-base leading-relaxed text-umber mb-8">
-              Point your camera at the wall where you'd like to hang this piece.
-              The print will appear at true scale.
-            </p>
-            <div className="flex flex-col gap-3 mb-6">
-              <a
-                href="https://developer.apple.com/augmented-reality/quick-look/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full py-3.5 bg-charcoal text-parchment font-garamond text-sm tracking-widest uppercase text-center hover:bg-umber transition-colors duration-200"
-              >
-                Open on iPhone / iPad
-              </a>
-              <a
-                href="https://developers.google.com/ar/develop/scene-viewer"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full py-3.5 border border-charcoal text-charcoal font-garamond text-sm tracking-widest uppercase text-center hover:bg-charcoal hover:text-parchment transition-colors duration-200"
-              >
-                Open on Android
-              </a>
-            </div>
-            <p className="font-garamond text-xs text-[#A1A1AA] text-center leading-relaxed">
-              AR feature available on iOS Safari and Android Chrome. Requires a
-              modern device.
-            </p>
-          </div>
         </div>
       )}
     </div>
