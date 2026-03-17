@@ -131,14 +131,6 @@ const FALLBACK: ProductData = {
   basePrice: 145,
 }
 
-const SCARCITY: Record<string, number> = {
-  'the-good-shepherd': 61,
-  'prince-of-peace': 49,
-  'christ-the-redeemer': 83,
-  'the-sacred-heart': 39,
-  'light-of-the-world': 76,
-  'emmanuel': 27,
-}
 
 export default function ProductPage() {
   const { t } = useTranslation()
