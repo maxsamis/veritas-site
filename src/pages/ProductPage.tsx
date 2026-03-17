@@ -319,12 +319,13 @@ export default function ProductPage() {
             {product.edition}
           </p>
 
-          {/* Scarcity indicator */}
-          <div className="flex items-center gap-2 mt-2 mb-3">
-            {/* thin progress bar */}
-            <div style={{ width: 80, height: 3, backgroundColor: '#E8E2D9', borderRadius: 2 }}>
-              <div style={{ width: `${scarcityFillPct}%`, height: '100%', backgroundColor: '#2A2927', borderRadius: 2 }} />
-            </div>
+          {/* Edition + scarcity badge */}
+          <div className="flex items-center gap-3 mt-2 mb-3">
+            <span className="font-garamond text-xs text-[#8C8C7A] tracking-wide">Limited edition of 250</span>
+            <span style={{ backgroundColor: '#FDF5E8', color: '#8C6A30', fontSize: '10px', padding: '2px 8px', borderRadius: '20px', fontFamily: 'Cormorant Garamond, serif', letterSpacing: '0.08em', fontWeight: 500 }}>
+              Only a few remaining
+            </span>
+          </div>
             <span className="font-garamond text-xs text-[#8C8C7A] tracking-wide">
               Edition of 250 · {scarcityRemaining} remaining
             </span>
