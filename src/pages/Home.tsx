@@ -285,122 +285,91 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── Reviews + UGC Carousel ───────────────────────── */}
-      <section style={{ backgroundColor: '#F2EDE4' }} className="py-20">
-        {/* Heading */}
+      {/* ── Reviews + UGC Carousel ─────────────────────── */}
+      <section className="py-20 overflow-hidden" style={{ background: '#F2EDE4' }}>
         <div className="text-center mb-10 px-6">
-          <h2
-            style={{
-              fontFamily: "'Cormorant Garamond', Georgia, serif",
-              fontSize: '32px',
-              color: '#2C2C2C',
-              fontWeight: 300,
-            }}
-          >
+          <h2 style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '32px', color: '#2C2C2C', marginBottom: '8px' }}>
             What Our Customers Say
           </h2>
-          <p
-            style={{
-              fontSize: '14px',
-              color: '#8C8C7A',
-              marginTop: '8px',
-              fontFamily: "'EB Garamond', Georgia, serif",
-            }}
-          >
-            Delivered to homes in 40+ countries
-          </p>
+          <p style={{ fontSize: '14px', color: '#8C8C7A' }}>Delivered to homes in 40+ countries</p>
         </div>
 
-        {/* Row 1 — Review cards */}
-        <div className="overflow-hidden mb-12">
+        {/* Single merged carousel — alternates UGC photos and review cards */}
+        <div
+          className="scrollbar-hide"
+          style={{ overflow: 'hidden', width: '100%' }}
+          onMouseEnter={() => setReviewsPaused(true)}
+          onMouseLeave={() => setReviewsPaused(false)}
+        >
           <div
-            className="flex scrollbar-hide"
             style={{
+              display: 'flex',
+              gap: '16px',
+              paddingLeft: '24px',
               width: 'max-content',
-              gap: '20px',
-              animation: 'scrollLeft 30s linear infinite',
+              animation: `scrollLeft 40s linear infinite`,
               animationPlayState: reviewsPaused ? 'paused' : 'running',
             }}
-            onMouseEnter={() => setReviewsPaused(true)}
-            onMouseLeave={() => setReviewsPaused(false)}
           >
-            {[...carouselReviews, ...carouselReviews].map((review, i) => (
-              <div
-                key={`review-${i}`}
-                style={{
-                  width: '300px',
-                  flexShrink: 0,
-                  backgroundColor: '#F9F6F1',
-                  borderRadius: '8px',
-                  padding: '20px',
-                }}
-              >
-                {/* Stars */}
-                <div style={{ display: 'flex', gap: '2px', marginBottom: '10px' }}>
-                  {[1, 2, 3, 4, 5].map((s) => (
-                    <span key={s} style={{ color: '#C9A84C', fontSize: '16px', lineHeight: 1 }}>
-                      &#9733;
-                    </span>
-                  ))}
+            {[...mergedItems, ...mergedItems].map((item, i) =>
+              item.type === 'photo' ? (
+                <div
+                  key={i}
+                  style={{
+                    flexShrink: 0,
+                    width: '220px',
+                    height: '300px',
+                    borderRadius: '12px',
+                    overflow: 'hidden',
+                  }}
+                >
+                  <img
+                    src={item.url}
+                    alt="Customer home"
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  />
                 </div>
-                {/* Review body */}
-                <p
-                  className="line-clamp-2"
+              ) : (
+                <div
+                  key={i}
                   style={{
-                    fontFamily: "'Cormorant Garamond', Georgia, serif",
-                    fontStyle: 'italic',
-                    fontSize: '15px',
-                    lineHeight: '1.55',
-                    color: '#2C2C2C',
-                    marginBottom: '12px',
+                    flexShrink: 0,
+                    width: '280px',
+                    background: '#F9F6F1',
+                    borderRadius: '12px',
+                    padding: '20px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    height: '300px',
                   }}
                 >
-                  {review.body}
-                </p>
-                {/* Reviewer */}
-                <p
-                  style={{
-                    fontFamily: "'EB Garamond', Georgia, serif",
-                    fontSize: '12px',
-                    color: '#8C8C7A',
-                  }}
-                >
-                  {review.name} &mdash; {review.city}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Row 2 — UGC photo strip */}
-        <div className="overflow-hidden">
-          <div
-            className="flex scrollbar-hide"
-            style={{
-              width: 'max-content',
-              gap: '16px',
-              animation: 'scrollLeft 20s linear infinite',
-              animationPlayState: photosPaused ? 'paused' : 'running',
-            }}
-            onMouseEnter={() => setPhotosPaused(true)}
-            onMouseLeave={() => setPhotosPaused(false)}
-          >
-            {[...ugcPhotos, ...ugcPhotos].map((url, i) => (
-              <img
-                key={`photo-${i}`}
-                src={url}
-                alt="Customer home with Veritas print"
-                style={{
-                  height: '280px',
-                  width: 'auto',
-                  flexShrink: 0,
-                  borderRadius: '8px',
-                  objectFit: 'cover',
-                  display: 'block',
-                }}
-                loading="lazy"
-              />
-            ))}
+                  <div>
+                    <div style={{ color: '#C9A84C', fontSize: '16px', marginBottom: '10px', letterSpacing: '2px' }}>
+                      {'★★★★★'}
+                    </div>
+                    <p
+                      style={{
+                        fontFamily: 'Cormorant Garamond, serif',
+                        fontStyle: 'italic',
+                        fontSize: '16px',
+                        color: '#3C3C3C',
+                        lineHeight: '1.6',
+                        display: '-webkit-box',
+                        WebkitLineClamp: 5,
+                        WebkitBoxOrient: 'vertical',
+                        overflow: 'hidden',
+                      }}
+                    >
+                      "{item.body}"
+                    </p>
+                  </div>
+                  <p style={{ fontSize: '12px', color: '#8C8C7A', marginTop: '12px' }}>
+                    {item.name} — {item.location}
+                  </p>
+                </div>
+              )
+            )}
           </div>
         </div>
       </section>
