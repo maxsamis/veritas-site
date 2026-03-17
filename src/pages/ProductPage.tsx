@@ -191,6 +191,16 @@ export default function ProductPage() {
   }
 
   const handleAddToCart = () => {
+    // Persist to localStorage for Nav badge count
+    try {
+      type CartItem = { key: string; size: number; price: number }
+      const existing: CartItem[] = JSON.parse(localStorage.getItem('veritas_cart') || '[]')
+      const cartKey = product.title.replace(/\s+/g, '-').toLowerCase() + '_' + selectedSize
+      const idx = existing.findIndex(i => i.key === cartKey)
+      if (idx === -1) existing.push({ key: cartKey, size: selectedSize, price })
+      localStorage.setItem('veritas_cart', JSON.stringify(existing))
+      window.dispatchEvent(new Event('veritas_cart_update'))
+    } catch { /* ignore */ }
     setCartOpen(true)
     setJustAdded(true)
     setTimeout(() => setJustAdded(false), 1500)
@@ -306,9 +316,14 @@ export default function ProductPage() {
           </Link>
 
           {/* Title */}
-          <h1 className="font-cormorant italic font-light text-4xl lg:text-5xl text-charcoal mt-5 mb-2 leading-tight">
+          <h1 className="font-cormorant italic font-light text-4xl lg:text-5xl text-charcoal mt-5 mb-3 leading-tight">
             {product.title}
           </h1>
+
+          {/* Price — shown early, above size selector */}
+          <p className="font-cormorant font-light text-4xl lg:text-5xl text-charcoal mb-4">
+            ${price}
+          </p>
 
           {/* Style + Edition */}
           <p className="font-garamond text-xs tracking-[0.18em] uppercase text-umber mb-1">
@@ -455,12 +470,7 @@ export default function ProductPage() {
             </div>
           </div>
 
-          {/* Price */}
-          <div className="mb-8">
-            <p className="font-cormorant font-light text-4xl text-charcoal">
-              ${price}
-            </p>
-          </div>
+          {/* Price (also shown in cart below, this spacer removed) */}
 
           {/* Add to Cart */}
           <button onClick={handleAddToCart} className="btn-charcoal w-full mb-4 text-center">

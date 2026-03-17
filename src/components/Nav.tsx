@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import CountryFlag from 'react-country-flag'
 
@@ -12,14 +12,27 @@ const LANGUAGES = [
   { code: 'pl', country: 'PL', label: 'Polski' },
 ]
 
-const SHOPIFY_CART = 'https://veritaseditions-2.myshopify.com/cart'
-
 export default function Nav() {
   const { t, i18n } = useTranslation()
   const [menuOpen, setMenuOpen] = useState(false)
   const [langOpen, setLangOpen] = useState(false)
   const location = useLocation()
+  const navigate = useNavigate()
   const langRef = useRef<HTMLDivElement>(null)
+
+  // Read cart count from localStorage (set by ProductPage)
+  const [cartCount, setCartCount] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('veritas_cart') || '[]').length } catch { return 0 }
+  })
+
+  useEffect(() => {
+    const sync = () => {
+      try { setCartCount(JSON.parse(localStorage.getItem('veritas_cart') || '[]').length) } catch { setCartCount(0) }
+    }
+    window.addEventListener('storage', sync)
+    window.addEventListener('veritas_cart_update', sync)
+    return () => { window.removeEventListener('storage', sync); window.removeEventListener('veritas_cart_update', sync) }
+  }, [])
 
   const currentLang = LANGUAGES.find(l => i18n.language.startsWith(l.code)) ?? LANGUAGES[0]
 
@@ -76,7 +89,7 @@ export default function Nav() {
                     <Link
                       key={link.href}
                       to={link.href}
-                      className={`font-garamond text-sm tracking-widest uppercase transition-opacity ${isActive(link.href) ? 'text-charcoal' : 'text-umber hover:text-charcoal'}`}
+                      className={`font-garamond text-xs font-bold tracking-widest uppercase transition-opacity ${isActive(link.href) ? 'text-charcoal' : 'text-umber hover:text-charcoal'}`}
                     >
                       {link.label}
                     </Link>
@@ -98,7 +111,7 @@ export default function Nav() {
                     <Link
                       key={link.href}
                       to={link.href}
-                      className={`font-garamond text-sm tracking-widest uppercase transition-opacity ${isActive(link.href) ? 'text-charcoal' : 'text-umber hover:text-charcoal'}`}
+                      className={`font-garamond text-xs font-bold tracking-widest uppercase transition-opacity ${isActive(link.href) ? 'text-charcoal' : 'text-umber hover:text-charcoal'}`}
                     >
                       {link.label}
                     </Link>
@@ -142,18 +155,21 @@ export default function Nav() {
                   )}
                 </div>
 
-                {/* Cart icon */}
-                <a
-                  href={SHOPIFY_CART}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-umber hover:text-charcoal transition-colors"
+                {/* Cart icon with badge */}
+                <button
+                  onClick={() => navigate('/collection')}
+                  className="relative text-umber hover:text-charcoal transition-colors"
                   aria-label="Cart"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007Z" />
                   </svg>
-                </a>
+                  {cartCount > 0 && (
+                    <span className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-[#2A2927] text-[#EFECE5] flex items-center justify-center" style={{ fontSize: '9px', fontFamily: 'Georgia, serif' }}>
+                      {cartCount > 9 ? '9+' : cartCount}
+                    </span>
+                  )}
+                </button>
               </div>
             </div>
           </div>
