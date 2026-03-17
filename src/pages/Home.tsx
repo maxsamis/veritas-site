@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import ProductCard from '../components/ProductCard'
@@ -7,6 +8,73 @@ const GRADIENTS = {
   variantA: 'linear-gradient(160deg, #1e1a16 0%, #2d2318 40%, #3a2e1e 70%, #1e1a16 100%)',
   variantB: 'linear-gradient(160deg, #252018 0%, #33281a 40%, #3e2f1c 70%, #252018 100%)',
 }
+
+const carouselReviews = [
+  {
+    id: 3,
+    name: 'Emma T.',
+    city: 'Nashville, TN',
+    title: 'My whole family was moved to tears',
+    body: 'We gave Light of the World to my parents for their 40th anniversary. My mother cried when she opened it. The quality of the print combined with the solid wood frame made it feel like a genuine heirloom. We ordered a second one for ourselves.',
+  },
+  {
+    id: 10,
+    name: 'Noah P.',
+    city: 'Seattle, WA',
+    title: 'Three friends ordered after seeing mine',
+    body: 'Prince of Peace has been a conversation piece since day one. Three of my friends have now ordered from Veritas after visiting and seeing it in person. That\'s the best endorsement I can give — this print sells itself.',
+  },
+  {
+    id: 20,
+    name: 'Evelyn T.',
+    city: 'Phoenix, AZ',
+    title: 'My priest asked where I got it',
+    body: 'Christ the Redeemer hangs in our home chapel and my priest saw it during a house blessing. He asked immediately where I\'d purchased it. The piece has an authenticity and gravitas that you can\'t fake. Absolutely worthy of sacred space.',
+  },
+  {
+    id: 42,
+    name: 'Lauren B.',
+    city: 'Dallas, TX',
+    title: 'My husband cried',
+    body: 'Gifted Emmanuel to my husband for our tenth anniversary. He\'s not a crier. He cried. The piece is that beautiful, that meaningful. It hangs in his home office now and he says it starts every workday on the right note.',
+  },
+  {
+    id: 72,
+    name: 'Charles N.',
+    city: 'Denver, CO',
+    title: 'Simply the best I\'ve seen',
+    body: 'I\'ve visited galleries in New York, London, and Paris. Emmanuel compares favorably to what hangs in those spaces. The print quality, the frame construction, the total composition — this is the real thing. Veritas has created something special.',
+  },
+  {
+    id: 77,
+    name: 'Nancy F.',
+    city: 'Charlotte, NC',
+    title: 'The gift of a lifetime',
+    body: 'The Sacred Heart was a gift to my sister during a difficult time in her life. She said it brought her genuine comfort every day it hung on her wall. Art that can do that is worth ten times its price. I cannot recommend it highly enough.',
+  },
+  {
+    id: 97,
+    name: 'Raymond L.',
+    city: 'New York, NY',
+    title: 'Better than what hangs in hotels',
+    body: 'I travel constantly and stay in luxury hotels. The art in those spaces is carefully curated and of the highest quality. Light of the World is better than most of what I\'ve seen in those rooms. That\'s the best frame of reference I can offer.',
+  },
+  {
+    id: 100,
+    name: 'Teresa M.',
+    city: 'Dallas, TX',
+    title: 'The last piece of art I\'ll ever need to buy',
+    body: 'Emmanuel is the piece I\'ve been searching for my entire adult life. The quality is beyond what I imagined possible at this price, and the archival materials mean it will outlast everything else on our walls. I am done searching.',
+  },
+]
+
+const ugcPhotos = [
+  'https://i.imgur.com/whtAlx1.jpeg',
+  'https://i.imgur.com/zQCIOqy.jpeg',
+  'https://i.imgur.com/WGRNmXf.jpeg',
+  'https://i.imgur.com/ThF68zp.jpeg',
+  'https://i.imgur.com/VqFWzKB.jpeg',
+]
 
 const craftItems = [
   {
@@ -46,6 +114,8 @@ const craftItems = [
 
 export default function Home() {
   const { t } = useTranslation()
+  const [reviewsPaused, setReviewsPaused] = useState(false)
+  const [photosPaused, setPhotosPaused] = useState(false)
 
   return (
     <div>
@@ -213,6 +283,126 @@ export default function Home() {
           </blockquote>
           <div className="mt-10 h-px w-10 bg-parchment/20 mx-auto" />
           <p className="wordmark text-[10px] text-parchment/25 mt-7 tracking-[0.35em]">VERITAS</p>
+        </div>
+      </section>
+
+      {/* ── Reviews + UGC Carousel ───────────────────────── */}
+      <section style={{ backgroundColor: '#F2EDE4' }} className="py-20">
+        {/* Heading */}
+        <div className="text-center mb-10 px-6">
+          <h2
+            style={{
+              fontFamily: "'Cormorant Garamond', Georgia, serif",
+              fontSize: '32px',
+              color: '#2C2C2C',
+              fontWeight: 300,
+            }}
+          >
+            What Our Customers Say
+          </h2>
+          <p
+            style={{
+              fontSize: '14px',
+              color: '#8C8C7A',
+              marginTop: '8px',
+              fontFamily: "'EB Garamond', Georgia, serif",
+            }}
+          >
+            Delivered to homes in 40+ countries
+          </p>
+        </div>
+
+        {/* Row 1 — Review cards */}
+        <div className="overflow-hidden mb-12">
+          <div
+            className="flex scrollbar-hide"
+            style={{
+              width: 'max-content',
+              gap: '20px',
+              animation: 'scrollLeft 30s linear infinite',
+              animationPlayState: reviewsPaused ? 'paused' : 'running',
+            }}
+            onMouseEnter={() => setReviewsPaused(true)}
+            onMouseLeave={() => setReviewsPaused(false)}
+          >
+            {[...carouselReviews, ...carouselReviews].map((review, i) => (
+              <div
+                key={`review-${i}`}
+                style={{
+                  width: '300px',
+                  flexShrink: 0,
+                  backgroundColor: '#F9F6F1',
+                  borderRadius: '8px',
+                  padding: '20px',
+                }}
+              >
+                {/* Stars */}
+                <div style={{ display: 'flex', gap: '2px', marginBottom: '10px' }}>
+                  {[1, 2, 3, 4, 5].map((s) => (
+                    <span key={s} style={{ color: '#C9A84C', fontSize: '16px', lineHeight: 1 }}>
+                      &#9733;
+                    </span>
+                  ))}
+                </div>
+                {/* Review body */}
+                <p
+                  className="line-clamp-2"
+                  style={{
+                    fontFamily: "'Cormorant Garamond', Georgia, serif",
+                    fontStyle: 'italic',
+                    fontSize: '15px',
+                    lineHeight: '1.55',
+                    color: '#2C2C2C',
+                    marginBottom: '12px',
+                  }}
+                >
+                  {review.body}
+                </p>
+                {/* Reviewer */}
+                <p
+                  style={{
+                    fontFamily: "'EB Garamond', Georgia, serif",
+                    fontSize: '12px',
+                    color: '#8C8C7A',
+                  }}
+                >
+                  {review.name} &mdash; {review.city}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Row 2 — UGC photo strip */}
+        <div className="overflow-hidden">
+          <div
+            className="flex scrollbar-hide"
+            style={{
+              width: 'max-content',
+              gap: '16px',
+              animation: 'scrollLeft 20s linear infinite',
+              animationPlayState: photosPaused ? 'paused' : 'running',
+            }}
+            onMouseEnter={() => setPhotosPaused(true)}
+            onMouseLeave={() => setPhotosPaused(false)}
+          >
+            {[...ugcPhotos, ...ugcPhotos].map((url, i) => (
+              <img
+                key={`photo-${i}`}
+                src={url}
+                alt="Customer home with Veritas print"
+                style={{
+                  height: '280px',
+                  width: 'auto',
+                  flexShrink: 0,
+                  borderRadius: '8px',
+                  objectFit: 'cover',
+                  display: 'block',
+                }}
+                loading="lazy"
+              />
+            ))}
+          </div>
         </div>
       </section>
 
