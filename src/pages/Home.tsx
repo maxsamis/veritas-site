@@ -380,7 +380,7 @@ export default function Home() {
                     </p>
                   </div>
                   <p style={{ fontSize: '12px', color: '#8C8C7A', marginTop: '12px' }}>
-                    {item.name} — {item.location}
+                    {item.name} — {(item as any).city || ''}
                   </p>
                 </div>
               )
