@@ -28,8 +28,19 @@ export default function Nav() {
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
           <div className="flex items-center justify-between h-16 lg:h-20">
 
-            {/* Left links — desktop */}
-            <div className="hidden lg:flex items-center gap-10">
+            {/* Left: hamburger (mobile) + links (desktop) */}
+            <div className="flex items-center gap-10">
+              {/* Mobile hamburger — left */}
+              <button
+                onClick={() => setMenuOpen(!menuOpen)}
+                className="lg:hidden flex flex-col gap-1.5 p-1"
+                aria-label="Menu"
+              >
+                <span className={`block w-6 h-px bg-charcoal transition-all duration-200 ${menuOpen ? 'rotate-45 translate-y-2' : ''}`} />
+                <span className={`block w-6 h-px bg-charcoal transition-all duration-200 ${menuOpen ? 'opacity-0' : ''}`} />
+                <span className={`block w-6 h-px bg-charcoal transition-all duration-200 ${menuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
+              </button>
+              <div className="hidden lg:flex items-center gap-10">
               <Link
                 to="/collection"
                 className={`font-garamond text-sm tracking-widest uppercase transition-opacity ${
@@ -54,6 +65,7 @@ export default function Nav() {
               >
                 {t('nav.about')}
               </Link>
+              </div>
             </div>
 
             {/* Wordmark — centered */}
@@ -89,22 +101,13 @@ export default function Nav() {
               </button>
             </div>
 
-            {/* Mobile: lang + hamburger */}
-            <div className="lg:hidden flex items-center gap-5 ml-auto">
+            {/* Mobile: lang toggle only (right side) */}
+            <div className="lg:hidden flex items-center">
               <button
                 onClick={toggleLang}
                 className="font-garamond text-xs tracking-widest uppercase text-umber"
               >
                 {t('nav.lang')}
-              </button>
-              <button
-                onClick={() => setMenuOpen(!menuOpen)}
-                className="flex flex-col gap-1.5 p-1"
-                aria-label="Menu"
-              >
-                <span className={`block w-6 h-px bg-charcoal transition-all duration-200 ${menuOpen ? 'rotate-45 translate-y-2' : ''}`} />
-                <span className={`block w-6 h-px bg-charcoal transition-all duration-200 ${menuOpen ? 'opacity-0' : ''}`} />
-                <span className={`block w-6 h-px bg-charcoal transition-all duration-200 ${menuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
               </button>
             </div>
 
