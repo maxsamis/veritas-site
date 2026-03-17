@@ -3,10 +3,22 @@ import { useTranslation } from 'react-i18next'
 import { Link, useParams } from 'react-router-dom'
 
 const SIZES = [
-  { key: 'size_sm', price: 145 },
-  { key: 'size_md', price: 195 },
-  { key: 'size_lg', price: 285 },
+  { key: 'size_xs', label: '8"×12"',  price: 145 },
+  { key: 'size_sm', label: '12"×18"', price: 195 },
+  { key: 'size_md', label: '18"×27"', price: 295 },
+  { key: 'size_lg', label: '24"×36"', price: 395 },
 ]
+
+const SHOPIFY_VARIANTS: Record<string, string[]> = {
+  'the-good-shepherd':    ['53318331171153','53318331203921','53318331236689','53318331269457'],
+  'prince-of-peace':     ['53318331367761','53318331400529','53318331433297','53318331466065'],
+  'christ-the-redeemer': ['53318331531601','53318331564369','53318331597137','53318331629905'],
+  'the-sacred-heart':    ['53318331760977','53318331793745','53318331826513','53318331859281'],
+  'light-of-the-world':  ['53318331957585','53318331990353','53318332023121','53318332055889'],
+  'emmanuel':            ['53318332154193','53318332186961','53318332219729','53318332252497'],
+}
+
+const SHOPIFY_STORE = 'veritaseditions-2.myshopify.com'
 
 const FRAMES = [
   { key: 'frame_black',   color: '#1a1a1a', imageKey: 'black',        label: 'Matte Black' },
@@ -170,7 +182,13 @@ export default function ProductPage() {
     }
   }, [])
 
-  const price = product.basePrice + (selectedSize * 50) + (selectedFormat === 'rolled' ? -30 : 0)
+  const price = SIZES[selectedSize].price + (selectedFormat === 'rolled' ? -30 : 0)
+
+  const getCheckoutUrl = () => {
+    const variantId = slug && SHOPIFY_VARIANTS[slug]?.[selectedSize]
+    if (!variantId) return `https://${SHOPIFY_STORE}/cart`
+    return `https://${SHOPIFY_STORE}/cart/${variantId}:1`
+  }
 
   const handleAddToCart = () => {
     setCartOpen(true)
@@ -327,7 +345,7 @@ export default function ProductPage() {
                       : 'bg-transparent text-umber border-umber/40 hover:border-umber'
                   }`}
                 >
-                  {t(`product.${s.key}`)}
+                  {s.label}
                 </button>
               ))}
             </div>
@@ -586,7 +604,7 @@ export default function ProductPage() {
           />
           <div className="flex flex-col gap-1">
             <p style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '14px', color: '#2C2C2C' }}>{product.title}</p>
-            <p style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '12px', color: '#8C8C7A' }}>{t(`product.${SIZES[selectedSize].key}`)}</p>
+            <p style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '12px', color: '#8C8C7A' }}>{SIZES[selectedSize].label}</p>
             <p style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '14px', color: '#2C2C2C' }}>${price}</p>
           </div>
         </div>
@@ -600,7 +618,9 @@ export default function ProductPage() {
             Continue Shopping
           </button>
           <a
-            href="#"
+            href={getCheckoutUrl()}
+            target="_blank"
+            rel="noopener noreferrer"
             className="block w-full py-3.5 bg-[#2A2927] text-[#EFECE5] font-garamond text-xs tracking-widest uppercase text-center hover:opacity-90 transition-opacity"
           >
             Proceed to Checkout
