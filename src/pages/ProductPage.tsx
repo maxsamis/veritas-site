@@ -172,20 +172,28 @@ export default function ProductPage() {
           {/* Portrait placeholder ratio for mobile */}
           <div className="w-full" style={{ paddingBottom: '133%' }} />
 
-          {/* Floating swatch pill — overlaid on image, all screen sizes */}
+          {/* Floating swatch panel — overlaid on image, all screen sizes */}
           <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10">
-            <div className="bg-white/80 backdrop-blur-sm rounded-full px-4 py-2 flex gap-3 shadow-md">
-              {FRAMES.map((f, i) => (
-                <button
-                  key={f.key}
-                  onClick={() => setSelectedFrame(i)}
-                  aria-label={f.label}
-                  className={`w-6 h-6 rounded-full border-2 cursor-pointer transition-all duration-150 ${
-                    selectedFrame === i ? 'border-[#2C2C2C]' : 'border-transparent'
-                  }`}
-                  style={{ backgroundColor: f.color }}
-                />
-              ))}
+            <div className="bg-white/85 backdrop-blur-sm rounded-2xl px-5 py-3 shadow-lg flex flex-col items-center gap-2" style={{ minWidth: '200px' }}>
+              <p style={{ fontSize: '10px', letterSpacing: '0.12em', color: '#8C8C7A', fontFamily: 'Cormorant Garamond, serif', textTransform: 'uppercase' }}>
+                Select Frame Style
+              </p>
+              <div className="flex gap-3">
+                {FRAMES.map((f, i) => (
+                  <button
+                    key={f.key}
+                    onClick={() => setSelectedFrame(i)}
+                    aria-label={f.label}
+                    className={`w-6 h-6 rounded-full border-2 cursor-pointer transition-all duration-150 ${
+                      selectedFrame === i ? 'border-[#2C2C2C] scale-110' : 'border-transparent'
+                    }`}
+                    style={{ backgroundColor: f.color }}
+                  />
+                ))}
+              </div>
+              <p style={{ fontSize: '11px', color: '#3C3C3C', fontFamily: 'Cormorant Garamond, serif', fontStyle: 'italic' }}>
+                {FRAMES[selectedFrame].label}
+              </p>
             </div>
           </div>
         </div>
