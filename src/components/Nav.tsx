@@ -89,7 +89,7 @@ export default function Nav() {
                     <Link
                       key={link.href}
                       to={link.href}
-                      className={`font-garamond text-xs font-bold tracking-widest uppercase transition-opacity ${isActive(link.href) ? 'text-charcoal' : 'text-umber hover:text-charcoal'}`}
+                      className={`font-garamond text-xs tracking-widest uppercase transition-opacity ${isActive(link.href) ? 'text-charcoal' : 'text-umber hover:text-charcoal'}`}
                     >
                       {link.label}
                     </Link>
@@ -111,7 +111,7 @@ export default function Nav() {
                     <Link
                       key={link.href}
                       to={link.href}
-                      className={`font-garamond text-xs font-bold tracking-widest uppercase transition-opacity ${isActive(link.href) ? 'text-charcoal' : 'text-umber hover:text-charcoal'}`}
+                      className={`font-garamond text-xs tracking-widest uppercase transition-opacity ${isActive(link.href) ? 'text-charcoal' : 'text-umber hover:text-charcoal'}`}
                     >
                       {link.label}
                     </Link>

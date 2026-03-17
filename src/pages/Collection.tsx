@@ -7,6 +7,13 @@ const GRADIENTS = {
   variantB: 'linear-gradient(160deg, #252018 0%, #33281a 40%, #3e2f1c 70%, #252018 100%)',
 }
 
+// Portrait images (no frame, detail shot) shown on hover
+const PORTRAIT_IMAGES: Record<string, string> = {
+  flemish: 'https://i.imgur.com/VqFWzKB.jpeg',
+  renaissance: 'https://i.imgur.com/ThF68zp.jpeg',
+  contemporary: 'https://i.imgur.com/TQIrBod.jpeg',
+}
+
 const PRODUCTS = [
   {
     title: 'The Good Shepherd',
@@ -15,6 +22,7 @@ const PRODUCTS = [
     gradient: GRADIENTS.primary,
     slug: 'the-good-shepherd',
     imageUrl: 'https://i.imgur.com/whtAlx1.jpeg',
+    hoverImage: PORTRAIT_IMAGES.flemish,
     badge: null,
   },
   {
@@ -24,6 +32,7 @@ const PRODUCTS = [
     gradient: GRADIENTS.variantA,
     slug: 'christ-the-redeemer',
     imageUrl: 'https://i.imgur.com/zQCIOqy.jpeg',
+    hoverImage: PORTRAIT_IMAGES.renaissance,
     badge: null,
   },
   {
@@ -33,6 +42,7 @@ const PRODUCTS = [
     gradient: GRADIENTS.variantB,
     slug: 'light-of-the-world',
     imageUrl: 'https://i.imgur.com/WGRNmXf.jpeg',
+    hoverImage: PORTRAIT_IMAGES.contemporary,
     badge: 'Few Remaining',
   },
   {
@@ -42,6 +52,7 @@ const PRODUCTS = [
     gradient: GRADIENTS.primary,
     slug: 'prince-of-peace',
     imageUrl: 'https://i.imgur.com/whtAlx1.jpeg',
+    hoverImage: PORTRAIT_IMAGES.flemish,
     badge: null,
   },
   {
@@ -51,6 +62,7 @@ const PRODUCTS = [
     gradient: GRADIENTS.variantA,
     slug: 'the-sacred-heart',
     imageUrl: 'https://i.imgur.com/zQCIOqy.jpeg',
+    hoverImage: PORTRAIT_IMAGES.renaissance,
     badge: 'Limited Edition',
   },
   {
@@ -60,6 +72,7 @@ const PRODUCTS = [
     gradient: GRADIENTS.variantB,
     slug: 'emmanuel',
     imageUrl: 'https://i.imgur.com/WGRNmXf.jpeg',
+    hoverImage: PORTRAIT_IMAGES.contemporary,
     badge: null,
   },
 ]
@@ -102,6 +115,7 @@ export default function Collection() {
               gradient={product.gradient}
               slug={product.slug}
               image={product.imageUrl}
+              hoverImage={product.hoverImage}
             />
           </div>
         ))}

@@ -366,8 +366,8 @@ export default function ProductPage() {
             </div>
           </div>
 
-          {/* Dimension diagram */}
-          <div className="mb-6">
+          {/* Dimension diagram — mobile only */}
+          <div className="mb-6 lg:hidden">
             <svg
               viewBox="0 0 340 110"
               width="100%"

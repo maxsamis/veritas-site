@@ -10,6 +10,7 @@ interface ProductCardProps {
   showExplore?: boolean
   image?: string
   imageFilter?: string
+  hoverImage?: string
 }
 
 export default function ProductCard({
@@ -21,6 +22,7 @@ export default function ProductCard({
   showExplore = true,
   image,
   imageFilter,
+  hoverImage,
 }: ProductCardProps) {
   const { t } = useTranslation()
 
@@ -38,11 +40,21 @@ export default function ProductCard({
               alt={title}
               crossOrigin="anonymous"
               loading="lazy"
-              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+              className="absolute inset-0 w-full h-full object-cover transition-all duration-700 group-hover:scale-[1.03] group-hover:opacity-0"
               style={imageFilter ? { filter: imageFilter } : undefined}
             />
-            {/* Hover overlay */}
-            <div className="absolute inset-0 bg-charcoal opacity-0 group-hover:opacity-10 transition-opacity duration-500" />
+            {hoverImage && (
+              <img
+                src={hoverImage}
+                alt={title + ' portrait'}
+                crossOrigin="anonymous"
+                loading="lazy"
+                className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+              />
+            )}
+            {!hoverImage && (
+              <div className="absolute inset-0 bg-charcoal opacity-0 group-hover:opacity-10 transition-opacity duration-500" />
+            )}
           </>
         ) : (
           <>
