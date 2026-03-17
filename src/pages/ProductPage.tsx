@@ -148,6 +148,18 @@ const FALLBACK: ProductData = {
 // Keep FRAME_IMAGES, ROOM_IMAGES, PORTRAIT_IMAGES, SLUG_TO_PORTRAIT referenced above
 void FRAME_IMAGES
 
+const FRAME_ADDONS: Record<string, number[]> = {
+  black: [50, 70, 110, 150],
+  white: [50, 70, 110, 150],
+  wood:  [60, 80, 120, 160],
+}
+
+const FRAME_LABELS: Record<string, string> = {
+  black: 'Black',
+  white: 'White',
+  wood:  'Natural Wood',
+}
+
 export default function ProductPage() {
   const { slug } = useParams<{ slug: string }>()
   const { addItem, openCart } = useCart()
@@ -158,6 +170,8 @@ export default function ProductPage() {
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const [justAdded, setJustAdded] = useState(false)
   const [openSection, setOpenSection] = useState<string | null>(null)
+  const [selectedFrame, setSelectedFrame] = useState<'unframed' | 'black' | 'white' | 'wood'>('unframed')
+  const [showFrameModal, setShowFrameModal] = useState(false)
 
   const portraitKey = (slug && SLUG_TO_PORTRAIT[slug]) ?? null
 
@@ -172,6 +186,10 @@ export default function ProductPage() {
   useEffect(() => { setSelectedImageIndex(0) }, [slug])
 
   const handleAddToCart = () => {
+    if (selectedFrame !== 'unframed') {
+      setShowFrameModal(true)
+      return
+    }
     const variantId = slug && SHOPIFY_VARIANTS[slug] ? String(SHOPIFY_VARIANTS[slug][selectedSize]) : null
     addItem({
       id: (slug ?? 'fallback') + '_' + selectedSize + '_unframed',
@@ -281,11 +299,47 @@ export default function ProductPage() {
             From ${SIZES[selectedSize].price}
           </p>
 
-          {/* Metadata block */}
-          <div className="mt-4 border-t border-[#E8E2D9] pt-4 mb-4 border-b border-[#E8E2D9] pb-4">
-            <p className="font-garamond text-sm text-[#2A2927]">Limited edition</p>
-            <p className="font-garamond text-sm text-[#2A2927] mt-1">Edition of 250</p>
-            <p className="font-garamond text-sm text-[#2A2927] mt-1">Ships in 3 days</p>
+          {/* Frame swatches */}
+          <div className="flex gap-4 justify-center mt-6">
+            {[
+              { key: 'unframed', label: 'Unframed', bg: '#F8F6F1', border: '#D4CFC4', inner: '#EFECE5' },
+              { key: 'black',    label: 'Black',    bg: '#1a1a1a', border: '#333',    inner: '#2a2a2a' },
+              { key: 'white',    label: 'White',    bg: '#F5F3EF', border: '#C8C3BB', inner: '#E8E3DA' },
+              { key: 'wood',     label: 'Wood',     bg: '#7C5C3A', border: '#5c3d1e', inner: '#8B6644' },
+            ].map(f => (
+              <button
+                key={f.key}
+                onClick={() => setSelectedFrame(f.key as 'unframed' | 'black' | 'white' | 'wood')}
+                className="flex flex-col items-center gap-1.5 group"
+              >
+                {/* Circle swatch showing frame corner */}
+                <div
+                  className={`w-14 h-14 rounded-full overflow-hidden relative ${selectedFrame === f.key ? 'ring-2 ring-offset-2 ring-[#2A2927]' : ''}`}
+                  style={{ backgroundColor: f.inner }}
+                >
+                  {/* Frame corner simulation: thick colored border on top+left edges */}
+                  <div className="absolute inset-0" style={{
+                    background: `linear-gradient(135deg, ${f.bg} 0%, ${f.bg} 38%, ${f.inner} 38%, ${f.inner} 100%)`,
+                  }} />
+                  {/* Corner detail line */}
+                  <div className="absolute inset-0" style={{
+                    background: `linear-gradient(135deg, ${f.border} 0%, ${f.border} 38%, transparent 38%)`,
+                    opacity: 0.5,
+                  }} />
+                </div>
+                {/* Label */}
+                <span className={`text-[10px] tracking-widest uppercase font-garamond ${selectedFrame === f.key ? 'text-[#2A2927]' : 'text-[#8B7355]'}`}>
+                  {f.label}
+                </span>
+              </button>
+            ))}
+          </div>
+
+          {/* Metadata block — centered, below swatches */}
+          <div className="text-center mt-5 mb-5 border-t border-b border-[#E8E2D9] py-4">
+            <p className="text-sm font-garamond text-[#2A2927]">Limited edition</p>
+            <p className="text-sm font-garamond text-[#2A2927] mt-1">Edition of 250</p>
+            <p className="text-sm font-garamond text-[#2A2927] mt-1">Ships in 3 days</p>
           </div>
 
           {/* Size selector */}
@@ -305,12 +359,12 @@ export default function ProductPage() {
             ))}
           </div>
 
-          {/* Add to Cart */}
+          {/* Buy Now */}
           <button
             onClick={handleAddToCart}
             className="w-full bg-[#2A2927] text-[#EFECE5] py-4 text-xs tracking-widest uppercase font-garamond mt-4 transition-opacity hover:opacity-90"
           >
-            {justAdded ? 'Added to Cart' : 'Add to Cart'}
+            {justAdded ? 'Added to Cart' : 'Buy Now'}
           </button>
 
           {/* Divider */}
@@ -364,9 +418,102 @@ export default function ProductPage() {
           onClick={handleAddToCart}
           className="px-6 py-3 bg-[#2A2927] text-[#EFECE5] font-garamond text-xs tracking-widest uppercase"
         >
-          Add to Cart
+          Buy Now
         </button>
       </div>
+
+      {/* Framing modal */}
+      {showFrameModal && (
+        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center">
+          {/* Overlay */}
+          <div className="absolute inset-0 bg-black/40" onClick={() => setShowFrameModal(false)} />
+          {/* Modal panel */}
+          <div className="relative bg-[#FAFAF8] w-full sm:max-w-lg mx-auto sm:rounded-none shadow-2xl z-10 p-8">
+            <button
+              onClick={() => setShowFrameModal(false)}
+              className="absolute top-4 right-4 text-[#8B7355] text-xs tracking-widest uppercase font-garamond"
+            >
+              Close
+            </button>
+
+            <p className="text-xs tracking-[0.2em] uppercase font-garamond text-[#8B7355] mb-2">VERITAS EDITIONS</p>
+            <h2 className="font-garamond text-2xl text-[#2A2927] mb-6">{product.title}</h2>
+
+            <p className="text-xs tracking-widest uppercase font-garamond text-[#2A2927] mb-4">Select your frame</p>
+
+            {/* 3 framing option boxes */}
+            <div className="grid grid-cols-3 gap-3 mb-6">
+              {[
+                { key: 'black', label: 'Black',        desc: 'Slim black frame',    color: '#1a1a1a', price: 50 },
+                { key: 'white', label: 'White',        desc: 'White gallery frame', color: '#F5F3EF', price: 50 },
+                { key: 'wood',  label: 'Natural Wood', desc: 'Walnut finish',       color: '#7C5C3A', price: 70 },
+              ].map(opt => (
+                <button
+                  key={opt.key}
+                  onClick={() => setSelectedFrame(opt.key as 'black' | 'white' | 'wood')}
+                  className={`border p-3 text-left transition-all ${selectedFrame === opt.key ? 'border-[#2A2927]' : 'border-[#E8E2D9]'}`}
+                >
+                  <div className="w-full h-12 mb-2 rounded-sm" style={{ backgroundColor: opt.color }} />
+                  <p className="text-xs tracking-widest uppercase font-garamond text-[#2A2927]">{opt.label}</p>
+                  <p className="text-xs font-garamond text-[#8B7355] mt-0.5">+${opt.price}</p>
+                </button>
+              ))}
+            </div>
+
+            {/* Confirm button */}
+            <button
+              onClick={() => {
+                const addon = FRAME_ADDONS[selectedFrame]?.[selectedSize] ?? 0
+                const variantId = slug && SHOPIFY_VARIANTS[slug] ? String(SHOPIFY_VARIANTS[slug][selectedSize]) : null
+                addItem({
+                  id: (slug ?? 'fallback') + '_' + selectedSize + '_' + selectedFrame,
+                  slug: slug ?? 'fallback',
+                  title: product.title,
+                  sizeKey: selectedSize,
+                  sizeLabel: SIZES[selectedSize].label,
+                  price: SIZES[selectedSize].price,
+                  image: product.image,
+                  variantId,
+                  isFramed: true,
+                  frameKey: selectedFrame,
+                  frameLabel: FRAME_LABELS[selectedFrame] ?? selectedFrame,
+                  frameAddon: addon,
+                })
+                setShowFrameModal(false)
+                openCart()
+              }}
+              className="w-full bg-[#2A2927] text-[#EFECE5] py-4 text-xs tracking-widest uppercase font-garamond"
+            >
+              {`Add to Cart — $${SIZES[selectedSize].price + (FRAME_ADDONS[selectedFrame]?.[selectedSize] ?? 0)}`}
+            </button>
+
+            <button
+              onClick={() => {
+                const variantId = slug && SHOPIFY_VARIANTS[slug] ? String(SHOPIFY_VARIANTS[slug][selectedSize]) : null
+                addItem({
+                  id: (slug ?? 'fallback') + '_' + selectedSize + '_unframed',
+                  slug: slug ?? 'fallback',
+                  title: product.title,
+                  sizeKey: selectedSize,
+                  sizeLabel: SIZES[selectedSize].label,
+                  price: SIZES[selectedSize].price,
+                  image: product.image,
+                  variantId,
+                  isFramed: false,
+                  frameKey: null,
+                  frameLabel: null,
+                  frameAddon: 0,
+                })
+                setShowFrameModal(false)
+                openCart()
+              }}
+              className="w-full border border-[#2A2927] text-[#2A2927] py-3 text-xs tracking-widest uppercase font-garamond mt-2"
+            >
+              Continue unframed
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Lightbox */}
       {lightboxOpen && (
