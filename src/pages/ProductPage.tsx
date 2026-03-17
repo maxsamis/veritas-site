@@ -320,8 +320,8 @@ export default function ProductPage() {
 
           {/* Edition + scarcity badge */}
           <div className="flex items-center gap-3 mt-2 mb-3">
-            <span className="font-garamond text-xs text-[#8C8C7A] tracking-wide">Limited edition of 250</span>
-            <span style={{ backgroundColor: '#FDF5E8', color: '#8C6A30', fontSize: '10px', padding: '2px 8px', borderRadius: '20px', fontFamily: 'Cormorant Garamond, serif', letterSpacing: '0.08em', fontWeight: 500 }}>
+            <span className="font-garamond text-xs text-[#4A4A3A] tracking-wide">Limited edition of 250</span>
+            <span style={{ backgroundColor: '#EDD9A3', color: '#5C3D00', fontSize: '10px', padding: '2px 10px', borderRadius: '20px', fontFamily: 'Cormorant Garamond, serif', letterSpacing: '0.08em', fontWeight: 600 }}>
               Only a few remaining
             </span>
           </div>
