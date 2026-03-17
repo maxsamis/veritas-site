@@ -98,14 +98,12 @@ export default function Collection() {
         </p>
       </div>
 
-      <div className="flex items-center justify-center gap-6 py-3 border-y border-[#E8E2D9] mb-8 text-[10px] tracking-widest uppercase font-garamond text-[#8B7355]">
-        <span>Edition of 250</span>
-        <span>·</span>
-        <span>Archival paper</span>
-        <span>·</span>
-        <span>Free worldwide shipping</span>
-        <span>·</span>
-        <span>4.9 stars · 127 reviews</span>
+      <div className="grid grid-cols-2 sm:grid-cols-4 border-y border-[#E8E2D9] mb-8 text-[10px] tracking-widest uppercase font-garamond text-[#8B7355]">
+        {[['Edition of 250', ''], ['Archival paper', ''], ['Ships free', ''], ['4.9 · 127 reviews', '']].map(([label], i, arr) => (
+          <div key={i} className={`flex items-center justify-center py-3 text-center ${i < arr.length - 1 ? 'border-r border-[#E8E2D9]' : ''} ${i >= 2 ? 'border-t border-[#E8E2D9] sm:border-t-0' : ''}`}>
+            {label}
+          </div>
+        ))}
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-14">
