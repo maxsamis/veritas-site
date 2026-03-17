@@ -145,8 +145,6 @@ export default function ProductPage() {
   // Scroll to top when navigating between products
   useEffect(() => { window.scrollTo(0, 0) }, [slug])
 
-    .slice(0, 2)
-
   useEffect(() => {
     const script = document.createElement('script')
     script.type = 'module'
