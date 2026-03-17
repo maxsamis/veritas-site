@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react'
 
 export interface CartItem {
-  id: string        // slug + '_' + sizeKey
+  id: string        // slug + '_' + sizeKey + '_' + format
   slug: string
   title: string
   sizeKey: number
@@ -10,6 +10,10 @@ export interface CartItem {
   image: string
   variantId: string | null
   qty: number
+  isFramed: boolean
+  frameKey: string | null
+  frameLabel: string | null
+  frameAddon: number
 }
 
 interface CartContextValue {
@@ -20,13 +24,15 @@ interface CartContextValue {
   removeItem: (id: string) => void
   updateQty: (id: string, qty: number) => void
   clearCart: () => void
+  addFrame: (id: string, frameKey: string, frameLabel: string, frameAddon: number) => void
+  removeFrame: (id: string) => void
   isOpen: boolean
   openCart: () => void
   closeCart: () => void
 }
 
 const CartContext = createContext<CartContextValue | null>(null)
-const STORAGE_KEY = 'veritas_cart_v2'
+const STORAGE_KEY = 'veritas_cart_v3'
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>(() => {
@@ -67,13 +73,30 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const clearCart = () => setItems([])
 
+  const addFrame = (id: string, frameKey: string, frameLabel: string, frameAddon: number) => {
+    setItems(prev => prev.map(i =>
+      i.id === id
+        ? { ...i, isFramed: true, frameKey, frameLabel, frameAddon }
+        : i
+    ))
+  }
+
+  const removeFrame = (id: string) => {
+    setItems(prev => prev.map(i =>
+      i.id === id
+        ? { ...i, isFramed: false, frameKey: null, frameLabel: null, frameAddon: 0 }
+        : i
+    ))
+  }
+
   const count = items.reduce((sum, i) => sum + i.qty, 0)
-  const subtotal = items.reduce((sum, i) => sum + i.price * i.qty, 0)
+  const subtotal = items.reduce((sum, i) => sum + (i.price + i.frameAddon) * i.qty, 0)
 
   return (
     <CartContext.Provider value={{
       items, count, subtotal,
       addItem, removeItem, updateQty, clearCart,
+      addFrame, removeFrame,
       isOpen, openCart: () => setIsOpen(true), closeCart: () => setIsOpen(false),
     }}>
       {children}

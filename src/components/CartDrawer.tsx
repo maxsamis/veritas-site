@@ -3,6 +3,16 @@ import { useCart } from '../contexts/CartContext'
 
 const SHOPIFY_STORE = 'veritaseditions-2.myshopify.com'
 
+const FRAME_OPTIONS = [
+  { key: 'frame_black',   color: '#1a1a1a', label: 'Matte Black' },
+  { key: 'frame_walnut',  color: '#5c3d1e', label: 'Walnut Brown' },
+  { key: 'frame_white',   color: '#f0ece2', label: 'Ivory White' },
+  { key: 'frame_gold',    color: '#b89040', label: 'Burnished Gold' },
+  { key: 'frame_natural', color: '#c4a55a', label: 'Antique Gold' },
+]
+
+const FRAME_ADDONS: Record<number, number> = { 0: 50, 1: 70, 2: 110, 3: 150 }
+
 function buildCheckoutUrl(items: ReturnType<typeof useCart>['items']): string {
   const parts = items
     .filter(i => i.variantId)
@@ -12,7 +22,7 @@ function buildCheckoutUrl(items: ReturnType<typeof useCart>['items']): string {
 }
 
 export default function CartDrawer() {
-  const { items, count, subtotal, removeItem, updateQty, isOpen, closeCart } = useCart()
+  const { items, count, subtotal, removeItem, updateQty, addFrame, removeFrame, isOpen, closeCart } = useCart()
 
   // Prevent body scroll when open
   useEffect(() => {
@@ -63,59 +73,118 @@ export default function CartDrawer() {
             </div>
           ) : (
             <div className="flex flex-col gap-6">
-              {items.map(item => (
-                <div key={item.id} className="flex gap-4 pb-6 border-b border-[#E5E1D8] last:border-0 last:pb-0">
-                  {/* Image */}
-                  <div className="flex-shrink-0 w-20 h-28 overflow-hidden" style={{ border: '1px solid #C4BDB3' }}>
-                    <img
-                      src={item.image}
-                      alt={item.title}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
+              {items.map(item => {
+                const addonPrice = FRAME_ADDONS[item.sizeKey] ?? 50
+                const itemTotal = (item.price + item.frameAddon) * item.qty
 
-                  {/* Details */}
-                  <div className="flex-1 min-w-0">
-                    <p className="font-cormorant italic font-light text-xl text-charcoal leading-tight mb-1 truncate">{item.title}</p>
-                    <p className="font-garamond text-xs text-umber tracking-wide mb-3">{item.sizeLabel}</p>
-
-                    {/* Qty + price row */}
-                    <div className="flex items-center justify-between">
-                      {/* Qty controls */}
-                      <div className="flex items-center border border-[#C4BDB3]">
-                        <button
-                          onClick={() => updateQty(item.id, item.qty - 1)}
-                          className="w-8 h-8 flex items-center justify-center text-umber hover:text-charcoal transition-colors font-garamond text-lg leading-none"
-                          aria-label="Decrease"
-                        >
-                          −
-                        </button>
-                        <span className="w-8 text-center font-garamond text-sm text-charcoal">{item.qty}</span>
-                        <button
-                          onClick={() => updateQty(item.id, item.qty + 1)}
-                          className="w-8 h-8 flex items-center justify-center text-umber hover:text-charcoal transition-colors font-garamond text-lg leading-none"
-                          aria-label="Increase"
-                        >
-                          +
-                        </button>
+                return (
+                  <div key={item.id} className="pb-6 border-b border-[#E5E1D8] last:border-0 last:pb-0">
+                    <div className="flex gap-4">
+                      {/* Image */}
+                      <div className="flex-shrink-0 w-20 h-28 overflow-hidden" style={{ border: '1px solid #C4BDB3' }}>
+                        <img
+                          src={item.image}
+                          alt={item.title}
+                          className="w-full h-full object-cover"
+                        />
                       </div>
 
-                      <p className="font-garamond text-sm text-charcoal">${item.price * item.qty}</p>
-                    </div>
-                  </div>
+                      {/* Details */}
+                      <div className="flex-1 min-w-0">
+                        <p className="font-cormorant italic font-light text-xl text-charcoal leading-tight mb-1 truncate">{item.title}</p>
+                        <p className="font-garamond text-xs text-umber tracking-wide mb-1">{item.sizeLabel}</p>
+                        {item.isFramed && item.frameLabel && (
+                          <p className="font-garamond text-xs text-umber/70 tracking-wide mb-3">
+                            Framed — {item.frameLabel}
+                          </p>
+                        )}
+                        {!item.isFramed && (
+                          <p className="font-garamond text-xs text-umber/50 tracking-wide mb-3">
+                            Print only
+                          </p>
+                        )}
 
-                  {/* Remove */}
-                  <button
-                    onClick={() => removeItem(item.id)}
-                    className="flex-shrink-0 self-start text-umber/40 hover:text-umber transition-colors mt-1"
-                    aria-label="Remove"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
-                    </svg>
-                  </button>
-                </div>
-              ))}
+                        {/* Qty + price row */}
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center border border-[#C4BDB3]">
+                            <button
+                              onClick={() => updateQty(item.id, item.qty - 1)}
+                              className="w-8 h-8 flex items-center justify-center text-umber hover:text-charcoal transition-colors font-garamond text-lg leading-none"
+                              aria-label="Decrease"
+                            >
+                              −
+                            </button>
+                            <span className="w-8 text-center font-garamond text-sm text-charcoal">{item.qty}</span>
+                            <button
+                              onClick={() => updateQty(item.id, item.qty + 1)}
+                              className="w-8 h-8 flex items-center justify-center text-umber hover:text-charcoal transition-colors font-garamond text-lg leading-none"
+                              aria-label="Increase"
+                            >
+                              +
+                            </button>
+                          </div>
+
+                          <p className="font-garamond text-sm text-charcoal">${itemTotal}</p>
+                        </div>
+                      </div>
+
+                      {/* Remove */}
+                      <button
+                        onClick={() => removeItem(item.id)}
+                        className="flex-shrink-0 self-start text-umber/40 hover:text-umber transition-colors mt-1"
+                        aria-label="Remove"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+                        </svg>
+                      </button>
+                    </div>
+
+                    {/* Frame upsell section */}
+                    {!item.isFramed ? (
+                      <div className="mt-3 pt-3 border-t border-[#E5E1D8]">
+                        <p className="font-garamond text-xs tracking-widest uppercase text-umber mb-2">
+                          Complete your piece
+                        </p>
+                        <div className="flex items-center gap-2 flex-wrap">
+                          {FRAME_OPTIONS.map(f => (
+                            <button
+                              key={f.key}
+                              onClick={() => addFrame(item.id, f.key, f.label, addonPrice)}
+                              aria-label={`Add ${f.label} frame (+$${addonPrice})`}
+                              title={`${f.label} +$${addonPrice}`}
+                              className="w-7 h-7 rounded-full border-2 border-transparent hover:border-[#2C2C2C] transition-all duration-150 flex-shrink-0"
+                              style={{ backgroundColor: f.color, outline: f.color === '#f0ece2' ? '1px solid #C4BDB3' : 'none' }}
+                            />
+                          ))}
+                          <span className="font-garamond text-xs text-umber/50 ml-1">+${addonPrice}</span>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="mt-3 pt-3 border-t border-[#E5E1D8] flex items-center gap-2">
+                        {item.frameKey && (() => {
+                          const frameOpt = FRAME_OPTIONS.find(f => f.key === item.frameKey)
+                          return frameOpt ? (
+                            <span
+                              className="inline-block rounded-full flex-shrink-0"
+                              style={{ width: '10px', height: '10px', backgroundColor: frameOpt.color, border: frameOpt.color === '#f0ece2' ? '1px solid #C4BDB3' : 'none' }}
+                            />
+                          ) : null
+                        })()}
+                        <span className="font-garamond text-xs text-umber">
+                          Framed — {item.frameLabel}
+                        </span>
+                        <button
+                          onClick={() => removeFrame(item.id)}
+                          className="font-garamond text-xs text-umber/50 hover:text-umber transition-colors ml-auto"
+                        >
+                          Remove frame (−${item.frameAddon})
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
             </div>
           )}
         </div>
@@ -123,14 +192,12 @@ export default function CartDrawer() {
         {/* Footer */}
         {items.length > 0 && (
           <div className="px-8 py-6 border-t border-[#C4BDB3]">
-            {/* Subtotal */}
             <div className="flex items-center justify-between mb-6">
               <p className="font-garamond text-sm text-umber tracking-wide">Subtotal</p>
               <p className="font-cormorant font-light text-2xl text-charcoal">${subtotal}</p>
             </div>
             <p className="font-garamond text-xs text-umber/60 mb-5">Shipping calculated at checkout.</p>
 
-            {/* Checkout */}
             <a
               href={checkoutUrl}
               target="_blank"

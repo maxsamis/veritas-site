@@ -4,11 +4,13 @@ import { Link, useParams } from 'react-router-dom'
 import { useCart } from '../contexts/CartContext'
 
 const SIZES = [
-  { key: 'size_xs', label: '8"×12"',  price: 145 },
-  { key: 'size_sm', label: '12"×18"', price: 195 },
-  { key: 'size_md', label: '18"×27"', price: 295 },
-  { key: 'size_lg', label: '24"×36"', price: 395 },
+  { key: 'size_xs', label: '8"×12"',  price: 95 },
+  { key: 'size_sm', label: '12"×18"', price: 125 },
+  { key: 'size_md', label: '18"×27"', price: 185 },
+  { key: 'size_lg', label: '24"×36"', price: 245 },
 ]
+
+const FRAME_ADDONS = [50, 70, 110, 150]
 
 const SHOPIFY_VARIANTS: Record<string, string[]> = {
   'the-good-shepherd':    ['53318331171153','53318331203921','53318331236689','53318331269457'],
@@ -83,7 +85,7 @@ const PRODUCTS: Record<string, ProductData> = {
     image: 'https://i.imgur.com/whtAlx1.jpeg',
     description:
       'A rendering of profound stillness — the shepherd who leaves the ninety-nine. This composition draws from the Flemish tradition, rendered in the warm ochres and umbers of old master painting. Printed on 300 GSM archival fine art paper and hand-assembled into your chosen frame in the United States.',
-    basePrice: 145,
+    basePrice: 95,
   },
   'christ-the-redeemer': {
     title: 'Christ the Redeemer',
@@ -92,7 +94,7 @@ const PRODUCTS: Record<string, ProductData> = {
     image: 'https://i.imgur.com/zQCIOqy.jpeg',
     description:
       'Chiaroscuro at its most reverent — light and shadow drawn from the Flemish masters, the figure emerging from darkness as if called forth by grace itself. Deep blacks, warm golds, and an expression that rewards every hour spent in its presence. Printed on 300 GSM archival cotton rag, assembled by hand in Austin, Texas.',
-    basePrice: 165,
+    basePrice: 95,
   },
   'light-of-the-world': {
     title: 'Light of the World',
@@ -101,7 +103,7 @@ const PRODUCTS: Record<string, ProductData> = {
     image: 'https://i.imgur.com/WGRNmXf.jpeg',
     description:
       'A contemporary sacred composition that speaks the language of today without surrendering the reverence of centuries. Luminous and still, this piece occupies the rare space between tradition and the modern interior. Printed on 300 GSM archival fine art paper, hand-assembled in the United States.',
-    basePrice: 175,
+    basePrice: 95,
   },
   'prince-of-peace': {
     title: 'Prince of Peace',
@@ -110,7 +112,7 @@ const PRODUCTS: Record<string, ProductData> = {
     image: 'https://i.imgur.com/whtAlx1.jpeg',
     description:
       'Restraint as devotion. This composition strips the sacred portrait to its essential gesture — a gaze of absolute peace rendered with economy and grace. For homes that understand that less, when it is the right less, says everything. Printed on 300 GSM archival fine art paper, hand-assembled in the United States.',
-    basePrice: 145,
+    basePrice: 95,
   },
   'the-sacred-heart': {
     title: 'The Sacred Heart',
@@ -119,7 +121,7 @@ const PRODUCTS: Record<string, ProductData> = {
     image: 'https://i.imgur.com/zQCIOqy.jpeg',
     description:
       'The oldest symbol of love made radiant again. This Baroque composition honors the iconographic tradition with depth and formal rigor — each element considered, nothing accidental. A piece that rewards years of living with it. Printed on 300 GSM archival cotton rag, assembled by hand in Austin, Texas.',
-    basePrice: 185,
+    basePrice: 95,
   },
   emmanuel: {
     title: 'Emmanuel',
@@ -128,7 +130,7 @@ const PRODUCTS: Record<string, ProductData> = {
     image: 'https://i.imgur.com/WGRNmXf.jpeg',
     description:
       'God with us. This composition draws from the Byzantine icon tradition — the gold ground, the frontal gaze, the timeless stillness that has sustained communities across two millennia. Nothing is decorative here. Every choice is theological. Printed on 300 GSM archival fine art paper, hand-assembled in the United States.',
-    basePrice: 155,
+    basePrice: 95,
   },
 }
 
@@ -139,7 +141,7 @@ const FALLBACK: ProductData = {
   image: 'https://i.imgur.com/whtAlx1.jpeg',
   description:
     'A rendering of profound stillness. Printed on 300 GSM archival fine art paper and hand-assembled into your chosen frame in the United States.',
-  basePrice: 145,
+  basePrice: 95,
 }
 
 
@@ -151,10 +153,10 @@ export default function ProductPage() {
 
   const [selectedSize, setSelectedSize] = useState(0)
   const [selectedFrame, setSelectedFrame] = useState(1)
-  const [selectedFormat, setSelectedFormat] = useState<'framed' | 'rolled'>('framed')
+  const [selectedFormat, setSelectedFormat] = useState<'framed' | 'rolled'>('rolled')
   const [showARModal, setShowARModal] = useState(false)
   const [lightboxOpen, setLightboxOpen] = useState(false)
-  const [viewMode, setViewMode] = useState<'room' | 'print'>('room')
+  const [viewMode, setViewMode] = useState<'room' | 'print'>('print')
   const [justAdded, setJustAdded] = useState(false)
   const [openSection, setOpenSection] = useState<string | null>('description')
 
@@ -168,8 +170,19 @@ export default function ProductPage() {
   const similarProducts = Object.entries(PRODUCTS)
     .filter(([key]) => key !== slug)
     .slice(0, 2)
+
+  const price = selectedFormat === 'framed'
+    ? SIZES[selectedSize].price + FRAME_ADDONS[selectedSize]
+    : SIZES[selectedSize].price
+
   // Scroll to top when navigating between products
   useEffect(() => { window.scrollTo(0, 0) }, [slug])
+
+  // Sync viewMode with format
+  useEffect(() => {
+    if (selectedFormat === 'rolled') setViewMode('print')
+    else setViewMode('room')
+  }, [selectedFormat])
 
   useEffect(() => {
     const script = document.createElement('script')
@@ -181,19 +194,23 @@ export default function ProductPage() {
     }
   }, [])
 
-  const price = SIZES[selectedSize].price + (selectedFormat === 'rolled' ? -30 : 0)
-
   const handleAddToCart = () => {
+    const isFramed = selectedFormat === 'framed'
+    const frameAddon = isFramed ? FRAME_ADDONS[selectedSize] : 0
     const variantId = slug && SHOPIFY_VARIANTS[slug] ? String(SHOPIFY_VARIANTS[slug][selectedSize]) : null
     addItem({
-      id: (slug ?? 'fallback') + '_' + selectedSize,
+      id: (slug ?? 'fallback') + '_' + selectedSize + '_' + selectedFormat,
       slug: slug ?? 'fallback',
       title: product.title,
       sizeKey: selectedSize,
       sizeLabel: SIZES[selectedSize].label,
-      price,
+      price: SIZES[selectedSize].price,
       image: product.image,
       variantId,
+      isFramed,
+      frameKey: isFramed ? FRAMES[selectedFrame].key : null,
+      frameLabel: isFramed ? FRAMES[selectedFrame].label : null,
+      frameAddon,
     })
     openCart()
     setJustAdded(true)
@@ -203,10 +220,9 @@ export default function ProductPage() {
   return (
     <div className="min-h-screen pb-20 md:pb-0">
 
-
       <div className="flex flex-col lg:flex-row">
 
-        {/* ── Left: Image ──────────────────────────────── */}
+        {/* Left: Image */}
         <div
           className="w-full lg:w-[55%] lg:sticky lg:top-20 lg:h-[calc(100vh-5rem)] relative overflow-hidden cursor-zoom-in"
           onClick={() => setLightboxOpen(true)}
@@ -268,8 +284,8 @@ export default function ProductPage() {
             </div>
           )}
 
-          {/* Floating swatch panel — overlaid on image, all screen sizes */}
-          {viewMode === 'room' && (
+          {/* Floating swatch panel — only show when viewing room + framed */}
+          {viewMode === 'room' && selectedFormat === 'framed' && (
             <div
               className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10"
               onClick={(e) => e.stopPropagation()}
@@ -299,7 +315,7 @@ export default function ProductPage() {
           )}
         </div>
 
-        {/* ── Right: Details ───────────────────────────── */}
+        {/* Right: Details */}
         <div className="w-full lg:w-[45%] px-8 lg:px-14 py-12 lg:py-16 bg-alabaster">
 
           {/* Wordmark */}
@@ -314,10 +330,17 @@ export default function ProductPage() {
             {product.title}
           </h1>
 
-          {/* Price — shown early, above size selector */}
-          <p className="font-cormorant font-light text-4xl lg:text-5xl text-charcoal mb-4">
-            ${price}
-          </p>
+          {/* Price */}
+          <div className="mb-4">
+            <p className="font-cormorant font-light text-4xl lg:text-5xl text-charcoal">
+              ${price}
+            </p>
+            {selectedFormat === 'rolled' && (
+              <p className="font-garamond text-xs text-umber/60 tracking-wide mt-1">
+                Print only — framing available in cart
+              </p>
+            )}
+          </div>
 
           {/* Style + Edition */}
           <p className="font-garamond text-xs tracking-[0.18em] uppercase text-umber mb-1">
@@ -368,7 +391,7 @@ export default function ProductPage() {
               style={{ maxHeight: '100px', display: 'block' }}
               aria-label="Size comparison diagram"
             >
-              {/* Scale: 36in = 100px → 1in = 2.78px. Heights: 33, 50, 75, 100. Widths: 22, 33, 50, 67. Baseline y=100. */}
+              {/* Scale: 36in = 100px. Baseline y=100. */}
               {/* 8x12 */}
               <rect
                 x="10" y={100 - 33} width={22} height={33}
@@ -405,71 +428,80 @@ export default function ProductPage() {
               />
               <text x={154 + 33} y={100 - 100 - 4} textAnchor="middle" style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '7px', fill: selectedSize === 3 ? '#2A2927' : '#C4BDB3' }}>24×36</text>
 
-              {/* Human silhouette ~5px wide, ~70px tall at x=240 */}
-              {/* Head */}
+              {/* Human silhouette */}
               <circle cx="243" cy="34" r="3" fill="#C4BDB3" />
-              {/* Body */}
               <line x1="243" y1="37" x2="243" y2="68" stroke="#C4BDB3" strokeWidth="1" />
-              {/* Arms */}
               <line x1="238" y1="47" x2="248" y2="47" stroke="#C4BDB3" strokeWidth="1" />
-              {/* Left leg */}
               <line x1="243" y1="68" x2="239" y2="100" stroke="#C4BDB3" strokeWidth="1" />
-              {/* Right leg */}
               <line x1="243" y1="68" x2="247" y2="100" stroke="#C4BDB3" strokeWidth="1" />
-              <text x="243" y="108" textAnchor="middle" style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '6px', fill: '#C4BDB3' }}>5\'9"</text>
+              <text x="243" y="108" textAnchor="middle" style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '6px', fill: '#C4BDB3' }}>5'9"</text>
             </svg>
           </div>
 
-          {/* Frame selector */}
-          <div className="mb-7">
-            <p className="font-garamond text-xs tracking-widest uppercase text-umber mb-3">
-              {t('product.frame_label')} — <span className="normal-case">{FRAMES[selectedFrame].label}</span>
-            </p>
-            <div className="flex gap-3">
-              {FRAMES.map((f, i) => (
-                <button
-                  key={f.key}
-                  onClick={() => setSelectedFrame(i)}
-                  aria-label={f.label}
-                  className={`w-8 h-8 rounded-full transition-all duration-150 ${
-                    selectedFrame === i
-                      ? 'ring-2 ring-charcoal ring-offset-2 ring-offset-alabaster'
-                      : 'ring-1 ring-umber/30 hover:ring-umber'
-                  }`}
-                  style={{ backgroundColor: f.color }}
-                />
-              ))}
-            </div>
-          </div>
-
-          {/* Format toggle */}
+          {/* Format toggle: Print Only / Add a Frame */}
           <div className="mb-8">
-            <p className="font-garamond text-xs tracking-widest uppercase text-umber mb-3">
-              {t('product.format_label')}
-            </p>
-            <div className="flex border border-umber/30 w-fit">
-              {(['framed', 'rolled'] as const).map((fmt) => (
-                <button
-                  key={fmt}
-                  onClick={() => setSelectedFormat(fmt)}
-                  className={`font-garamond text-xs tracking-wide px-5 py-2 transition-all duration-150 ${
-                    selectedFormat === fmt
-                      ? 'bg-charcoal text-parchment'
-                      : 'text-umber hover:bg-umber/10'
-                  }`}
+            <div className="flex gap-2">
+              {/* Print Only */}
+              <button
+                onClick={() => setSelectedFormat('rolled')}
+                className={`font-garamond text-xs tracking-widest uppercase px-5 py-2.5 border transition-all duration-150 ${
+                  selectedFormat === 'rolled'
+                    ? 'bg-charcoal text-parchment border-charcoal'
+                    : 'bg-transparent text-umber border-umber/40 hover:border-umber'
+                }`}
+              >
+                Print Only
+              </button>
+
+              {/* Add a Frame */}
+              <button
+                onClick={() => setSelectedFormat('framed')}
+                className={`font-garamond text-xs tracking-widest uppercase px-5 py-2.5 border transition-all duration-150 flex items-center gap-2 ${
+                  selectedFormat === 'framed'
+                    ? 'bg-charcoal text-parchment border-charcoal'
+                    : 'bg-transparent text-umber border-umber/40 hover:border-umber'
+                }`}
+              >
+                Add a Frame
+                <span
+                  className="font-garamond text-xs"
+                  style={{ opacity: selectedFormat === 'framed' ? 0.7 : 0.6 }}
                 >
-                  {t(`product.format_${fmt}`)}
-                </button>
-              ))}
+                  +${FRAME_ADDONS[selectedSize]}
+                </span>
+              </button>
             </div>
           </div>
 
-          {/* Price (also shown in cart below, this spacer removed) */}
+          {/* Frame swatches — only when framed selected */}
+          {selectedFormat === 'framed' && (
+            <div className="mb-7">
+              <p className="font-garamond text-xs tracking-widest uppercase text-umber mb-3">
+                {t('product.frame_label')} — <span className="normal-case">{FRAMES[selectedFrame].label}</span>
+              </p>
+              <div className="flex gap-3">
+                {FRAMES.map((f, i) => (
+                  <button
+                    key={f.key}
+                    onClick={() => setSelectedFrame(i)}
+                    aria-label={f.label}
+                    className={`w-8 h-8 rounded-full transition-all duration-150 ${
+                      selectedFrame === i
+                        ? 'ring-2 ring-charcoal ring-offset-2 ring-offset-alabaster'
+                        : 'ring-1 ring-umber/30 hover:ring-umber'
+                    }`}
+                    style={{ backgroundColor: f.color }}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Add to Cart */}
           <button onClick={handleAddToCart} className="btn-charcoal w-full mb-4 text-center">
             {justAdded ? 'Added to Cart \u2713' : t('product.add_to_collection')}
           </button>
+
           {/* View in Your Room */}
           <button
             onClick={() => setShowARModal(true)}
@@ -579,14 +611,14 @@ export default function ProductPage() {
               to="/collection"
               className="font-garamond text-xs tracking-widest uppercase text-umber/70 hover:text-charcoal transition-colors border-b border-umber/30 hover:border-charcoal pb-px"
             >
-              ← Back to Collection
+              Back to Collection
             </Link>
           </div>
 
         </div>
       </div>
 
-      {/* ── You May Also Like ────────────────────────── */}
+      {/* You May Also Like */}
       <div className="py-16 px-6 max-w-4xl mx-auto">
         <h2
           className="mb-6"
@@ -654,8 +686,6 @@ export default function ProductPage() {
         </button>
       </div>
 
-      {/* Cart now handled globally by CartDrawer in App.tsx */}
-
       {/* Lightbox */}
       {lightboxOpen && (
         <div
@@ -697,7 +727,6 @@ export default function ProductPage() {
           onClick={(e) => { if (e.target === e.currentTarget) setShowARModal(false) }}
         >
           <div className="relative w-full max-w-md bg-alabaster rounded-[14px] p-8 shadow-2xl">
-            {/* Close button */}
             <button
               onClick={() => setShowARModal(false)}
               className="absolute top-4 right-4 text-umber hover:text-charcoal transition-colors text-xl leading-none"
@@ -705,19 +734,13 @@ export default function ProductPage() {
             >
               ×
             </button>
-
-            {/* Title */}
             <h2 className="font-cormorant italic font-light text-3xl text-charcoal mb-3">
               View in Your Room
             </h2>
-
-            {/* Body */}
             <p className="font-garamond text-base leading-relaxed text-umber mb-8">
               Point your camera at the wall where you'd like to hang this piece.
               The print will appear at true scale.
             </p>
-
-            {/* Buttons */}
             <div className="flex flex-col gap-3 mb-6">
               <a
                 href="https://developer.apple.com/augmented-reality/quick-look/"
@@ -736,8 +759,6 @@ export default function ProductPage() {
                 Open on Android
               </a>
             </div>
-
-            {/* Fine print */}
             <p className="font-garamond text-xs text-[#A1A1AA] text-center leading-relaxed">
               AR feature available on iOS Safari and Android Chrome. Requires a
               modern device.
