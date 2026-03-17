@@ -179,7 +179,7 @@ export default function Home() {
           </h1>
 
           <p className="font-garamond text-sm lg:text-base text-parchment/60 max-w-sm text-center leading-relaxed">
-            Original compositions. Limited editions. Ready to hang.
+            Museum-grade archival prints. Hand-assembled frames. Six original compositions.
           </p>
 
           <Link to="/collection">
