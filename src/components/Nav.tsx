@@ -16,6 +16,8 @@ export default function Nav() {
 
   const links = [
     { href: '/collection', label: t('nav.collection') },
+    { href: '/craftsmanship', label: 'Craftsmanship' },
+    { href: '/reviews', label: 'Reviews' },
     { href: '/about', label: t('nav.about') },
     { href: '/faq', label: t('nav.faq') },
   ]
@@ -37,6 +39,14 @@ export default function Nav() {
                 {t('nav.collection')}
               </Link>
               <Link
+                to="/craftsmanship"
+                className={`font-garamond text-sm tracking-widest uppercase transition-opacity ${
+                  isActive('/craftsmanship') ? 'text-charcoal' : 'text-umber hover:text-charcoal'
+                }`}
+              >
+                Craftsmanship
+              </Link>
+              <Link
                 to="/about"
                 className={`font-garamond text-sm tracking-widest uppercase transition-opacity ${
                   isActive('/about') ? 'text-charcoal' : 'text-umber hover:text-charcoal'
@@ -53,8 +63,16 @@ export default function Nav() {
               </span>
             </Link>
 
-            {/* Right: FAQ + lang toggle — desktop */}
+            {/* Right: Reviews + FAQ + lang toggle — desktop */}
             <div className="hidden lg:flex items-center gap-8">
+              <Link
+                to="/reviews"
+                className={`font-garamond text-sm tracking-widest uppercase transition-opacity ${
+                  isActive('/reviews') ? 'text-charcoal' : 'text-umber hover:text-charcoal'
+                }`}
+              >
+                Reviews
+              </Link>
               <Link
                 to="/faq"
                 className={`font-garamond text-sm tracking-widest uppercase transition-opacity ${

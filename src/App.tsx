@@ -7,6 +7,8 @@ import ProductPage from './pages/ProductPage'
 import About from './pages/About'
 import Faq from './pages/Faq'
 import Policies from './pages/Policies'
+import Reviews from './pages/Reviews'
+import Craftsmanship from './pages/Craftsmanship'
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/faq" element={<Faq />} />
           <Route path="/policies" element={<Policies />} />
+          <Route path="/reviews" element={<Reviews />} />
+          <Route path="/craftsmanship" element={<Craftsmanship />} />
         </Routes>
       </main>
       <Footer />
