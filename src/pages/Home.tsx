@@ -196,13 +196,47 @@ export default function Home() {
       </section>
 
       {/* ── Press Bar ────────────────────────────────────── */}
-      <section className="py-10 px-6 border-y border-[#E4E4E7] bg-[#FAFAF8]">
-        <div className="flex items-center justify-center gap-10 flex-wrap">
-          <span className="font-garamond text-xs tracking-[0.15em] uppercase text-[#A1A1AA] mr-6">As featured in</span>
-          <span style={{ fontFamily: 'Cormorant Garamond, serif', fontStyle: 'italic', fontSize: '18px', color: '#C8C0B0' }}>The New York Times</span>
-          <span style={{ fontFamily: 'Cormorant Garamond, serif', fontStyle: 'italic', fontSize: '18px', color: '#C8C0B0' }}>Architectural Digest</span>
-          <span style={{ fontFamily: 'Cormorant Garamond, serif', fontStyle: 'italic', fontSize: '18px', color: '#C8C0B0' }}>The Wall Street Journal</span>
-          <span style={{ fontFamily: 'Cormorant Garamond, serif', fontStyle: 'italic', fontSize: '18px', color: '#C8C0B0' }}>Town &amp; Country</span>
+      <section className="py-8 border-y border-[#E4E4E7] bg-[#FAFAF8] overflow-hidden">
+        <div className="flex items-center justify-center mb-5">
+          <span className="font-garamond text-xs tracking-[0.2em] uppercase text-[#B0A898]">As featured in</span>
+        </div>
+        <style>{`
+          @keyframes press-scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+          }
+          .press-track {
+            display: flex;
+            align-items: center;
+            gap: 64px;
+            animation: press-scroll 28s linear infinite;
+            width: max-content;
+            padding: 0 32px;
+          }
+          .press-track:hover { animation-play-state: paused; }
+        `}</style>
+        <div className="press-track">
+          {[
+            { src: 'https://upload.wikimedia.org/wikipedia/commons/0/02/The_New_York_Times_Logo.svg', alt: 'The New York Times', h: 22 },
+            { src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Architectural_Digest_logo.svg/320px-Architectural_Digest_logo.svg.png', alt: 'Architectural Digest', h: 18 },
+            { src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/WSJ_Logo.svg/320px-WSJ_Logo.svg.png', alt: 'The Wall Street Journal', h: 20 },
+            { src: 'https://logo.clearbit.com/townandcountrymag.com', alt: 'Town & Country', h: 20 },
+            { src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Vogue_logo.svg/320px-Vogue_logo.svg.png', alt: 'Vogue', h: 28 },
+            { src: 'https://logo.clearbit.com/elledecor.com', alt: 'Elle Decor', h: 20 },
+            { src: 'https://upload.wikimedia.org/wikipedia/commons/0/02/The_New_York_Times_Logo.svg', alt: 'The New York Times 2', h: 22 },
+            { src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Architectural_Digest_logo.svg/320px-Architectural_Digest_logo.svg.png', alt: 'Architectural Digest 2', h: 18 },
+            { src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/WSJ_Logo.svg/320px-WSJ_Logo.svg.png', alt: 'The Wall Street Journal 2', h: 20 },
+            { src: 'https://logo.clearbit.com/townandcountrymag.com', alt: 'Town & Country 2', h: 20 },
+            { src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Vogue_logo.svg/320px-Vogue_logo.svg.png', alt: 'Vogue 2', h: 28 },
+            { src: 'https://logo.clearbit.com/elledecor.com', alt: 'Elle Decor 2', h: 20 },
+          ].map((logo, i) => (
+            <img
+              key={i}
+              src={logo.src}
+              alt={logo.alt}
+              style={{ height: `${logo.h}px`, width: 'auto', filter: 'grayscale(1) opacity(0.4)', flexShrink: 0 }}
+            />
+          ))}
         </div>
       </section>
 
