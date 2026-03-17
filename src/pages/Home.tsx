@@ -59,11 +59,17 @@ export default function Home() {
           backgroundPosition: 'center',
         }}
       >
+        {/* Dark overlay for text legibility */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{ backgroundColor: 'rgba(30, 22, 16, 0.55)' }}
+        />
+
         {/* Ambient glow */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
-            background: 'radial-gradient(ellipse 60% 70% at 50% 40%, rgba(120,90,60,0.18) 0%, transparent 70%)',
+            background: 'radial-gradient(ellipse 60% 70% at 50% 40%, rgba(120,90,60,0.15) 0%, transparent 70%)',
           }}
         />
 

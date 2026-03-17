@@ -39,6 +39,9 @@ export default function Craftsmanship() {
         className="relative w-full py-28 lg:py-40 px-6 flex flex-col items-center justify-center text-center"
         style={{ backgroundColor: '#2A2927' }}
       >
+        <p className="font-garamond text-xs tracking-[0.25em] uppercase text-parchment/30 mb-6">
+          Veritas · The Process
+        </p>
         <h1 className="font-cormorant italic font-light text-5xl lg:text-7xl text-parchment leading-tight max-w-3xl">
           Every print begins with an obsession.
         </h1>

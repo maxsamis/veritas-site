@@ -70,9 +70,13 @@ export default function Collection() {
   return (
     <div className="max-w-7xl mx-auto px-6 lg:px-10 py-20 lg:py-28">
       <div className="text-center mb-16 lg:mb-20">
-        <p className="font-garamond text-xs tracking-[0.25em] uppercase text-umber mb-4">
-          {t('collection.original')}
-        </p>
+        <div className="flex items-center justify-center gap-4 mb-6">
+          <div className="h-px w-10 bg-umber/30" />
+          <p className="font-garamond text-xs tracking-[0.25em] uppercase text-umber">
+            {t('collection.original')}
+          </p>
+          <div className="h-px w-10 bg-umber/30" />
+        </div>
         <h1 className="font-cormorant font-light text-4xl lg:text-6xl text-charcoal mb-6">
           {t('collection.title')}
         </h1>

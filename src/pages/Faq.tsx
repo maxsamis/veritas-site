@@ -15,11 +15,14 @@ export default function Faq() {
       {/* Header */}
       <div className="mb-14 lg:mb-16">
         <p className="font-garamond text-xs tracking-[0.25em] uppercase text-umber mb-4">
-          VERITAS
+          Veritas
         </p>
-        <h1 className="font-cormorant font-light text-4xl lg:text-6xl text-charcoal">
+        <h1 className="font-cormorant font-light text-4xl lg:text-6xl text-charcoal mb-5">
           {t('faq.title')}
         </h1>
+        <p className="font-garamond text-base lg:text-lg text-umber leading-relaxed max-w-lg">
+          Everything you need to know about our materials, process, and policies.
+        </p>
       </div>
 
       <div className="section-divider mb-2" />
