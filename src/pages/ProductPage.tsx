@@ -40,6 +40,12 @@ const FRAME_IMAGES: Record<string, Record<string, string>> = {
   },
 }
 
+const PORTRAIT_IMAGES: Record<string, string> = {
+  flemish:      'https://i.imgur.com/ThF68zp.jpeg',
+  renaissance:  'https://i.imgur.com/VqFWzKB.jpeg',
+  contemporary: 'https://i.imgur.com/TQIrBod.jpeg',
+}
+
 const SLUG_TO_PORTRAIT: Record<string, string> = {
   'the-good-shepherd':   'flemish',
   'prince-of-peace':     'flemish',
@@ -134,10 +140,17 @@ export default function ProductPage() {
   const [selectedFrame, setSelectedFrame] = useState(1)
   const [selectedFormat, setSelectedFormat] = useState<'framed' | 'rolled'>('framed')
   const [showARModal, setShowARModal] = useState(false)
+  const [lightboxOpen, setLightboxOpen] = useState(false)
+  const [viewMode, setViewMode] = useState<'room' | 'print'>('room')
+  const [cartOpen, setCartOpen] = useState(false)
+  const [justAdded, setJustAdded] = useState(false)
 
   const portraitKey = (slug && SLUG_TO_PORTRAIT[slug]) ?? null
   const selectedFrameKey = FRAMES[selectedFrame].imageKey
   const heroImage = (portraitKey && FRAME_IMAGES[portraitKey]?.[selectedFrameKey]) ?? product.image
+  const displayImage = viewMode === 'print' && portraitKey
+    ? PORTRAIT_IMAGES[portraitKey]
+    : heroImage
 
   const similarProducts = Object.entries(PRODUCTS)
     .filter(([key]) => key !== slug)
@@ -157,16 +170,23 @@ export default function ProductPage() {
 
   const price = product.basePrice + (selectedSize * 50) + (selectedFormat === 'rolled' ? -30 : 0)
 
+  const handleAddToCart = () => {
+    setCartOpen(true)
+    setJustAdded(true)
+    setTimeout(() => setJustAdded(false), 1500)
+  }
+
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen pb-20 md:pb-0">
       <div className="flex flex-col lg:flex-row">
 
         {/* ── Left: Image ──────────────────────────────── */}
         <div
-          className="w-full lg:w-[55%] lg:sticky lg:top-20 lg:h-[calc(100vh-5rem)] relative overflow-hidden"
+          className="w-full lg:w-[55%] lg:sticky lg:top-20 lg:h-[calc(100vh-5rem)] relative overflow-hidden cursor-zoom-in"
+          onClick={() => setLightboxOpen(true)}
         >
           <img
-            src={heroImage}
+            src={displayImage}
             alt={product.title}
             crossOrigin="anonymous"
             className="absolute inset-0 w-full h-full object-cover"
@@ -174,30 +194,83 @@ export default function ProductPage() {
           {/* Portrait placeholder ratio for mobile */}
           <div className="w-full" style={{ paddingBottom: '133%' }} />
 
-          {/* Floating swatch panel — overlaid on image, all screen sizes */}
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10">
-            <div className="bg-white/85 backdrop-blur-sm rounded-2xl px-4 py-2 shadow-lg flex flex-col items-center gap-1.5">
-              <p style={{ fontSize: '9px', letterSpacing: '0.1em', color: '#8C8C7A', fontFamily: 'Cormorant Garamond, serif', textTransform: 'uppercase' }}>
-                Select Frame Style
-              </p>
-              <div className="flex gap-3">
-                {FRAMES.map((f, i) => (
-                  <button
-                    key={f.key}
-                    onClick={() => setSelectedFrame(i)}
-                    aria-label={f.label}
-                    className={`w-6 h-6 rounded-full border-2 cursor-pointer transition-all duration-150 ${
-                      selectedFrame === i ? 'border-[#2C2C2C] scale-110' : 'border-transparent'
-                    }`}
-                    style={{ backgroundColor: f.color }}
-                  />
-                ))}
+          {/* View mode toggle pill */}
+          {portraitKey && (
+            <div
+              className="absolute bottom-[4.5rem] left-1/2 -translate-x-1/2 z-10"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="bg-white/85 backdrop-blur-sm rounded-2xl px-4 py-1.5 shadow-lg flex items-center gap-3">
+                <button
+                  onClick={() => setViewMode('room')}
+                  style={{
+                    fontFamily: 'Cormorant Garamond, serif',
+                    fontSize: '10px',
+                    letterSpacing: '0.08em',
+                    color: viewMode === 'room' ? '#2C2C2C' : '#8C8C7A',
+                    textDecoration: viewMode === 'room' ? 'underline' : 'none',
+                    textUnderlineOffset: '3px',
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    padding: '0',
+                    textTransform: 'uppercase',
+                  }}
+                >
+                  Room
+                </button>
+                <span style={{ color: '#C4BDB3', fontSize: '10px' }}>|</span>
+                <button
+                  onClick={() => setViewMode('print')}
+                  style={{
+                    fontFamily: 'Cormorant Garamond, serif',
+                    fontSize: '10px',
+                    letterSpacing: '0.08em',
+                    color: viewMode === 'print' ? '#2C2C2C' : '#8C8C7A',
+                    textDecoration: viewMode === 'print' ? 'underline' : 'none',
+                    textUnderlineOffset: '3px',
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    padding: '0',
+                    textTransform: 'uppercase',
+                  }}
+                >
+                  Print
+                </button>
               </div>
-              <p style={{ fontSize: '10px', color: '#3C3C3C', fontFamily: 'Cormorant Garamond, serif', fontStyle: 'italic' }}>
-                {FRAMES[selectedFrame].label}
-              </p>
             </div>
-          </div>
+          )}
+
+          {/* Floating swatch panel — overlaid on image, all screen sizes */}
+          {viewMode === 'room' && (
+            <div
+              className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="bg-white/85 backdrop-blur-sm rounded-2xl px-4 py-2 shadow-lg flex flex-col items-center gap-1.5">
+                <p style={{ fontSize: '9px', letterSpacing: '0.1em', color: '#8C8C7A', fontFamily: 'Cormorant Garamond, serif', textTransform: 'uppercase' }}>
+                  Select Frame Style
+                </p>
+                <div className="flex gap-3">
+                  {FRAMES.map((f, i) => (
+                    <button
+                      key={f.key}
+                      onClick={() => setSelectedFrame(i)}
+                      aria-label={f.label}
+                      className={`w-6 h-6 rounded-full border-2 cursor-pointer transition-all duration-150 ${
+                        selectedFrame === i ? 'border-[#2C2C2C] scale-110' : 'border-transparent'
+                      }`}
+                      style={{ backgroundColor: f.color }}
+                    />
+                  ))}
+                </div>
+                <p style={{ fontSize: '10px', color: '#3C3C3C', fontFamily: 'Cormorant Garamond, serif', fontStyle: 'italic' }}>
+                  {FRAMES[selectedFrame].label}
+                </p>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* ── Right: Details ───────────────────────────── */}
@@ -312,10 +385,32 @@ export default function ProductPage() {
             </p>
           </div>
 
-          {/* Add to Collection */}
-          <button className="btn-charcoal w-full mb-4 text-center">
-            {t('product.add_to_collection')}
+          {/* Add to Cart */}
+          <button onClick={handleAddToCart} className="btn-charcoal w-full mb-4 text-center">
+            {justAdded ? 'Added to Cart \u2713' : t('product.add_to_collection')}
           </button>
+
+          {/* Trust badges */}
+          <div className="flex gap-6 mt-4 flex-wrap mb-4">
+            <div className="flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="#8C8C7A" width={20} height={20}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
+              </svg>
+              <span style={{ fontSize: '11px', color: '#8C8C7A', fontFamily: 'Cormorant Garamond, serif', letterSpacing: '0.04em' }}>200-year archival rating</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="#8C8C7A" width={20} height={20}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
+              </svg>
+              <span style={{ fontSize: '11px', color: '#8C8C7A', fontFamily: 'Cormorant Garamond, serif', letterSpacing: '0.04em' }}>Museum UV glazing</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="#8C8C7A" width={20} height={20}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+              </svg>
+              <span style={{ fontSize: '11px', color: '#8C8C7A', fontFamily: 'Cormorant Garamond, serif', letterSpacing: '0.04em' }}>Lifetime guarantee</span>
+            </div>
+          </div>
 
           {/* View in Your Room */}
           <button
@@ -445,6 +540,109 @@ export default function ProductPage() {
           ))}
         </div>
       </div>
+
+      {/* Sticky mobile Add to Cart bar */}
+      <div className="fixed bottom-0 left-0 right-0 z-30 md:hidden bg-[#EFECE5] border-t border-[#E4E4E7] px-4 py-3 flex items-center justify-between">
+        <div>
+          <p className="max-w-[160px] truncate" style={{ fontSize: '14px', color: '#2C2C2C' }}>{product.title}</p>
+          <p style={{ fontSize: '14px', color: '#8C8C7A' }}>${price}</p>
+        </div>
+        <button
+          onClick={handleAddToCart}
+          className="px-6 py-3 bg-[#2A2927] text-[#EFECE5] font-garamond text-xs tracking-widest uppercase"
+        >
+          Add to Cart
+        </button>
+      </div>
+
+      {/* Cart drawer overlay */}
+      {cartOpen && (
+        <div
+          className="fixed inset-0 bg-black/30 z-40"
+          onClick={() => setCartOpen(false)}
+        />
+      )}
+
+      {/* Cart drawer */}
+      <div
+        className={`fixed top-0 right-0 h-full w-80 bg-[#EFECE5] shadow-2xl z-50 transition-transform duration-300 ${cartOpen ? 'translate-x-0' : 'translate-x-full'}`}
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between px-6 py-5">
+          <span style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '20px', color: '#2C2C2C', fontWeight: 400 }}>Your Cart</span>
+          <button
+            onClick={() => setCartOpen(false)}
+            className="text-[#2C2C2C] text-2xl leading-none hover:opacity-60 transition-opacity"
+            aria-label="Close cart"
+          >
+            ×
+          </button>
+        </div>
+        <div className="h-px bg-[#E4E4E7] mx-6" />
+
+        {/* Item row */}
+        <div className="flex gap-4 px-6 py-5">
+          <img
+            src={heroImage}
+            alt={product.title}
+            className="w-12 h-12 rounded object-cover flex-shrink-0"
+          />
+          <div className="flex flex-col gap-1">
+            <p style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '14px', color: '#2C2C2C' }}>{product.title}</p>
+            <p style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '12px', color: '#8C8C7A' }}>{t(`product.${SIZES[selectedSize].key}`)}</p>
+            <p style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '14px', color: '#2C2C2C' }}>${price}</p>
+          </div>
+        </div>
+
+        {/* Actions */}
+        <div className="px-6 flex flex-col gap-3 mt-2">
+          <button
+            onClick={() => setCartOpen(false)}
+            className="font-garamond text-xs tracking-widest uppercase text-[#8C8C7A] hover:text-[#2C2C2C] transition-colors text-left"
+          >
+            Continue Shopping
+          </button>
+          <a
+            href="#"
+            className="block w-full py-3.5 bg-[#2A2927] text-[#EFECE5] font-garamond text-xs tracking-widest uppercase text-center hover:opacity-90 transition-opacity"
+          >
+            Proceed to Checkout
+          </a>
+        </div>
+      </div>
+
+      {/* Lightbox */}
+      {lightboxOpen && (
+        <div
+          className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center"
+          onClick={() => setLightboxOpen(false)}
+        >
+          <button
+            onClick={() => setLightboxOpen(false)}
+            style={{
+              position: 'absolute',
+              top: '16px',
+              right: '24px',
+              color: '#ffffff',
+              fontSize: '32px',
+              lineHeight: 1,
+              cursor: 'pointer',
+              background: 'none',
+              border: 'none',
+              padding: '0',
+            }}
+            aria-label="Close"
+          >
+            &times;
+          </button>
+          <img
+            src={displayImage}
+            alt={product.title}
+            className="max-h-[90vh] max-w-[90vw] object-contain"
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
+      )}
 
       {/* AR Modal */}
       {showARModal && (

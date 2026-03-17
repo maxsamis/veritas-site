@@ -195,6 +195,17 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── Press Bar ────────────────────────────────────── */}
+      <section className="py-10 px-6 border-y border-[#E4E4E7] bg-[#FAFAF8]">
+        <div className="flex items-center justify-center gap-10 flex-wrap">
+          <span className="font-garamond text-xs tracking-[0.15em] uppercase text-[#A1A1AA] mr-6">As featured in</span>
+          <span style={{ fontFamily: 'Cormorant Garamond, serif', fontStyle: 'italic', fontSize: '18px', color: '#C8C0B0' }}>The New York Times</span>
+          <span style={{ fontFamily: 'Cormorant Garamond, serif', fontStyle: 'italic', fontSize: '18px', color: '#C8C0B0' }}>Architectural Digest</span>
+          <span style={{ fontFamily: 'Cormorant Garamond, serif', fontStyle: 'italic', fontSize: '18px', color: '#C8C0B0' }}>The Wall Street Journal</span>
+          <span style={{ fontFamily: 'Cormorant Garamond, serif', fontStyle: 'italic', fontSize: '18px', color: '#C8C0B0' }}>Town &amp; Country</span>
+        </div>
+      </section>
+
       {/* ── Collection Preview ───────────────────────────── */}
       <section className="max-w-7xl mx-auto px-6 lg:px-10 py-20 lg:py-28">
         <div className="text-center mb-14 lg:mb-16">

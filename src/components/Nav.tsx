@@ -24,7 +24,14 @@ export default function Nav() {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-parchment/95 backdrop-blur-sm border-b border-umber/20">
+      <div className="fixed top-0 left-0 right-0 z-50">
+        {/* Announcement bar */}
+        <div className="bg-[#2A2927] py-2 px-4">
+          <p className="text-center font-garamond text-xs tracking-[0.15em] uppercase text-[#D4C9B4]">
+            Free US Shipping · Lifetime Guarantee · Delivered to 40+ Countries
+          </p>
+        </div>
+      <nav className="bg-parchment/95 backdrop-blur-sm border-b border-umber/20">
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
           <div className="flex items-center justify-between h-16 lg:h-20">
 
@@ -132,9 +139,10 @@ export default function Nav() {
           </div>
         )}
       </nav>
+      </div>
 
       {/* Spacer */}
-      <div className="h-16 lg:h-20" />
+      <div className="h-24 lg:h-28" />
     </>
   )
 }
