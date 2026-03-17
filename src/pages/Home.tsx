@@ -189,9 +189,18 @@ export default function Home() {
           </Link>
         </div>
 
-        {/* Scroll indicator */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-30">
-          <div className="w-px h-12 bg-parchment animate-pulse" />
+        {/* Scroll cue */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1">
+          <style>{`
+            @keyframes scroll-bounce {
+              0%, 100% { transform: translateY(0); opacity: 0.6; }
+              50% { transform: translateY(6px); opacity: 1; }
+            }
+            .scroll-cue { animation: scroll-bounce 2s ease-in-out infinite; }
+          `}</style>
+          <svg className="scroll-cue" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="#D4C9B4" width={20} height={20}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+          </svg>
         </div>
       </section>
 

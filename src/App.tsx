@@ -9,6 +9,7 @@ import Faq from './pages/Faq'
 import Policies from './pages/Policies'
 import Reviews from './pages/Reviews'
 import Craftsmanship from './pages/Craftsmanship'
+import Shipping from './pages/Shipping'
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/policies" element={<Policies />} />
           <Route path="/reviews" element={<Reviews />} />
           <Route path="/craftsmanship" element={<Craftsmanship />} />
+          <Route path="/shipping" element={<Shipping />} />
         </Routes>
       </main>
       <Footer />
