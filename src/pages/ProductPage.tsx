@@ -9,12 +9,45 @@ const SIZES = [
 ]
 
 const FRAMES = [
-  { key: 'frame_black', color: '#1a1a1a' },
-  { key: 'frame_walnut', color: '#5c3d1e' },
-  { key: 'frame_white', color: '#f0ece2' },
-  { key: 'frame_gold', color: '#b89040' },
-  { key: 'frame_natural', color: '#c4a55a' },
+  { key: 'frame_black',   color: '#1a1a1a', imageKey: 'black',        label: 'Matte Black' },
+  { key: 'frame_walnut',  color: '#5c3d1e', imageKey: 'walnut',       label: 'Walnut Brown' },
+  { key: 'frame_white',   color: '#f0ece2', imageKey: 'ivory',        label: 'Ivory White' },
+  { key: 'frame_gold',    color: '#b89040', imageKey: 'gold',         label: 'Burnished Gold' },
+  { key: 'frame_natural', color: '#c4a55a', imageKey: 'antique_gold', label: 'Antique Gold' },
 ]
+
+const FRAME_IMAGES: Record<string, Record<string, string>> = {
+  flemish: {
+    black:        'https://i.imgur.com/X8Ilrqs.jpeg',
+    walnut:       'https://i.imgur.com/1PHPd7R.jpeg',
+    ivory:        'https://i.imgur.com/W0Hkwdz.jpeg',
+    gold:         'https://i.imgur.com/n0v6Wek.jpeg',
+    antique_gold: 'https://i.imgur.com/HJ6PJel.jpeg',
+  },
+  renaissance: {
+    black:        'https://i.imgur.com/2LO5P2d.jpeg',
+    walnut:       'https://i.imgur.com/CfgseDy.jpeg',
+    ivory:        'https://i.imgur.com/AuxJLpn.jpeg',
+    gold:         'https://i.imgur.com/2y2t9W6.jpeg',
+    antique_gold: 'https://i.imgur.com/Xt00zPB.jpeg',
+  },
+  contemporary: {
+    black:        'https://i.imgur.com/XHSj99F.jpeg',
+    walnut:       'https://i.imgur.com/I0nPKTJ.jpeg',
+    ivory:        'https://i.imgur.com/096vLQQ.jpeg',
+    gold:         'https://i.imgur.com/FBRueMr.jpeg',
+    antique_gold: 'https://i.imgur.com/VPXWZp0.jpeg',
+  },
+}
+
+const SLUG_TO_PORTRAIT: Record<string, string> = {
+  'the-good-shepherd':   'flemish',
+  'prince-of-peace':     'flemish',
+  'christ-the-redeemer': 'renaissance',
+  'the-sacred-heart':    'renaissance',
+  'light-of-the-world':  'contemporary',
+  'emmanuel':            'contemporary',
+}
 
 interface ProductData {
   title: string
@@ -98,9 +131,13 @@ export default function ProductPage() {
   const product = (slug && PRODUCTS[slug]) ? PRODUCTS[slug] : FALLBACK
 
   const [selectedSize, setSelectedSize] = useState(0)
-  const [selectedFrame, setSelectedFrame] = useState(0)
+  const [selectedFrame, setSelectedFrame] = useState(1)
   const [selectedFormat, setSelectedFormat] = useState<'framed' | 'rolled'>('framed')
   const [showARModal, setShowARModal] = useState(false)
+
+  const portraitKey = (slug && SLUG_TO_PORTRAIT[slug]) ?? null
+  const selectedFrameKey = FRAMES[selectedFrame].imageKey
+  const heroImage = (portraitKey && FRAME_IMAGES[portraitKey]?.[selectedFrameKey]) ?? product.image
 
   useEffect(() => {
     const script = document.createElement('script')
@@ -123,7 +160,7 @@ export default function ProductPage() {
           className="w-full lg:w-[55%] lg:sticky lg:top-20 lg:h-[calc(100vh-5rem)] relative overflow-hidden"
         >
           <img
-            src={product.image}
+            src={heroImage}
             alt={product.title}
             crossOrigin="anonymous"
             className="absolute inset-0 w-full h-full object-cover"
@@ -196,14 +233,14 @@ export default function ProductPage() {
           {/* Frame selector */}
           <div className="mb-7">
             <p className="font-garamond text-xs tracking-widest uppercase text-umber mb-3">
-              {t('product.frame_label')} — <span className="normal-case">{t(`product.${FRAMES[selectedFrame].key}`)}</span>
+              {t('product.frame_label')} — <span className="normal-case">{FRAMES[selectedFrame].label}</span>
             </p>
             <div className="flex gap-3">
               {FRAMES.map((f, i) => (
                 <button
                   key={f.key}
                   onClick={() => setSelectedFrame(i)}
-                  aria-label={t(`product.${f.key}`)}
+                  aria-label={f.label}
                   className={`w-8 h-8 rounded-full transition-all duration-150 ${
                     selectedFrame === i
                       ? 'ring-2 ring-charcoal ring-offset-2 ring-offset-alabaster'
