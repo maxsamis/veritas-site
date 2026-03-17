@@ -228,16 +228,6 @@ export default function ProductPage() {
     }
   }, [product.title])
 
-  useEffect(() => {
-    const script = document.createElement('script')
-    script.type = 'module'
-    script.src = 'https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js'
-    document.head.appendChild(script)
-    return () => {
-      document.head.removeChild(script)
-    }
-  }, [])
-
   const price = SIZES[selectedSize].price + (selectedFormat === 'rolled' ? -30 : 0)
 
   const handleAddToCart = () => {
@@ -611,27 +601,20 @@ export default function ProductPage() {
             padding: 0 32px;
           }
           .pdp-press-track:hover { animation-play-state: paused; }
+          .pdp-press-logo {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 13px;
+            letter-spacing: 0.05em;
+            color: #A1A1AA;
+            opacity: 0.6;
+            white-space: nowrap;
+            flex-shrink: 0;
+          }
         `}</style>
         <div className="pdp-press-track">
-          {[
-            { src: 'https://upload.wikimedia.org/wikipedia/commons/0/02/The_New_York_Times_Logo.svg', alt: 'The New York Times', h: 22 },
-            { src: 'https://upload.wikimedia.org/wikipedia/commons/1/13/Architectural_Digest_logo.svg', alt: 'Architectural Digest', h: 20 },
-            { src: 'https://upload.wikimedia.org/wikipedia/commons/4/4a/WSJ_Logo.svg', alt: 'The Wall Street Journal', h: 22 },
-            { src: 'https://upload.wikimedia.org/wikipedia/commons/2/2a/Elle_logo.svg', alt: 'Elle', h: 32 },
-            { src: 'https://upload.wikimedia.org/wikipedia/commons/d/db/Forbes_logo.svg', alt: 'Forbes', h: 22 },
-            { src: 'https://upload.wikimedia.org/wikipedia/commons/0/02/The_New_York_Times_Logo.svg', alt: 'The New York Times 2', h: 22 },
-            { src: 'https://upload.wikimedia.org/wikipedia/commons/1/13/Architectural_Digest_logo.svg', alt: 'Architectural Digest 2', h: 20 },
-            { src: 'https://upload.wikimedia.org/wikipedia/commons/4/4a/WSJ_Logo.svg', alt: 'The Wall Street Journal 2', h: 22 },
-            { src: 'https://upload.wikimedia.org/wikipedia/commons/2/2a/Elle_logo.svg', alt: 'Elle 2', h: 32 },
-            { src: 'https://upload.wikimedia.org/wikipedia/commons/d/db/Forbes_logo.svg', alt: 'Forbes 2', h: 22 },
-          ].map((logo, i) => (
-            <img
-              key={i}
-              src={logo.src}
-              alt={logo.alt}
-              loading="lazy"
-              style={{ height: `${logo.h}px`, width: 'auto', filter: 'grayscale(1) opacity(0.4)', flexShrink: 0 }}
-            />
+          {['The New York Times', 'Architectural Digest', 'The Wall Street Journal', 'Elle Decor', 'Forbes',
+            'The New York Times', 'Architectural Digest', 'The Wall Street Journal', 'Elle Decor', 'Forbes'].map((name, i) => (
+            <span key={i} className="pdp-press-logo">{name}</span>
           ))}
         </div>
       </section>
@@ -658,7 +641,7 @@ export default function ProductPage() {
             >
               <div style={{ aspectRatio: '3 / 4', overflow: 'hidden' }}>
                 <img
-                  src={p.image}
+                  src={PORTRAIT_IMAGES[SLUG_TO_PORTRAIT[key] ?? 'flemish'] ?? p.image}
                   alt={p.title}
                   loading="lazy"
                   className="w-full h-full object-cover"
@@ -698,7 +681,7 @@ export default function ProductPage() {
           className="pointer-events-auto bg-[#2A2927] text-[#EFECE5] px-8 py-4 rounded-full text-xs tracking-widest uppercase font-garamond shadow-xl"
           style={{ backdropFilter: 'blur(4px)' }}
         >
-          Add to Cart · ${SIZES[selectedSize].price}
+          Add to Cart · ${price}
         </button>
       </div>
 
