@@ -81,7 +81,7 @@ export default function Home() {
         </div>
 
         {/* Content */}
-        <div className="relative z-10 flex flex-col items-center gap-8 lg:gap-10">
+        <div className="relative z-10 flex flex-col items-center gap-8 lg:gap-10 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
           <div className="flex flex-col items-center gap-3">
             <div className="h-px w-8 bg-parchment/40" />
             <span className="wordmark text-[10px] lg:text-xs text-parchment/50 tracking-[0.35em]">
