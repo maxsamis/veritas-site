@@ -361,7 +361,7 @@ export default function Home() {
               <div key={key} className="text-center">
                 <p
                   className="font-cormorant italic text-5xl select-none pointer-events-none mb-4"
-                  style={{ color: '#E4E4E7' }}
+                  style={{ color: '#C4BDB3' }}
                 >
                   {craftNumbers[idx]}
                 </p>
