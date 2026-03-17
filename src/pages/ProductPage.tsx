@@ -68,7 +68,7 @@ const PRODUCTS: Record<string, ProductData> = {
   'the-good-shepherd': {
     title: 'The Good Shepherd',
     style: 'Classical Oil · Limited Edition',
-    edition: 'Edition of 500 · Certificate of authenticity included',
+    edition: 'Edition of 250 · Certificate of authenticity included',
     image: 'https://i.imgur.com/whtAlx1.jpeg',
     description:
       'A rendering of profound stillness — the shepherd who leaves the ninety-nine. This composition draws from the Flemish tradition, rendered in the warm ochres and umbers of old master painting. Printed on 300 GSM archival fine art paper and hand-assembled into your chosen frame in the United States.',
@@ -77,7 +77,7 @@ const PRODUCTS: Record<string, ProductData> = {
   'christ-the-redeemer': {
     title: 'Christ the Redeemer',
     style: 'Renaissance · Limited Edition',
-    edition: 'Edition of 500 · Certificate of authenticity included',
+    edition: 'Edition of 250 · Certificate of authenticity included',
     image: 'https://i.imgur.com/zQCIOqy.jpeg',
     description:
       'Chiaroscuro at its most reverent — light and shadow drawn from the Flemish masters, the figure emerging from darkness as if called forth by grace itself. Deep blacks, warm golds, and an expression that rewards every hour spent in its presence. Printed on 300 GSM archival cotton rag, assembled by hand in Austin, Texas.',
@@ -86,7 +86,7 @@ const PRODUCTS: Record<string, ProductData> = {
   'light-of-the-world': {
     title: 'Light of the World',
     style: 'Contemporary Sacred · Limited Edition',
-    edition: 'Edition of 300 · Certificate of authenticity included',
+    edition: 'Edition of 250 · Certificate of authenticity included',
     image: 'https://i.imgur.com/WGRNmXf.jpeg',
     description:
       'A contemporary sacred composition that speaks the language of today without surrendering the reverence of centuries. Luminous and still, this piece occupies the rare space between tradition and the modern interior. Printed on 300 GSM archival fine art paper, hand-assembled in the United States.',
@@ -95,7 +95,7 @@ const PRODUCTS: Record<string, ProductData> = {
   'prince-of-peace': {
     title: 'Prince of Peace',
     style: 'Minimalist · Limited Edition',
-    edition: 'Edition of 500 · Certificate of authenticity included',
+    edition: 'Edition of 250 · Certificate of authenticity included',
     image: 'https://i.imgur.com/whtAlx1.jpeg',
     description:
       'Restraint as devotion. This composition strips the sacred portrait to its essential gesture — a gaze of absolute peace rendered with economy and grace. For homes that understand that less, when it is the right less, says everything. Printed on 300 GSM archival fine art paper, hand-assembled in the United States.',
@@ -113,7 +113,7 @@ const PRODUCTS: Record<string, ProductData> = {
   emmanuel: {
     title: 'Emmanuel',
     style: 'Icon Tradition · Limited Edition',
-    edition: 'Edition of 300 · Certificate of authenticity included',
+    edition: 'Edition of 250 · Certificate of authenticity included',
     image: 'https://i.imgur.com/WGRNmXf.jpeg',
     description:
       'God with us. This composition draws from the Byzantine icon tradition — the gold ground, the frontal gaze, the timeless stillness that has sustained communities across two millennia. Nothing is decorative here. Every choice is theological. Printed on 300 GSM archival fine art paper, hand-assembled in the United States.',
@@ -124,11 +124,20 @@ const PRODUCTS: Record<string, ProductData> = {
 const FALLBACK: ProductData = {
   title: 'Original Composition',
   style: 'Classical Oil · Limited Edition',
-  edition: 'Edition of 500 · Certificate of authenticity included',
+  edition: 'Edition of 250 · Certificate of authenticity included',
   image: 'https://i.imgur.com/whtAlx1.jpeg',
   description:
     'A rendering of profound stillness. Printed on 300 GSM archival fine art paper and hand-assembled into your chosen frame in the United States.',
   basePrice: 145,
+}
+
+const SCARCITY: Record<string, number> = {
+  'the-good-shepherd': 61,
+  'prince-of-peace': 49,
+  'christ-the-redeemer': 83,
+  'the-sacred-heart': 39,
+  'light-of-the-world': 76,
+  'emmanuel': 27,
 }
 
 export default function ProductPage() {
@@ -144,8 +153,7 @@ export default function ProductPage() {
   const [viewMode, setViewMode] = useState<'room' | 'print'>('room')
   const [cartOpen, setCartOpen] = useState(false)
   const [justAdded, setJustAdded] = useState(false)
-  const [sizeGuideOpen, setSizeGuideOpen] = useState(false)
-  const [imgLoaded, setImgLoaded] = useState(false)
+  const [openSection, setOpenSection] = useState<string | null>('description')
 
   const portraitKey = (slug && SLUG_TO_PORTRAIT[slug]) ?? null
   const selectedFrameKey = FRAMES[selectedFrame].imageKey
@@ -159,9 +167,6 @@ export default function ProductPage() {
     .slice(0, 2)
   // Scroll to top when navigating between products
   useEffect(() => { window.scrollTo(0, 0) }, [slug])
-
-  // Reset blur-up state when displayed image changes
-  useEffect(() => { setImgLoaded(false) }, [displayImage])
 
   useEffect(() => {
     const script = document.createElement('script')
@@ -181,8 +186,21 @@ export default function ProductPage() {
     setTimeout(() => setJustAdded(false), 1500)
   }
 
+  const scarcityRemaining = SCARCITY[slug ?? ''] ?? 50
+  const scarcityFillPct = Math.round(((250 - scarcityRemaining) / 250) * 100)
+
   return (
     <div className="min-h-screen pb-20 md:pb-0">
+
+      {/* Breadcrumb */}
+      <div className="px-8 lg:px-14 pt-6 mb-0">
+        <div className="mb-4">
+          <Link to="/collection" className="font-garamond text-xs text-[#A1A1AA] tracking-wide hover:text-[#2C2C2C]">Collection</Link>
+          <span className="font-garamond text-xs text-[#A1A1AA] mx-2">&#8250;</span>
+          <span className="font-garamond text-xs text-[#2C2C2C] tracking-wide">{product.title}</span>
+        </div>
+      </div>
+
       <div className="flex flex-col lg:flex-row">
 
         {/* ── Left: Image ──────────────────────────────── */}
@@ -195,12 +213,6 @@ export default function ProductPage() {
             alt={product.title}
             crossOrigin="anonymous"
             className="absolute inset-0 w-full h-full object-cover"
-            onLoad={() => setImgLoaded(true)}
-            style={{
-              transition: 'filter 0.4s ease, opacity 0.4s ease',
-              filter: imgLoaded ? 'blur(0px)' : 'blur(8px)',
-              opacity: imgLoaded ? 1 : 0.6,
-            }}
           />
           {/* Portrait placeholder ratio for mobile */}
           <div className="w-full" style={{ paddingBottom: '133%' }} />
@@ -287,19 +299,6 @@ export default function ProductPage() {
         {/* ── Right: Details ───────────────────────────── */}
         <div className="w-full lg:w-[45%] px-8 lg:px-14 py-12 lg:py-16 bg-alabaster">
 
-          {/* Breadcrumb */}
-          <div className="flex items-center gap-2 mb-6">
-            <Link to="/collection">
-              <span className="font-garamond text-xs tracking-widest uppercase text-umber/70 hover:text-charcoal transition-colors">
-                Collection
-              </span>
-            </Link>
-            <span className="font-garamond text-xs text-umber/40">·</span>
-            <span className="font-garamond text-xs tracking-widest uppercase text-charcoal">
-              {product.title}
-            </span>
-          </div>
-
           {/* Wordmark */}
           <Link to="/collection">
             <span className="wordmark text-xs text-umber tracking-widest2 hover:text-charcoal transition-colors">
@@ -316,12 +315,23 @@ export default function ProductPage() {
           <p className="font-garamond text-xs tracking-[0.18em] uppercase text-umber mb-1">
             {product.style}
           </p>
-          <p className="font-garamond text-xs tracking-[0.12em] uppercase text-umber/60 mb-8">
+          <p className="font-garamond text-xs tracking-[0.12em] uppercase text-umber/60 mb-2">
             {product.edition}
           </p>
 
+          {/* Scarcity indicator */}
+          <div className="flex items-center gap-2 mt-2 mb-3">
+            {/* thin progress bar */}
+            <div style={{ width: 80, height: 3, backgroundColor: '#E8E2D9', borderRadius: 2 }}>
+              <div style={{ width: `${scarcityFillPct}%`, height: '100%', backgroundColor: '#2A2927', borderRadius: 2 }} />
+            </div>
+            <span className="font-garamond text-xs text-[#8C8C7A] tracking-wide">
+              Edition of 250 · {scarcityRemaining} remaining
+            </span>
+          </div>
+
           {/* Divider */}
-          <div className="section-divider mb-8" />
+          <div className="section-divider mb-8 mt-6" />
 
           {/* Size selector */}
           <div className="mb-7">
@@ -343,12 +353,6 @@ export default function ProductPage() {
                 </button>
               ))}
             </div>
-            <button
-              onClick={() => setSizeGuideOpen(true)}
-              className="font-garamond text-xs text-[#8C8C7A] underline tracking-wide mt-1 mb-3 block"
-            >
-              Size Guide
-            </button>
           </div>
 
           {/* Frame selector */}
@@ -426,10 +430,68 @@ export default function ProductPage() {
           {/* Divider */}
           <div className="section-divider my-8" />
 
-          {/* Description */}
-          <p className="font-garamond text-base leading-relaxed text-umber">
-            {product.description}
-          </p>
+          {/* Accordion: Description / Materials / Shipping */}
+          <div>
+            {/* Description */}
+            <div className="border-t border-umber/20">
+              <button
+                className="w-full flex items-center justify-between py-4"
+                onClick={() => setOpenSection(openSection === 'description' ? null : 'description')}
+              >
+                <span style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '15px', color: '#2C2C2C', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
+                  Description
+                </span>
+                <span style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '18px', color: '#2C2C2C', lineHeight: 1 }}>
+                  {openSection === 'description' ? '\u2212' : '+'}
+                </span>
+              </button>
+              {openSection === 'description' && (
+                <p className="pt-2 pb-4" style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '14px', color: '#6B6B5A', lineHeight: '1.65' }}>
+                  {product.description}
+                </p>
+              )}
+            </div>
+
+            {/* Materials & Dimensions */}
+            <div className="border-t border-umber/20">
+              <button
+                className="w-full flex items-center justify-between py-4"
+                onClick={() => setOpenSection(openSection === 'materials' ? null : 'materials')}
+              >
+                <span style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '15px', color: '#2C2C2C', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
+                  Materials &amp; Dimensions
+                </span>
+                <span style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '18px', color: '#2C2C2C', lineHeight: 1 }}>
+                  {openSection === 'materials' ? '\u2212' : '+'}
+                </span>
+              </button>
+              {openSection === 'materials' && (
+                <p className="pt-2 pb-4" style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '14px', color: '#6B6B5A', lineHeight: '1.65' }}>
+                  Printed on 310 GSM Hahnemühle Photo Rag fine art paper. Museum-grade archival inks rated 200+ years. Solid wood frame, hand-assembled in Austin, TX. Museum UV-protective glazing. Available in 8×12", 12×18", 18×27", and 24×36" (all 2:3 ratio). Ships fully assembled in custom double-wall packaging.
+                </p>
+              )}
+            </div>
+
+            {/* Shipping & Returns */}
+            <div className="border-t border-umber/20">
+              <button
+                className="w-full flex items-center justify-between py-4"
+                onClick={() => setOpenSection(openSection === 'shipping' ? null : 'shipping')}
+              >
+                <span style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '15px', color: '#2C2C2C', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
+                  Shipping &amp; Returns
+                </span>
+                <span style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '18px', color: '#2C2C2C', lineHeight: 1 }}>
+                  {openSection === 'shipping' ? '\u2212' : '+'}
+                </span>
+              </button>
+              {openSection === 'shipping' && (
+                <p className="pt-2 pb-4" style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '14px', color: '#6B6B5A', lineHeight: '1.65' }}>
+                  Free shipping within the US. International shipping available. Ships within 3–5 business days. 30-day free returns — we&apos;ll arrange pickup. Questions? Contact us at studio@veritas.art
+                </p>
+              )}
+            </div>
+          </div>
 
           {/* Back link */}
           <div className="mt-10">
@@ -598,69 +660,6 @@ export default function ProductPage() {
             className="max-h-[90vh] max-w-[90vw] object-contain"
             onClick={(e) => e.stopPropagation()}
           />
-        </div>
-      )}
-
-      {/* Size Guide Modal */}
-      {sizeGuideOpen && (
-        <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-6" onClick={() => setSizeGuideOpen(false)}>
-          <div className="bg-[#EFECE5] rounded-[12px] max-w-md w-full p-8" onClick={e => e.stopPropagation()}>
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="font-cormorant font-light text-xl text-[#2C2C2C] tracking-wide">Size Guide</h3>
-              <button onClick={() => setSizeGuideOpen(false)} className="text-[#8C8C7A] text-2xl leading-none">×</button>
-            </div>
-            {/* Wall silhouette diagram — SVG showing a wall with a person for scale */}
-            <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg" className="w-full mb-6" style={{ border: '1px solid #E8E2D9', borderRadius: 8, backgroundColor: '#FAF9F7' }}>
-              {/* Wall background */}
-              <rect x="0" y="0" width="320" height="200" fill="#FAF9F7" />
-              {/* Floor line */}
-              <line x1="0" y1="170" x2="320" y2="170" stroke="#D4C9B4" strokeWidth="1.5" />
-              {/* Person silhouette (simple) at 5'10" = 170cm */}
-              <rect x="260" y="100" width="14" height="70" rx="3" fill="#E8E2D9" />
-              <circle cx="267" cy="94" r="8" fill="#E8E2D9" />
-              <text x="267" y="186" textAnchor="middle" fill="#A1A1AA" fontSize="9" fontFamily="Cormorant Garamond, serif">5'10"</text>
-              {/* 8x12 print */}
-              <rect x="20" y="120" width="27" height="40" fill="none" stroke="#2A2927" strokeWidth="1.5" rx="1" />
-              <text x="33" y="112" textAnchor="middle" fill="#2C2C2C" fontSize="9" fontFamily="Cormorant Garamond, serif" fontWeight="500">8×12"</text>
-              <text x="33" y="168" textAnchor="middle" fill="#8C8C7A" fontSize="8" fontFamily="Cormorant Garamond, serif">$145</text>
-              {/* 12x18 print */}
-              <rect x="67" y="103" width="40" height="60" fill="none" stroke="#2A2927" strokeWidth="1.5" rx="1" />
-              <text x="87" y="95" textAnchor="middle" fill="#2C2C2C" fontSize="9" fontFamily="Cormorant Garamond, serif" fontWeight="500">12×18"</text>
-              <text x="87" y="168" textAnchor="middle" fill="#8C8C7A" fontSize="8" fontFamily="Cormorant Garamond, serif">$195</text>
-              {/* 18x27 print */}
-              <rect x="127" y="82" width="60" height="88" fill="none" stroke="#2A2927" strokeWidth="1.5" rx="1" />
-              <text x="157" y="74" textAnchor="middle" fill="#2C2C2C" fontSize="9" fontFamily="Cormorant Garamond, serif" fontWeight="500">18×27"</text>
-              <text x="157" y="168" textAnchor="middle" fill="#8C8C7A" fontSize="8" fontFamily="Cormorant Garamond, serif">$295</text>
-              {/* 24x36 print */}
-              <rect x="200" y="60" width="50" height="110" fill="none" stroke="#2A2927" strokeWidth="1.5" rx="1" />
-              <text x="225" y="52" textAnchor="middle" fill="#2C2C2C" fontSize="9" fontFamily="Cormorant Garamond, serif" fontWeight="500">24×36"</text>
-              <text x="225" y="168" textAnchor="middle" fill="#8C8C7A" fontSize="8" fontFamily="Cormorant Garamond, serif">$395</text>
-            </svg>
-            {/* Size table */}
-            <table className="w-full" style={{ borderCollapse: 'collapse' }}>
-              <thead>
-                <tr style={{ borderBottom: '1px solid #E8E2D9' }}>
-                  <th className="font-garamond text-xs tracking-widest uppercase text-[#8C8C7A] text-left pb-2">Size</th>
-                  <th className="font-garamond text-xs tracking-widest uppercase text-[#8C8C7A] text-left pb-2">Best for</th>
-                  <th className="font-garamond text-xs tracking-widest uppercase text-[#8C8C7A] text-right pb-2">Price</th>
-                </tr>
-              </thead>
-              <tbody>
-                {[
-                  { size: '8×12"', best: 'Desk, shelf, small wall', price: 'From $145' },
-                  { size: '12×18"', best: 'Bedroom, hallway', price: 'From $195' },
-                  { size: '18×27"', best: 'Living room, study', price: 'From $295' },
-                  { size: '24×36"', best: 'Statement wall, entryway', price: 'From $395' },
-                ].map((row) => (
-                  <tr key={row.size} style={{ borderBottom: '1px solid #E8E2D9' }}>
-                    <td className="font-garamond text-sm text-[#2C2C2C] py-2.5">{row.size}</td>
-                    <td className="font-garamond text-sm text-[#8C8C7A] py-2.5">{row.best}</td>
-                    <td className="font-garamond text-sm text-[#2C2C2C] py-2.5 text-right">{row.price}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
         </div>
       )}
 
