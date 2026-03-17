@@ -181,14 +181,6 @@ export default function ProductPage() {
   return (
     <div className="min-h-screen pb-20 md:pb-0">
 
-      {/* Breadcrumb */}
-      <div className="px-8 lg:px-14 pt-6 mb-0">
-        <div className="mb-4">
-          <Link to="/collection" className="font-garamond text-xs text-[#A1A1AA] tracking-wide hover:text-[#2C2C2C]">Collection</Link>
-          <span className="font-garamond text-xs text-[#A1A1AA] mx-2">&#8250;</span>
-          <span className="font-garamond text-xs text-[#2C2C2C] tracking-wide">{product.title}</span>
-        </div>
-      </div>
 
       <div className="flex flex-col lg:flex-row">
 
