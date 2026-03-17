@@ -142,6 +142,10 @@ export default function ProductPage() {
   const similarProducts = Object.entries(PRODUCTS)
     .filter(([key]) => key !== slug)
     .slice(0, 2)
+  // Scroll to top when navigating between products
+  React.useEffect(() => { window.scrollTo(0, 0) }, [slug])
+
+    .slice(0, 2)
 
   useEffect(() => {
     const script = document.createElement('script')
@@ -174,8 +178,8 @@ export default function ProductPage() {
 
           {/* Floating swatch panel — overlaid on image, all screen sizes */}
           <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10">
-            <div className="bg-white/85 backdrop-blur-sm rounded-2xl px-5 py-3 shadow-lg flex flex-col items-center gap-2" style={{ minWidth: '200px' }}>
-              <p style={{ fontSize: '10px', letterSpacing: '0.12em', color: '#8C8C7A', fontFamily: 'Cormorant Garamond, serif', textTransform: 'uppercase' }}>
+            <div className="bg-white/85 backdrop-blur-sm rounded-2xl px-4 py-2 shadow-lg flex flex-col items-center gap-1.5">
+              <p style={{ fontSize: '9px', letterSpacing: '0.1em', color: '#8C8C7A', fontFamily: 'Cormorant Garamond, serif', textTransform: 'uppercase' }}>
                 Select Frame Style
               </p>
               <div className="flex gap-3">
@@ -191,7 +195,7 @@ export default function ProductPage() {
                   />
                 ))}
               </div>
-              <p style={{ fontSize: '11px', color: '#3C3C3C', fontFamily: 'Cormorant Garamond, serif', fontStyle: 'italic' }}>
+              <p style={{ fontSize: '10px', color: '#3C3C3C', fontFamily: 'Cormorant Garamond, serif', fontStyle: 'italic' }}>
                 {FRAMES[selectedFrame].label}
               </p>
             </div>
