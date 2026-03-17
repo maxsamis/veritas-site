@@ -218,17 +218,15 @@ export default function Home() {
         <div className="press-track">
           {[
             { src: 'https://upload.wikimedia.org/wikipedia/commons/0/02/The_New_York_Times_Logo.svg', alt: 'The New York Times', h: 22 },
-            { src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Architectural_Digest_logo.svg/320px-Architectural_Digest_logo.svg.png', alt: 'Architectural Digest', h: 18 },
-            { src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/WSJ_Logo.svg/320px-WSJ_Logo.svg.png', alt: 'The Wall Street Journal', h: 20 },
-            { src: 'https://logo.clearbit.com/townandcountrymag.com', alt: 'Town & Country', h: 20 },
-            { src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Vogue_logo.svg/320px-Vogue_logo.svg.png', alt: 'Vogue', h: 28 },
-            { src: 'https://logo.clearbit.com/elledecor.com', alt: 'Elle Decor', h: 20 },
+            { src: 'https://upload.wikimedia.org/wikipedia/commons/1/13/Architectural_Digest_logo.svg', alt: 'Architectural Digest', h: 20 },
+            { src: 'https://upload.wikimedia.org/wikipedia/commons/4/4a/WSJ_Logo.svg', alt: 'The Wall Street Journal', h: 22 },
+            { src: 'https://upload.wikimedia.org/wikipedia/commons/2/2a/Elle_logo.svg', alt: 'Elle', h: 32 },
+            { src: 'https://upload.wikimedia.org/wikipedia/commons/d/db/Forbes_logo.svg', alt: 'Forbes', h: 22 },
             { src: 'https://upload.wikimedia.org/wikipedia/commons/0/02/The_New_York_Times_Logo.svg', alt: 'The New York Times 2', h: 22 },
-            { src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Architectural_Digest_logo.svg/320px-Architectural_Digest_logo.svg.png', alt: 'Architectural Digest 2', h: 18 },
-            { src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/WSJ_Logo.svg/320px-WSJ_Logo.svg.png', alt: 'The Wall Street Journal 2', h: 20 },
-            { src: 'https://logo.clearbit.com/townandcountrymag.com', alt: 'Town & Country 2', h: 20 },
-            { src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Vogue_logo.svg/320px-Vogue_logo.svg.png', alt: 'Vogue 2', h: 28 },
-            { src: 'https://logo.clearbit.com/elledecor.com', alt: 'Elle Decor 2', h: 20 },
+            { src: 'https://upload.wikimedia.org/wikipedia/commons/1/13/Architectural_Digest_logo.svg', alt: 'Architectural Digest 2', h: 20 },
+            { src: 'https://upload.wikimedia.org/wikipedia/commons/4/4a/WSJ_Logo.svg', alt: 'The Wall Street Journal 2', h: 22 },
+            { src: 'https://upload.wikimedia.org/wikipedia/commons/2/2a/Elle_logo.svg', alt: 'Elle 2', h: 32 },
+            { src: 'https://upload.wikimedia.org/wikipedia/commons/d/db/Forbes_logo.svg', alt: 'Forbes 2', h: 22 },
           ].map((logo, i) => (
             <img
               key={i}
