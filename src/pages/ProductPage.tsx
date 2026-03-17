@@ -139,6 +139,10 @@ export default function ProductPage() {
   const selectedFrameKey = FRAMES[selectedFrame].imageKey
   const heroImage = (portraitKey && FRAME_IMAGES[portraitKey]?.[selectedFrameKey]) ?? product.image
 
+  const similarProducts = Object.entries(PRODUCTS)
+    .filter(([key]) => key !== slug)
+    .slice(0, 2)
+
   useEffect(() => {
     const script = document.createElement('script')
     script.type = 'module'
@@ -167,6 +171,23 @@ export default function ProductPage() {
           />
           {/* Portrait placeholder ratio for mobile */}
           <div className="w-full" style={{ paddingBottom: '133%' }} />
+
+          {/* Floating swatch pill — overlaid on image, all screen sizes */}
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10">
+            <div className="bg-white/80 backdrop-blur-sm rounded-full px-4 py-2 flex gap-3 shadow-md">
+              {FRAMES.map((f, i) => (
+                <button
+                  key={f.key}
+                  onClick={() => setSelectedFrame(i)}
+                  aria-label={f.label}
+                  className={`w-6 h-6 rounded-full border-2 cursor-pointer transition-all duration-150 ${
+                    selectedFrame === i ? 'border-[#2C2C2C]' : 'border-transparent'
+                  }`}
+                  style={{ backgroundColor: f.color }}
+                />
+              ))}
+            </div>
+          </div>
         </div>
 
         {/* ── Right: Details ───────────────────────────── */}
@@ -358,6 +379,60 @@ export default function ProductPage() {
             </Link>
           </div>
 
+        </div>
+      </div>
+
+      {/* ── You May Also Like ────────────────────────── */}
+      <div className="py-16 px-6 max-w-4xl mx-auto">
+        <h2
+          className="mb-6"
+          style={{
+            fontFamily: 'Cormorant Garamond, serif',
+            fontSize: '24px',
+            color: '#2C2C2C',
+            fontWeight: 400,
+          }}
+        >
+          You May Also Like
+        </h2>
+        <div className="grid grid-cols-2 gap-4">
+          {similarProducts.map(([key, p]) => (
+            <Link
+              key={key}
+              to={`/product/${key}`}
+              className="bg-white rounded-[12px] overflow-hidden border border-[#E8E2D9] block"
+            >
+              <div style={{ aspectRatio: '3 / 4', overflow: 'hidden' }}>
+                <img
+                  src={p.image}
+                  alt={p.title}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="p-4">
+                <p
+                  style={{
+                    fontFamily: 'Cormorant Garamond, serif',
+                    fontSize: '16px',
+                    color: '#2C2C2C',
+                    fontWeight: 400,
+                    marginBottom: '4px',
+                  }}
+                >
+                  {p.title}
+                </p>
+                <p
+                  style={{
+                    fontFamily: 'Cormorant Garamond, serif',
+                    fontSize: '14px',
+                    color: '#8C8C7A',
+                  }}
+                >
+                  From ${p.basePrice}
+                </p>
+              </div>
+            </Link>
+          ))}
         </div>
       </div>
 
