@@ -105,8 +105,8 @@ export default function Nav() {
                   ))}
                 </div>
 
-                {/* Language flag dropdown */}
-                <div ref={langRef} className="relative">
+                {/* Language flag dropdown — desktop only */}
+                <div ref={langRef} className="relative hidden lg:block">
                   <button
                     onClick={() => setLangOpen(!langOpen)}
                     className="flex items-center gap-1.5 text-umber hover:text-charcoal transition-colors"
