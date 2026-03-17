@@ -16,6 +16,7 @@ const products = [
     style: 'Classical Oil',
     price: '$145',
     gradient: GRADIENTS.primary,
+    image: 'https://i.imgur.com/ThF68zp.jpeg',
     slug: 'the-good-shepherd',
   },
   {
@@ -23,6 +24,7 @@ const products = [
     style: 'Renaissance',
     price: '$145',
     gradient: GRADIENTS.variantA,
+    image: 'https://i.imgur.com/VqFWzKB.jpeg',
     slug: 'christ-the-redeemer',
   },
   {
@@ -30,6 +32,7 @@ const products = [
     style: 'Contemporary Sacred',
     price: '$175',
     gradient: GRADIENTS.variantB,
+    image: 'https://i.imgur.com/TQIrBod.jpeg',
     slug: 'light-of-the-world',
   },
   {
@@ -37,6 +40,8 @@ const products = [
     style: 'Baroque',
     price: '$165',
     gradient: GRADIENTS.variantC,
+    image: 'https://i.imgur.com/ThF68zp.jpeg',
+    imageFilter: 'brightness(0.9) sepia(0.15)',
     slug: 'gethsemane',
   },
   {
@@ -44,6 +49,8 @@ const products = [
     style: 'Minimalist',
     price: '$145',
     gradient: GRADIENTS.variantD,
+    image: 'https://i.imgur.com/VqFWzKB.jpeg',
+    imageFilter: 'brightness(0.9) sepia(0.15)',
     slug: 'the-transfiguration',
   },
   {
@@ -51,6 +58,8 @@ const products = [
     style: 'Renaissance',
     price: '$185',
     gradient: GRADIENTS.variantE,
+    image: 'https://i.imgur.com/TQIrBod.jpeg',
+    imageFilter: 'brightness(0.9) sepia(0.15)',
     slug: 'ecce-homo',
   },
 ]

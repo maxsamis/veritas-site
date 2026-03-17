@@ -2,8 +2,6 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 
-const GRADIENT = 'linear-gradient(160deg, #2a2520 0%, #3d3028 40%, #4a3828 70%, #2a2520 100%)'
-
 const SIZES = [
   { key: 'size_sm', price: 145 },
   { key: 'size_md', price: 195 },
@@ -32,25 +30,13 @@ export default function ProductPage() {
 
         {/* ── Left: Image ──────────────────────────────── */}
         <div
-          className="w-full lg:w-[55%] lg:sticky lg:top-20 lg:h-[calc(100vh-5rem)]"
-          style={{ background: GRADIENT }}
+          className="w-full lg:w-[55%] lg:sticky lg:top-20 lg:h-[calc(100vh-5rem)] relative overflow-hidden"
         >
-          {/* Ambient glow */}
-          <div
-            className="absolute inset-0 pointer-events-none"
-            style={{
-              background:
-                'radial-gradient(ellipse 50% 60% at 50% 40%, rgba(120,90,60,0.2) 0%, transparent 70%)',
-            }}
-          />
-          {/* Light source */}
-          <div
-            className="absolute w-1/3 h-1/2 top-1/4 left-1/3"
-            style={{
-              background:
-                'radial-gradient(ellipse at center, rgba(255,235,180,0.08) 0%, transparent 70%)',
-              filter: 'blur(30px)',
-            }}
+          <img
+            src="https://i.imgur.com/M9qXc66.jpeg"
+            alt="Portrait on wall, SoHo Loft"
+            crossOrigin="anonymous"
+            className="absolute inset-0 w-full h-full object-cover"
           />
           {/* Portrait placeholder ratio for mobile */}
           <div className="w-full" style={{ paddingBottom: '133%' }} />
