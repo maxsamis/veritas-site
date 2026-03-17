@@ -25,7 +25,7 @@ export default function Home() {
       <section
         className="relative min-h-[92vh] lg:min-h-screen flex flex-col items-center justify-center text-center px-6"
         style={{
-          backgroundImage: 'url(https://i.imgur.com/M9qXc66.jpeg)',
+          backgroundImage: 'url(https://i.imgur.com/ThF68zp.jpeg)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
