@@ -143,7 +143,7 @@ export default function ProductPage() {
     .filter(([key]) => key !== slug)
     .slice(0, 2)
   // Scroll to top when navigating between products
-  React.useEffect(() => { window.scrollTo(0, 0) }, [slug])
+  useEffect(() => { window.scrollTo(0, 0) }, [slug])
 
     .slice(0, 2)
 
