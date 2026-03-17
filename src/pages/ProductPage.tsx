@@ -326,10 +326,6 @@ export default function ProductPage() {
               Only a few remaining
             </span>
           </div>
-            <span className="font-garamond text-xs text-[#8C8C7A] tracking-wide">
-              Edition of 250 · {scarcityRemaining} remaining
-            </span>
-          </div>
 
           {/* Divider */}
           <div className="section-divider mb-8 mt-6" />
