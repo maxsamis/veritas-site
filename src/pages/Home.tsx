@@ -303,7 +303,7 @@ export default function Home() {
               style="Classical Oil"
               price="$145"
               gradient={GRADIENTS.primary}
-              image="https://i.imgur.com/ZYiWmF9.jpeg"
+              image="https://i.imgur.com/whtAlx1.jpeg"
               slug="the-good-shepherd"
               showExplore={false}
             />
