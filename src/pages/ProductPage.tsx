@@ -144,6 +144,8 @@ export default function ProductPage() {
   const [viewMode, setViewMode] = useState<'room' | 'print'>('room')
   const [cartOpen, setCartOpen] = useState(false)
   const [justAdded, setJustAdded] = useState(false)
+  const [sizeGuideOpen, setSizeGuideOpen] = useState(false)
+  const [imgLoaded, setImgLoaded] = useState(false)
 
   const portraitKey = (slug && SLUG_TO_PORTRAIT[slug]) ?? null
   const selectedFrameKey = FRAMES[selectedFrame].imageKey
@@ -157,6 +159,9 @@ export default function ProductPage() {
     .slice(0, 2)
   // Scroll to top when navigating between products
   useEffect(() => { window.scrollTo(0, 0) }, [slug])
+
+  // Reset blur-up state when displayed image changes
+  useEffect(() => { setImgLoaded(false) }, [displayImage])
 
   useEffect(() => {
     const script = document.createElement('script')
@@ -190,6 +195,12 @@ export default function ProductPage() {
             alt={product.title}
             crossOrigin="anonymous"
             className="absolute inset-0 w-full h-full object-cover"
+            onLoad={() => setImgLoaded(true)}
+            style={{
+              transition: 'filter 0.4s ease, opacity 0.4s ease',
+              filter: imgLoaded ? 'blur(0px)' : 'blur(8px)',
+              opacity: imgLoaded ? 1 : 0.6,
+            }}
           />
           {/* Portrait placeholder ratio for mobile */}
           <div className="w-full" style={{ paddingBottom: '133%' }} />
@@ -332,6 +343,12 @@ export default function ProductPage() {
                 </button>
               ))}
             </div>
+            <button
+              onClick={() => setSizeGuideOpen(true)}
+              className="font-garamond text-xs text-[#8C8C7A] underline tracking-wide mt-1 mb-3 block"
+            >
+              Size Guide
+            </button>
           </div>
 
           {/* Frame selector */}
@@ -581,6 +598,69 @@ export default function ProductPage() {
             className="max-h-[90vh] max-w-[90vw] object-contain"
             onClick={(e) => e.stopPropagation()}
           />
+        </div>
+      )}
+
+      {/* Size Guide Modal */}
+      {sizeGuideOpen && (
+        <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-6" onClick={() => setSizeGuideOpen(false)}>
+          <div className="bg-[#EFECE5] rounded-[12px] max-w-md w-full p-8" onClick={e => e.stopPropagation()}>
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="font-cormorant font-light text-xl text-[#2C2C2C] tracking-wide">Size Guide</h3>
+              <button onClick={() => setSizeGuideOpen(false)} className="text-[#8C8C7A] text-2xl leading-none">×</button>
+            </div>
+            {/* Wall silhouette diagram — SVG showing a wall with a person for scale */}
+            <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg" className="w-full mb-6" style={{ border: '1px solid #E8E2D9', borderRadius: 8, backgroundColor: '#FAF9F7' }}>
+              {/* Wall background */}
+              <rect x="0" y="0" width="320" height="200" fill="#FAF9F7" />
+              {/* Floor line */}
+              <line x1="0" y1="170" x2="320" y2="170" stroke="#D4C9B4" strokeWidth="1.5" />
+              {/* Person silhouette (simple) at 5'10" = 170cm */}
+              <rect x="260" y="100" width="14" height="70" rx="3" fill="#E8E2D9" />
+              <circle cx="267" cy="94" r="8" fill="#E8E2D9" />
+              <text x="267" y="186" textAnchor="middle" fill="#A1A1AA" fontSize="9" fontFamily="Cormorant Garamond, serif">5'10"</text>
+              {/* 8x12 print */}
+              <rect x="20" y="120" width="27" height="40" fill="none" stroke="#2A2927" strokeWidth="1.5" rx="1" />
+              <text x="33" y="112" textAnchor="middle" fill="#2C2C2C" fontSize="9" fontFamily="Cormorant Garamond, serif" fontWeight="500">8×12"</text>
+              <text x="33" y="168" textAnchor="middle" fill="#8C8C7A" fontSize="8" fontFamily="Cormorant Garamond, serif">$145</text>
+              {/* 12x18 print */}
+              <rect x="67" y="103" width="40" height="60" fill="none" stroke="#2A2927" strokeWidth="1.5" rx="1" />
+              <text x="87" y="95" textAnchor="middle" fill="#2C2C2C" fontSize="9" fontFamily="Cormorant Garamond, serif" fontWeight="500">12×18"</text>
+              <text x="87" y="168" textAnchor="middle" fill="#8C8C7A" fontSize="8" fontFamily="Cormorant Garamond, serif">$195</text>
+              {/* 18x27 print */}
+              <rect x="127" y="82" width="60" height="88" fill="none" stroke="#2A2927" strokeWidth="1.5" rx="1" />
+              <text x="157" y="74" textAnchor="middle" fill="#2C2C2C" fontSize="9" fontFamily="Cormorant Garamond, serif" fontWeight="500">18×27"</text>
+              <text x="157" y="168" textAnchor="middle" fill="#8C8C7A" fontSize="8" fontFamily="Cormorant Garamond, serif">$295</text>
+              {/* 24x36 print */}
+              <rect x="200" y="60" width="50" height="110" fill="none" stroke="#2A2927" strokeWidth="1.5" rx="1" />
+              <text x="225" y="52" textAnchor="middle" fill="#2C2C2C" fontSize="9" fontFamily="Cormorant Garamond, serif" fontWeight="500">24×36"</text>
+              <text x="225" y="168" textAnchor="middle" fill="#8C8C7A" fontSize="8" fontFamily="Cormorant Garamond, serif">$395</text>
+            </svg>
+            {/* Size table */}
+            <table className="w-full" style={{ borderCollapse: 'collapse' }}>
+              <thead>
+                <tr style={{ borderBottom: '1px solid #E8E2D9' }}>
+                  <th className="font-garamond text-xs tracking-widest uppercase text-[#8C8C7A] text-left pb-2">Size</th>
+                  <th className="font-garamond text-xs tracking-widest uppercase text-[#8C8C7A] text-left pb-2">Best for</th>
+                  <th className="font-garamond text-xs tracking-widest uppercase text-[#8C8C7A] text-right pb-2">Price</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  { size: '8×12"', best: 'Desk, shelf, small wall', price: 'From $145' },
+                  { size: '12×18"', best: 'Bedroom, hallway', price: 'From $195' },
+                  { size: '18×27"', best: 'Living room, study', price: 'From $295' },
+                  { size: '24×36"', best: 'Statement wall, entryway', price: 'From $395' },
+                ].map((row) => (
+                  <tr key={row.size} style={{ borderBottom: '1px solid #E8E2D9' }}>
+                    <td className="font-garamond text-sm text-[#2C2C2C] py-2.5">{row.size}</td>
+                    <td className="font-garamond text-sm text-[#8C8C7A] py-2.5">{row.best}</td>
+                    <td className="font-garamond text-sm text-[#2C2C2C] py-2.5 text-right">{row.price}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
 
