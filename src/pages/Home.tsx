@@ -54,7 +54,7 @@ export default function Home() {
       <section
         className="relative min-h-[92vh] lg:min-h-screen flex flex-col items-center justify-center text-center px-6"
         style={{
-          backgroundImage: 'url(https://i.imgur.com/ThF68zp.jpeg)',
+          backgroundImage: 'url(https://i.imgur.com/whtAlx1.jpeg)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
@@ -131,7 +131,7 @@ export default function Home() {
             style="Classical Oil"
             price="$145"
             gradient={GRADIENTS.primary}
-            image="https://i.imgur.com/ThF68zp.jpeg"
+            image="https://i.imgur.com/whtAlx1.jpeg"
             slug="the-good-shepherd"
             showExplore={false}
           />
@@ -140,7 +140,7 @@ export default function Home() {
             style="Renaissance"
             price="$145"
             gradient={GRADIENTS.variantA}
-            image="https://i.imgur.com/VqFWzKB.jpeg"
+            image="https://i.imgur.com/zQCIOqy.jpeg"
             slug="christ-the-redeemer"
             showExplore={false}
           />
@@ -149,7 +149,7 @@ export default function Home() {
             style="Contemporary Sacred"
             price="$175"
             gradient={GRADIENTS.variantB}
-            image="https://i.imgur.com/TQIrBod.jpeg"
+            image="https://i.imgur.com/WGRNmXf.jpeg"
             slug="light-of-the-world"
             showExplore={false}
           />

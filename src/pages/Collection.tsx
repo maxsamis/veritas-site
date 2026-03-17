@@ -14,7 +14,7 @@ const PRODUCTS = [
     price: '$145',
     gradient: GRADIENTS.primary,
     slug: 'the-good-shepherd',
-    imageUrl: 'https://i.imgur.com/ThF68zp.jpeg',
+    imageUrl: 'https://i.imgur.com/whtAlx1.jpeg',
     badge: null,
   },
   {
@@ -23,7 +23,7 @@ const PRODUCTS = [
     price: '$165',
     gradient: GRADIENTS.variantA,
     slug: 'christ-the-redeemer',
-    imageUrl: 'https://i.imgur.com/VqFWzKB.jpeg',
+    imageUrl: 'https://i.imgur.com/zQCIOqy.jpeg',
     badge: null,
   },
   {
@@ -32,7 +32,7 @@ const PRODUCTS = [
     price: '$175',
     gradient: GRADIENTS.variantB,
     slug: 'light-of-the-world',
-    imageUrl: 'https://i.imgur.com/TQIrBod.jpeg',
+    imageUrl: 'https://i.imgur.com/WGRNmXf.jpeg',
     badge: 'Few Remaining',
   },
   {
@@ -41,7 +41,7 @@ const PRODUCTS = [
     price: '$145',
     gradient: GRADIENTS.primary,
     slug: 'prince-of-peace',
-    imageUrl: 'https://i.imgur.com/ThF68zp.jpeg',
+    imageUrl: 'https://i.imgur.com/whtAlx1.jpeg',
     badge: null,
   },
   {
@@ -50,7 +50,7 @@ const PRODUCTS = [
     price: '$185',
     gradient: GRADIENTS.variantA,
     slug: 'the-sacred-heart',
-    imageUrl: 'https://i.imgur.com/VqFWzKB.jpeg',
+    imageUrl: 'https://i.imgur.com/zQCIOqy.jpeg',
     badge: 'Limited Edition',
   },
   {
@@ -59,7 +59,7 @@ const PRODUCTS = [
     price: '$155',
     gradient: GRADIENTS.variantB,
     slug: 'emmanuel',
-    imageUrl: 'https://i.imgur.com/TQIrBod.jpeg',
+    imageUrl: 'https://i.imgur.com/WGRNmXf.jpeg',
     badge: null,
   },
 ]

@@ -30,7 +30,7 @@ const PRODUCTS: Record<string, ProductData> = {
     title: 'The Good Shepherd',
     style: 'Classical Oil · Limited Edition',
     edition: 'Edition of 500 · Certificate of authenticity included',
-    image: 'https://i.imgur.com/ThF68zp.jpeg',
+    image: 'https://i.imgur.com/whtAlx1.jpeg',
     description:
       'A rendering of profound stillness — the shepherd who leaves the ninety-nine. This composition draws from the Flemish tradition, rendered in the warm ochres and umbers of old master painting. Printed on 300 GSM archival fine art paper and hand-assembled into your chosen frame in the United States.',
     basePrice: 145,
@@ -39,7 +39,7 @@ const PRODUCTS: Record<string, ProductData> = {
     title: 'Christ the Redeemer',
     style: 'Renaissance · Limited Edition',
     edition: 'Edition of 500 · Certificate of authenticity included',
-    image: 'https://i.imgur.com/VqFWzKB.jpeg',
+    image: 'https://i.imgur.com/zQCIOqy.jpeg',
     description:
       'Chiaroscuro at its most reverent — light and shadow drawn from the Flemish masters, the figure emerging from darkness as if called forth by grace itself. Deep blacks, warm golds, and an expression that rewards every hour spent in its presence. Printed on 300 GSM archival cotton rag, assembled by hand in Austin, Texas.',
     basePrice: 165,
@@ -48,7 +48,7 @@ const PRODUCTS: Record<string, ProductData> = {
     title: 'Light of the World',
     style: 'Contemporary Sacred · Limited Edition',
     edition: 'Edition of 300 · Certificate of authenticity included',
-    image: 'https://i.imgur.com/TQIrBod.jpeg',
+    image: 'https://i.imgur.com/WGRNmXf.jpeg',
     description:
       'A contemporary sacred composition that speaks the language of today without surrendering the reverence of centuries. Luminous and still, this piece occupies the rare space between tradition and the modern interior. Printed on 300 GSM archival fine art paper, hand-assembled in the United States.',
     basePrice: 175,
@@ -57,7 +57,7 @@ const PRODUCTS: Record<string, ProductData> = {
     title: 'Prince of Peace',
     style: 'Minimalist · Limited Edition',
     edition: 'Edition of 500 · Certificate of authenticity included',
-    image: 'https://i.imgur.com/ThF68zp.jpeg',
+    image: 'https://i.imgur.com/whtAlx1.jpeg',
     description:
       'Restraint as devotion. This composition strips the sacred portrait to its essential gesture — a gaze of absolute peace rendered with economy and grace. For homes that understand that less, when it is the right less, says everything. Printed on 300 GSM archival fine art paper, hand-assembled in the United States.',
     basePrice: 145,
@@ -66,7 +66,7 @@ const PRODUCTS: Record<string, ProductData> = {
     title: 'The Sacred Heart',
     style: 'Baroque · Limited Edition',
     edition: 'Edition of 250 · Certificate of authenticity included',
-    image: 'https://i.imgur.com/VqFWzKB.jpeg',
+    image: 'https://i.imgur.com/zQCIOqy.jpeg',
     description:
       'The oldest symbol of love made radiant again. This Baroque composition honors the iconographic tradition with depth and formal rigor — each element considered, nothing accidental. A piece that rewards years of living with it. Printed on 300 GSM archival cotton rag, assembled by hand in Austin, Texas.',
     basePrice: 185,
@@ -75,7 +75,7 @@ const PRODUCTS: Record<string, ProductData> = {
     title: 'Emmanuel',
     style: 'Icon Tradition · Limited Edition',
     edition: 'Edition of 300 · Certificate of authenticity included',
-    image: 'https://i.imgur.com/TQIrBod.jpeg',
+    image: 'https://i.imgur.com/WGRNmXf.jpeg',
     description:
       'God with us. This composition draws from the Byzantine icon tradition — the gold ground, the frontal gaze, the timeless stillness that has sustained communities across two millennia. Nothing is decorative here. Every choice is theological. Printed on 300 GSM archival fine art paper, hand-assembled in the United States.',
     basePrice: 155,
@@ -86,7 +86,7 @@ const FALLBACK: ProductData = {
   title: 'Original Composition',
   style: 'Classical Oil · Limited Edition',
   edition: 'Edition of 500 · Certificate of authenticity included',
-  image: 'https://i.imgur.com/ThF68zp.jpeg',
+  image: 'https://i.imgur.com/whtAlx1.jpeg',
   description:
     'A rendering of profound stillness. Printed on 300 GSM archival fine art paper and hand-assembled into your chosen frame in the United States.',
   basePrice: 145,
