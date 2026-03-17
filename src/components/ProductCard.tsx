@@ -26,19 +26,24 @@ export default function ProductCard({
 
   return (
     <Link to={`/collection/${slug}`} className="group block">
-      {/* Image placeholder — 2:3 ratio */}
+      {/* Image — 2:3 ratio */}
       <div
         className="w-full relative overflow-hidden mb-5"
         style={{ paddingBottom: '150%' }}
       >
         {image ? (
-          <img
-            src={image}
-            alt={title}
-            crossOrigin="anonymous"
-            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-            style={imageFilter ? { filter: imageFilter } : undefined}
-          />
+          <>
+            <img
+              src={image}
+              alt={title}
+              crossOrigin="anonymous"
+              loading="lazy"
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+              style={imageFilter ? { filter: imageFilter } : undefined}
+            />
+            {/* Hover overlay */}
+            <div className="absolute inset-0 bg-charcoal opacity-0 group-hover:opacity-10 transition-opacity duration-500" />
+          </>
         ) : (
           <>
             <div
