@@ -33,8 +33,8 @@ export default function ProductPage() {
           className="w-full lg:w-[55%] lg:sticky lg:top-20 lg:h-[calc(100vh-5rem)] relative overflow-hidden"
         >
           <img
-            src="https://i.imgur.com/M9qXc66.jpeg"
-            alt="Portrait on wall, SoHo Loft"
+            src="https://i.imgur.com/ThF68zp.jpeg"
+            alt="The Good Shepherd — Classical Oil Portrait"
             crossOrigin="anonymous"
             className="absolute inset-0 w-full h-full object-cover"
           />
