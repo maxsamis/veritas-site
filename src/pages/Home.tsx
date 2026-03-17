@@ -114,7 +114,22 @@ const craftItems = [
 export default function Home() {
   const { t } = useTranslation()
   const [reviewsPaused, setReviewsPaused] = useState(false)
-  const [photosPaused, setPhotosPaused] = useState(false)
+
+  const mergedItems = [
+    { type: 'review' as const, ...carouselReviews[0] },
+    { type: 'photo' as const, url: ugcPhotos[0] },
+    { type: 'review' as const, ...carouselReviews[1] },
+    { type: 'review' as const, ...carouselReviews[2] },
+    { type: 'photo' as const, url: ugcPhotos[1] },
+    { type: 'review' as const, ...carouselReviews[3] },
+    { type: 'photo' as const, url: ugcPhotos[2] },
+    { type: 'review' as const, ...carouselReviews[4] },
+    { type: 'review' as const, ...carouselReviews[5] },
+    { type: 'photo' as const, url: ugcPhotos[3] },
+    { type: 'review' as const, ...carouselReviews[6] },
+    { type: 'photo' as const, url: ugcPhotos[4] },
+    { type: 'review' as const, ...carouselReviews[7] },
+  ]
 
   return (
     <div>
