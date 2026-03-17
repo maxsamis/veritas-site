@@ -1,0 +1,70 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: #EFECE5;
+    color: #2A2927;
+    font-family: 'EB Garamond', Georgia, serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+}
+
+@layer components {
+  .wordmark {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 300;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+  }
+
+  .section-divider {
+    border-top: 1px solid #7A7365;
+    opacity: 0.3;
+  }
+
+  .btn-outline-parchment {
+    border: 1px solid rgba(239, 236, 229, 0.6);
+    color: #EFECE5;
+    background: transparent;
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 0.875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.875rem 2.5rem;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .btn-outline-parchment:hover {
+    background: rgba(239, 236, 229, 0.12);
+  }
+
+  .btn-charcoal {
+    background: #2A2927;
+    color: #EFECE5;
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 0.875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 1rem 2.5rem;
+    transition: opacity 0.2s ease;
+  }
+
+  .btn-charcoal:hover {
+    opacity: 0.85;
+  }
+}
