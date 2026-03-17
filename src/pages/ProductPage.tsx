@@ -691,14 +691,14 @@ export default function ProductPage() {
         </div>
       </div>
 
-      {/* Mobile sticky CTA */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 lg:hidden bg-[#2A2927] text-[#EFECE5] px-4 py-4 flex items-center justify-between">
-        <div>
-          <p className="text-xs tracking-widest uppercase font-garamond">{product.title}</p>
-          <p className="text-sm font-garamond">{SIZES[selectedSize].label} · ${SIZES[selectedSize].price}</p>
-        </div>
-        <button onClick={handleAddToCart} className="bg-[#EFECE5] text-[#2A2927] px-6 py-2 text-xs tracking-widest uppercase font-garamond">
-          Add to Cart
+      {/* Mobile sticky CTA — floating pill */}
+      <div className="fixed bottom-6 left-0 right-0 z-40 lg:hidden flex justify-center pointer-events-none">
+        <button
+          onClick={handleAddToCart}
+          className="pointer-events-auto bg-[#2A2927] text-[#EFECE5] px-8 py-4 rounded-full text-xs tracking-widest uppercase font-garamond shadow-xl"
+          style={{ backdropFilter: 'blur(4px)' }}
+        >
+          Add to Cart · ${SIZES[selectedSize].price}
         </button>
       </div>
 
