@@ -69,7 +69,7 @@ const carouselReviews = [
 ]
 
 const ugcPhotos = [
-  'https://i.imgur.com/whtAlx1.jpeg',
+  'https://i.imgur.com/ZYiWmF9.jpeg',
   'https://i.imgur.com/zQCIOqy.jpeg',
   'https://i.imgur.com/WGRNmXf.jpeg',
   'https://i.imgur.com/ThF68zp.jpeg',
@@ -135,7 +135,7 @@ export default function Home() {
       <section
         className="relative min-h-[92vh] lg:min-h-screen flex flex-col items-center justify-center text-center px-6"
         style={{
-          backgroundImage: 'url(https://i.imgur.com/whtAlx1.jpeg)',
+          backgroundImage: 'url(https://i.imgur.com/ZYiWmF9.jpeg)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
@@ -303,7 +303,7 @@ export default function Home() {
               style="Classical Oil"
               price="$145"
               gradient={GRADIENTS.primary}
-              image="https://i.imgur.com/whtAlx1.jpeg"
+              image="https://i.imgur.com/ZYiWmF9.jpeg"
               slug="the-good-shepherd"
               showExplore={false}
             />
@@ -519,10 +519,10 @@ export default function Home() {
         <div
           className="absolute inset-0"
           style={{
-            backgroundImage: 'url(https://i.imgur.com/whtAlx1.jpeg)',
+            backgroundImage: 'url(https://i.imgur.com/ZYiWmF9.jpeg)',
             backgroundSize: 'cover',
             backgroundPosition: 'center top',
-            filter: 'blur(12px) brightness(0.12) saturate(0.4) contrast(1.2)',
+            filter: 'blur(4px) brightness(0.15) saturate(0.3) contrast(1.1)',
             transform: 'scale(1.08)',
           }}
         />
