@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 const STORAGE_KEY = 'veritas_modal_dismissed'
 const DELAY_MS = 3500
 const DISCOUNT_CODE = 'WELCOME20'
+const PORTRAIT_IMAGE = 'https://i.imgur.com/ThF68zp.jpeg'
 
 export default function WelcomeModal() {
   const [visible, setVisible] = useState(false)
@@ -43,13 +44,13 @@ export default function WelcomeModal() {
       onClick={(e) => { if (e.target === e.currentTarget) dismiss() }}
     >
       <div
-        className="relative w-full max-w-md"
-        style={{ backgroundColor: '#EFECE5', border: '1px solid #C4BDB3' }}
+        className="relative flex w-full overflow-hidden"
+        style={{ maxWidth: '760px', backgroundColor: '#EFECE5', border: '1px solid #C4BDB3' }}
       >
         {/* Close */}
         <button
           onClick={dismiss}
-          className="absolute top-4 right-4 text-umber hover:text-charcoal transition-colors"
+          className="absolute top-4 right-4 z-10 text-umber hover:text-charcoal transition-colors"
           aria-label="Close"
         >
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
@@ -57,19 +58,34 @@ export default function WelcomeModal() {
           </svg>
         </button>
 
-        {/* Gold rule */}
-        <div style={{ height: '2px', backgroundColor: '#C4A55A' }} />
+        {/* Gold top rule */}
+        <div className="absolute top-0 left-0 right-0 z-10" style={{ height: '2px', backgroundColor: '#C4A55A' }} />
 
-        <div className="px-10 py-12 text-center">
+        {/* Left: Portrait image */}
+        <div className="hidden sm:block w-[48%] flex-shrink-0 relative" style={{ minHeight: '520px' }}>
+          <img
+            src={PORTRAIT_IMAGE}
+            alt="Sacred portrait"
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          {/* Subtle dark gradient on right edge for blending */}
+          <div
+            className="absolute inset-y-0 right-0 w-16"
+            style={{ background: 'linear-gradient(to right, transparent, #EFECE5)' }}
+          />
+        </div>
+
+        {/* Right: Form */}
+        <div className="flex-1 px-10 py-14 flex flex-col justify-center">
           {!submitted ? (
             <>
-              <p className="font-garamond text-xs tracking-[0.2em] uppercase text-umber mb-4">
+              <p className="font-garamond text-xs tracking-[0.2em] uppercase text-umber mb-5">
                 Limited Time
               </p>
-              <h2 className="font-cormorant italic font-light text-4xl text-charcoal mb-3 leading-tight">
-                Save 20% on your first edition.
+              <h2 className="font-cormorant italic font-light text-4xl text-charcoal mb-4 leading-tight">
+                Save 20% on your<br />first edition.
               </h2>
-              <p className="font-garamond text-sm text-umber leading-relaxed mb-8 max-w-xs mx-auto">
+              <p className="font-garamond text-sm text-umber leading-relaxed mb-8">
                 Enter your email to receive your personal discount code. Valid on any portrait, any size.
               </p>
               <form onSubmit={handleSubmit} className="flex flex-col gap-3">
@@ -83,7 +99,7 @@ export default function WelcomeModal() {
                 />
                 <button
                   type="submit"
-                  className="w-full font-garamond text-xs tracking-[0.18em] uppercase font-bold py-3.5 transition-colors"
+                  className="w-full font-garamond text-xs tracking-[0.18em] uppercase font-bold py-4 transition-colors"
                   style={{ backgroundColor: '#1C1A17', color: '#EFECE5' }}
                 >
                   Claim 20% Off
@@ -95,10 +111,10 @@ export default function WelcomeModal() {
             </>
           ) : (
             <>
-              <p className="font-garamond text-xs tracking-[0.2em] uppercase text-umber mb-4">
+              <p className="font-garamond text-xs tracking-[0.2em] uppercase text-umber mb-5">
                 Your Code
               </p>
-              <h2 className="font-cormorant italic font-light text-4xl text-charcoal mb-3">
+              <h2 className="font-cormorant italic font-light text-4xl text-charcoal mb-4">
                 Welcome.
               </h2>
               <p className="font-garamond text-sm text-umber mb-8">
@@ -106,8 +122,12 @@ export default function WelcomeModal() {
               </p>
               <button
                 onClick={copyCode}
-                className="w-full font-garamond text-sm tracking-[0.25em] uppercase py-4 border transition-colors mb-3"
-                style={{ borderColor: '#2A2927', backgroundColor: copied ? '#2A2927' : 'transparent', color: copied ? '#EFECE5' : '#1C1A17' } as React.CSSProperties}
+                className="w-full font-garamond text-sm tracking-[0.25em] uppercase py-4 border transition-all mb-3"
+                style={{
+                  borderColor: '#2A2927',
+                  backgroundColor: copied ? '#2A2927' : 'transparent',
+                  color: copied ? '#EFECE5' : '#1C1A17'
+                }}
               >
                 {copied ? 'Copied' : DISCOUNT_CODE}
               </button>

@@ -1,0 +1,38 @@
+{
+  "nav": { "collection": "Coleção", "about": "Sobre", "faq": "FAQ", "lang": "PT" },
+  "home": {
+    "hero_headline": "O retrato que sua casa estava esperando.",
+    "hero_cta": "Ver a Coleção",
+    "preview_title": "A Coleção",
+    "preview_subtitle": "Composições originais. Edições limitadas. Cada peça criada para lares que entendem o peso da beleza.",
+    "craft_title": "Feito para durar uma vida",
+    "craft_1_title": "Materiais Arquivísticos",
+    "craft_1_desc": "Papel de belas-artes de 300 g/m², tintas resistentes a UV que mantêm sua integridade por gerações.",
+    "craft_2_title": "Montado à Mão",
+    "craft_2_desc": "Cada moldura construída à mão nos Estados Unidos por artesãos orgulhosos do seu trabalho.",
+    "craft_3_title": "Garantia Vitalícia",
+    "craft_3_desc": "Defeitos de moldura e impressão cobertos para sempre. Garantimos cada peça que enviamos.",
+    "craft_4_title": "Pronto para Pendurar",
+    "craft_4_desc": "Chega totalmente montado com todos os acessórios incluídos. Da caixa à parede em minutos.",
+    "quote": "A verdade, lindamente representada, não precisa de defesa. Ela apenas requer uma moldura digna do seu peso.",
+    "cta_section_title": "Explore a Coleção",
+    "cta_section_desc": "Todo lar merece arte que perdure. Cada parede, um testemunho.",
+    "cta_section_btn": "Ver a Coleção"
+  },
+  "collection": { "title": "A Coleção", "subtitle": "Seis composições originais. Cada uma, uma meditação.", "explore": "Explorar", "from": "A partir de", "original": "Composição Original · Edição Limitada" },
+  "product": {
+    "wordmark": "VERITAS", "style": "Óleo Clássico · Edição Limitada", "size_label": "Tamanho",
+    "size_sm": "Pequeno (11×14\")", "size_md": "Médio (16×20\")", "size_lg": "Grande (24×36\")",
+    "frame_label": "Moldura", "frame_black": "Preto Fosco", "frame_walnut": "Nogueira",
+    "frame_white": "Branco Antigo", "frame_gold": "Ouro Brunido", "frame_natural": "Carvalho Natural",
+    "format_label": "Formato", "format_framed": "Impressão Emoldurada", "format_rolled": "Impressão em Rolo",
+    "add_to_collection": "Adicionar à Coleção",
+    "description": "Uma representação de profunda serenidade — o pastor que deixa os noventa e nove.",
+    "ships_from": "Enviado dos Estados Unidos · Garantia Vitalícia",
+    "edition_note": "Edição de 500 · Certificado de autenticidade incluído"
+  },
+  "about": { "hero_quote": "Acreditamos no poder transformador da arte sacra — não como decoração, mas como devoção.", "section1_title": "Por que Veritas", "section1_body": "Existe uma longa tradição de retratos sagrados.", "section2_title": "O Trabalho", "section2_body": "Cada composição começa com um estudo profundo.", "section3_title": "O Padrão", "section3_body": "Oferecemos garantia vitalícia em cada moldura e impressão.", "closing_quote": "A verdade, lindamente representada, não precisa de defesa." },
+  "faq": { "title": "Perguntas Frequentes", "q1": "Quais materiais são usados?", "a1": "Todas as impressões são produzidas em papel de belas-artes arquivístico de 300 g/m².", "q2": "Quanto tempo leva a produção?", "a2": "Cada peça é montada por encomenda. Permita 7 a 10 dias úteis.", "q3": "Vocês oferecem devoluções?", "a3": "Todas as vendas são definitivas.", "q4": "Posso cancelar meu pedido?", "a4": "Pedidos podem ser cancelados em até 24 horas.", "q5": "Quais tamanhos estão disponíveis?", "a5": "Oferecemos quatro tamanhos: 8×12\", 12×18\", 18×27\" e 24×36\".", "q6": "Quais estilos de moldura estão disponíveis?", "a6": "Cinco acabamentos: Preto Fosco, Nogueira, Marfim, Ouro Brunido e Ouro Antigo.", "q7": "Vocês enviam internacionalmente?", "a7": "Sim. Enviamos para mais de 40 países.", "q8": "Há garantia?", "a8": "Sim. Garantia vitalícia em todos os defeitos de moldura e impressão.", "q9": "Posso solicitar um tamanho personalizado?", "a9": "Sim, para a maioria das composições." },
+  "footer": { "tagline": "Arte sacra para o lar moderno.", "col1_title": "Loja", "col2_title": "Empresa", "col3_title": "Suporte", "collection": "Coleção", "about": "Sobre", "faq": "FAQ", "policies": "Políticas", "copyright": "© 2026 Veritas. Todos os direitos reservados.", "made_in": "Montado à mão nos Estados Unidos." },
+  "policies": { "title": "Políticas", "returns_title": "Devoluções e Cancelamentos", "returns_body": "Todas as peças Veritas são produzidas por encomenda.", "shipping_title": "Envio", "shipping_body": "A produção leva de 7 a 10 dias úteis.", "warranty_title": "Garantia Vitalícia", "warranty_body": "Cada moldura e impressão Veritas é coberta por garantia vitalícia.", "privacy_title": "Política de Privacidade", "privacy_body": "A Veritas coleta apenas as informações necessárias para processar seu pedido." }
+}

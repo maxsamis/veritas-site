@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useParams } from 'react-router-dom'
+import { useCart } from '../contexts/CartContext'
 
 const SIZES = [
   { key: 'size_xs', label: '8"×12"',  price: 145 },
@@ -17,8 +18,6 @@ const SHOPIFY_VARIANTS: Record<string, string[]> = {
   'light-of-the-world':  ['53318331957585','53318331990353','53318332023121','53318332055889'],
   'emmanuel':            ['53318332154193','53318332186961','53318332219729','53318332252497'],
 }
-
-const SHOPIFY_STORE = 'veritaseditions-2.myshopify.com'
 
 const FRAMES = [
   { key: 'frame_black',   color: '#1a1a1a', imageKey: 'black',        label: 'Matte Black' },
@@ -147,6 +146,7 @@ const FALLBACK: ProductData = {
 export default function ProductPage() {
   const { t } = useTranslation()
   const { slug } = useParams<{ slug: string }>()
+  const { addItem, openCart } = useCart()
   const product = (slug && PRODUCTS[slug]) ? PRODUCTS[slug] : FALLBACK
 
   const [selectedSize, setSelectedSize] = useState(0)
@@ -155,7 +155,6 @@ export default function ProductPage() {
   const [showARModal, setShowARModal] = useState(false)
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const [viewMode, setViewMode] = useState<'room' | 'print'>('room')
-  const [cartOpen, setCartOpen] = useState(false)
   const [justAdded, setJustAdded] = useState(false)
   const [openSection, setOpenSection] = useState<string | null>('description')
 
@@ -184,24 +183,19 @@ export default function ProductPage() {
 
   const price = SIZES[selectedSize].price + (selectedFormat === 'rolled' ? -30 : 0)
 
-  const getCheckoutUrl = () => {
-    const variantId = slug && SHOPIFY_VARIANTS[slug]?.[selectedSize]
-    if (!variantId) return `https://${SHOPIFY_STORE}/cart`
-    return `https://${SHOPIFY_STORE}/cart/${variantId}:1`
-  }
-
   const handleAddToCart = () => {
-    // Persist to localStorage for Nav badge count
-    try {
-      type CartItem = { key: string; size: number; price: number }
-      const existing: CartItem[] = JSON.parse(localStorage.getItem('veritas_cart') || '[]')
-      const cartKey = product.title.replace(/\s+/g, '-').toLowerCase() + '_' + selectedSize
-      const idx = existing.findIndex(i => i.key === cartKey)
-      if (idx === -1) existing.push({ key: cartKey, size: selectedSize, price })
-      localStorage.setItem('veritas_cart', JSON.stringify(existing))
-      window.dispatchEvent(new Event('veritas_cart_update'))
-    } catch { /* ignore */ }
-    setCartOpen(true)
+    const variantId = slug && SHOPIFY_VARIANTS[slug] ? String(SHOPIFY_VARIANTS[slug][selectedSize]) : null
+    addItem({
+      id: (slug ?? 'fallback') + '_' + selectedSize,
+      slug: slug ?? 'fallback',
+      title: product.title,
+      sizeKey: selectedSize,
+      sizeLabel: SIZES[selectedSize].label,
+      price,
+      image: product.image,
+      variantId,
+    })
+    openCart()
     setJustAdded(true)
     setTimeout(() => setJustAdded(false), 1500)
   }
@@ -660,63 +654,7 @@ export default function ProductPage() {
         </button>
       </div>
 
-      {/* Cart drawer overlay */}
-      {cartOpen && (
-        <div
-          className="fixed inset-0 bg-black/30 z-40"
-          onClick={() => setCartOpen(false)}
-        />
-      )}
-
-      {/* Cart drawer */}
-      <div
-        className={`fixed top-0 right-0 h-full w-80 bg-[#EFECE5] shadow-2xl z-50 transition-transform duration-300 ${cartOpen ? 'translate-x-0' : 'translate-x-full'}`}
-      >
-        {/* Header */}
-        <div className="flex items-center justify-between px-6 py-5">
-          <span style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '20px', color: '#2C2C2C', fontWeight: 400 }}>Your Cart</span>
-          <button
-            onClick={() => setCartOpen(false)}
-            className="text-[#2C2C2C] text-2xl leading-none hover:opacity-60 transition-opacity"
-            aria-label="Close cart"
-          >
-            ×
-          </button>
-        </div>
-        <div className="h-px bg-[#E4E4E7] mx-6" />
-
-        {/* Item row */}
-        <div className="flex gap-4 px-6 py-5">
-          <img
-            src={heroImage}
-            alt={product.title}
-            className="w-12 h-12 rounded object-cover flex-shrink-0"
-          />
-          <div className="flex flex-col gap-1">
-            <p style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '14px', color: '#2C2C2C' }}>{product.title}</p>
-            <p style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '12px', color: '#8C8C7A' }}>{SIZES[selectedSize].label}</p>
-            <p style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '14px', color: '#2C2C2C' }}>${price}</p>
-          </div>
-        </div>
-
-        {/* Actions */}
-        <div className="px-6 flex flex-col gap-3 mt-2">
-          <button
-            onClick={() => setCartOpen(false)}
-            className="font-garamond text-xs tracking-widest uppercase text-[#8C8C7A] hover:text-[#2C2C2C] transition-colors text-left"
-          >
-            Continue Shopping
-          </button>
-          <a
-            href={getCheckoutUrl()}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block w-full py-3.5 bg-[#2A2927] text-[#EFECE5] font-garamond text-xs tracking-widest uppercase text-center hover:opacity-90 transition-opacity"
-          >
-            Proceed to Checkout
-          </a>
-        </div>
-      </div>
+      {/* Cart now handled globally by CartDrawer in App.tsx */}
 
       {/* Lightbox */}
       {lightboxOpen && (

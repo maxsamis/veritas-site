@@ -1,7 +1,8 @@
 import { useState, useRef, useEffect } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import CountryFlag from 'react-country-flag'
+import { useCart } from '../contexts/CartContext'
 
 const LANGUAGES = [
   { code: 'en', country: 'US', label: 'English' },
@@ -17,22 +18,8 @@ export default function Nav() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [langOpen, setLangOpen] = useState(false)
   const location = useLocation()
-  const navigate = useNavigate()
   const langRef = useRef<HTMLDivElement>(null)
-
-  // Read cart count from localStorage (set by ProductPage)
-  const [cartCount, setCartCount] = useState(() => {
-    try { return JSON.parse(localStorage.getItem('veritas_cart') || '[]').length } catch { return 0 }
-  })
-
-  useEffect(() => {
-    const sync = () => {
-      try { setCartCount(JSON.parse(localStorage.getItem('veritas_cart') || '[]').length) } catch { setCartCount(0) }
-    }
-    window.addEventListener('storage', sync)
-    window.addEventListener('veritas_cart_update', sync)
-    return () => { window.removeEventListener('storage', sync); window.removeEventListener('veritas_cart_update', sync) }
-  }, [])
+  const { count: cartCount, openCart } = useCart()
 
   const currentLang = LANGUAGES.find(l => i18n.language.startsWith(l.code)) ?? LANGUAGES[0]
 
@@ -157,7 +144,7 @@ export default function Nav() {
 
                 {/* Cart icon with badge */}
                 <button
-                  onClick={() => navigate('/collection')}
+                  onClick={openCart}
                   className="relative text-umber hover:text-charcoal transition-colors"
                   aria-label="Cart"
                 >
