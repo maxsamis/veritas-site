@@ -8,6 +8,14 @@ const GRADIENTS = {
   variantB: 'linear-gradient(160deg, #252018 0%, #33281a 40%, #3e2f1c 70%, #252018 100%)',
 }
 
+const PORTRAITS = [
+  'https://i.imgur.com/ThF68zp.jpeg',
+  'https://i.imgur.com/VqFWzKB.jpeg',
+  'https://i.imgur.com/TQIrBod.jpeg',
+]
+
+const HERO_COMPOSITE = 'https://i.imgur.com/M9qXc66.jpeg'
+
 const craftItems = [
   { key: 'craft_1', icon: '◈' },
   { key: 'craft_2', icon: '◇' },
@@ -23,23 +31,17 @@ export default function Home() {
 
       {/* ── Hero ─────────────────────────────────────────── */}
       <section
-        className="relative min-h-[92vh] lg:min-h-screen flex flex-col items-center justify-center text-center px-6"
-        style={{ background: GRADIENTS.primary }}
+        className="relative min-h-[92vh] lg:min-h-screen flex flex-col items-center justify-center text-center px-6 overflow-hidden"
       >
-        {/* Ambient glow */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background: 'radial-gradient(ellipse 60% 70% at 50% 40%, rgba(120,90,60,0.18) 0%, transparent 70%)',
-          }}
+        {/* Hero background — real room composite */}
+        <img
+          src={HERO_COMPOSITE}
+          alt="Sacred art in a luxury interior"
+          crossOrigin="anonymous"
+          className="absolute inset-0 w-full h-full object-cover"
         />
-
-        {/* Cross motif — ultra-subtle */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.04]">
-          <div className="relative w-px bg-parchment" style={{ height: '55%' }}>
-            <div className="absolute top-[28%] left-1/2 -translate-x-1/2 h-px bg-parchment w-20 lg:w-32" />
-          </div>
-        </div>
+        {/* Dark overlay for text legibility */}
+        <div className="absolute inset-0 bg-charcoal/55" />
 
         {/* Content */}
         <div className="relative z-10 flex flex-col items-center gap-8 lg:gap-10">
@@ -88,6 +90,7 @@ export default function Home() {
             gradient={GRADIENTS.primary}
             slug="the-good-shepherd"
             showExplore={false}
+            imageUrl={PORTRAITS[0]}
           />
           <ProductCard
             title="Christ the Redeemer"
@@ -96,6 +99,7 @@ export default function Home() {
             gradient={GRADIENTS.variantA}
             slug="christ-the-redeemer"
             showExplore={false}
+            imageUrl={PORTRAITS[1]}
           />
           <ProductCard
             title="Light of the World"
@@ -104,6 +108,7 @@ export default function Home() {
             gradient={GRADIENTS.variantB}
             slug="light-of-the-world"
             showExplore={false}
+            imageUrl={PORTRAITS[2]}
           />
         </div>
 
@@ -128,55 +133,53 @@ export default function Home() {
             {t('home.craft_title')}
           </h2>
         </div>
-
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
-          {craftItems.map(({ key, icon }) => (
-            <div key={key} className="text-center lg:text-left">
-              <div className="font-cormorant text-2xl text-umber mb-4">{icon}</div>
-              <h3 className="font-cormorant font-light text-xl lg:text-2xl text-charcoal mb-3">
-                {t(`home.${key}_title`)}
+          {craftItems.map((item) => (
+            <div key={item.key} className="text-center">
+              <div className="text-2xl text-umber mb-5">{item.icon}</div>
+              <h3 className="font-cormorant font-light text-xl text-charcoal mb-3">
+                {t(`home.${item.key}_title`)}
               </h3>
-              <p className="font-garamond text-sm leading-relaxed text-umber">
-                {t(`home.${key}_desc`)}
+              <p className="font-garamond text-sm text-umber leading-relaxed">
+                {t(`home.${item.key}_desc`)}
               </p>
             </div>
           ))}
         </div>
       </section>
 
+      {/* ── Divider ──────────────────────────────────────── */}
+      <div className="max-w-7xl mx-auto px-6 lg:px-10">
+        <div className="section-divider" />
+      </div>
+
       {/* ── Pull Quote ───────────────────────────────────── */}
-      <section
-        className="py-24 lg:py-36 px-6 text-center"
-        style={{ backgroundColor: '#2A2927' }}
-      >
-        <div className="max-w-3xl mx-auto">
-          <div className="font-cormorant text-parchment/30 text-7xl leading-none mb-2">&ldquo;</div>
-          <blockquote className="font-cormorant italic font-light text-3xl md:text-4xl lg:text-5xl text-parchment leading-snug">
-            {t('home.quote')}
-          </blockquote>
-          <div className="mt-8 h-px w-12 bg-parchment/20 mx-auto" />
-          <p className="wordmark text-xs text-parchment/30 mt-6 tracking-widest2">VERITAS</p>
+      <section className="bg-charcoal py-24 lg:py-36 px-6 text-center">
+        <blockquote className="max-w-3xl mx-auto font-cormorant italic font-light text-2xl md:text-3xl lg:text-4xl text-parchment leading-relaxed">
+          "{t('home.pull_quote')}"
+        </blockquote>
+      </section>
+
+      {/* ── Footer ───────────────────────────────────────── */}
+      <footer className="max-w-7xl mx-auto px-6 lg:px-10 py-16 border-t border-umber/20">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+          <div>
+            <p className="wordmark text-xs text-charcoal tracking-widest2 mb-2">VERITAS</p>
+            <p className="font-garamond text-xs text-umber">{t('footer.tagline')}</p>
+          </div>
+          <div className="flex gap-8 font-garamond text-xs tracking-widest uppercase text-umber">
+            <Link to="/collection" className="hover:text-charcoal transition-colors">{t('nav.collection')}</Link>
+            <Link to="/about" className="hover:text-charcoal transition-colors">{t('nav.about')}</Link>
+            <Link to="/faq" className="hover:text-charcoal transition-colors">{t('nav.faq')}</Link>
+            <Link to="/policies" className="hover:text-charcoal transition-colors">{t('nav.policies')}</Link>
+          </div>
         </div>
-      </section>
-
-      {/* ── Final CTA ────────────────────────────────────── */}
-      <section className="max-w-7xl mx-auto px-6 lg:px-10 py-20 lg:py-28 text-center">
-        <p className="font-garamond text-xs tracking-[0.25em] uppercase text-umber mb-5">
-          {t('collection.original')}
-        </p>
-        <h2 className="font-cormorant font-light text-3xl lg:text-5xl text-charcoal mb-5">
-          {t('home.cta_section_title')}
-        </h2>
-        <p className="font-garamond text-base text-umber mb-10 max-w-md mx-auto leading-relaxed">
-          {t('home.cta_section_desc')}
-        </p>
-        <Link to="/collection">
-          <button className="btn-charcoal tracking-widest">
-            {t('home.cta_section_btn')}
-          </button>
-        </Link>
-      </section>
-
+        <div className="mt-10 pt-6 border-t border-umber/10">
+          <p className="font-garamond text-[10px] text-umber/60 text-center">
+            © {new Date().getFullYear()} Veritas. {t('footer.rights')}
+          </p>
+        </div>
+      </footer>
     </div>
   )
 }
