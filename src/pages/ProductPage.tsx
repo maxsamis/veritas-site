@@ -152,7 +152,7 @@ export default function ProductPage() {
   const [selectedSize, setSelectedSize] = useState(0)
   const [selectedFrame, setSelectedFrame] = useState(1)
   const [selectedFormat, setSelectedFormat] = useState<'framed' | 'rolled'>('framed')
-  const [showARModal, setShowARModal] = useState(false)
+
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const [viewMode, setViewMode] = useState<'room' | 'print'>('room')
   const [justAdded, setJustAdded] = useState(false)
@@ -261,7 +261,7 @@ export default function ProductPage() {
     <div className="min-h-screen pb-20 md:pb-0">
 
 
-      <div className="flex flex-col lg:flex-row">
+      <div className="flex flex-col lg:flex-row gap-0 lg:gap-16">
 
         {/* ── Left: Image ──────────────────────────────── */}
         <div
@@ -357,7 +357,7 @@ export default function ProductPage() {
         </div>
 
         {/* ── Right: Details ───────────────────────────── */}
-        <div className="w-full lg:w-[45%] px-8 lg:px-14 py-12 lg:py-16 bg-alabaster">
+        <div className="w-full lg:flex-1 px-8 lg:px-14 pt-2 lg:pt-6 pb-12 lg:pb-16 bg-alabaster">
 
           {/* Wordmark */}
           <Link to="/collection">
@@ -367,17 +367,17 @@ export default function ProductPage() {
           </Link>
 
           {/* Title */}
-          <h1 className="font-cormorant italic font-light text-4xl lg:text-5xl text-charcoal mt-5 mb-3 leading-tight">
+          <h1 className="font-cormorant italic font-light text-4xl lg:text-5xl text-charcoal mt-5 leading-tight">
             {product.title}
           </h1>
 
           {/* Price — shown early, above size selector */}
-          <p className="font-cormorant font-light text-4xl lg:text-5xl text-charcoal mb-4">
+          <p className="font-cormorant font-light text-4xl lg:text-5xl text-charcoal mt-4 mb-4">
             ${price}
           </p>
 
           {/* Star rating bar */}
-          <div className="flex items-center gap-2 mt-3">
+          <div className="flex items-center gap-2 mt-4">
             <div className="flex gap-0.5">
               {[...Array(5)].map((_, i) => (
                 <svg key={i} className="w-3.5 h-3.5 fill-[#C4A55A] text-[#C4A55A]" viewBox="0 0 20 20">
@@ -389,27 +389,16 @@ export default function ProductPage() {
             <a href="/reviews" className="text-xs font-garamond text-[#8B7355] underline underline-offset-2 hover:text-[#2A2927]">See all</a>
           </div>
 
-          {/* Style + Edition */}
-          <p className="font-garamond text-xs tracking-[0.18em] uppercase text-umber mb-1">
+          {/* Style */}
+          <p className="font-garamond text-xs tracking-[0.18em] uppercase text-umber mt-6 mb-1">
             {product.style}
           </p>
-          <p className="font-garamond text-xs tracking-[0.12em] uppercase text-umber/60 mb-2">
-            {product.edition}
-          </p>
-
-          {/* Edition + scarcity badge */}
-          <div className="flex items-center gap-3 mt-2 mb-3">
-            <span className="font-garamond text-xs text-[#4A4A3A] tracking-wide">Limited edition of 250</span>
-            <span style={{ backgroundColor: '#EDD9A3', color: '#5C3D00', fontSize: '10px', padding: '2px 10px', borderRadius: '20px', fontFamily: 'Cormorant Garamond, serif', letterSpacing: '0.08em', fontWeight: 600 }}>
-              Only a few remaining
-            </span>
-          </div>
 
           {/* Divider */}
-          <div className="section-divider mb-8 mt-6" />
+          <div className="section-divider mt-8 mb-8" />
 
           {/* Size selector */}
-          <div className="mb-7">
+          <div className="mb-8">
             <p className="font-garamond text-xs tracking-widest uppercase text-umber mb-3">
               {t('product.size_label')}
             </p>
@@ -491,7 +480,7 @@ export default function ProductPage() {
           </div>
 
           {/* Frame selector */}
-          <div className="mb-7">
+          <div className="mb-8">
             <p className="font-garamond text-xs tracking-widest uppercase text-umber mb-3">
               {t('product.frame_label')} — <span className="normal-case">{FRAMES[selectedFrame].label}</span>
             </p>
@@ -537,12 +526,12 @@ export default function ProductPage() {
           {/* Price (also shown in cart below, this spacer removed) */}
 
           {/* Inline review snippets */}
-          <div className="border-t border-[#E8E2D9] mt-5 pt-4 space-y-3">
+          <div className="border-t border-[#E8E2D9] mt-8 mb-8">
             {[
               { name: 'Sarah M.', location: 'Chicago, IL', text: 'Arrived perfectly packaged. The paper quality is extraordinary — this is museum-grade work at a fraction of the gallery price.' },
               { name: 'James R.', location: 'Dallas, TX', text: 'I have purchased from several fine art print companies. This is the best quality I have received. The colors are extraordinary.' },
             ].map((r, i) => (
-              <div key={i} className="pb-3 border-b border-[#E8E2D9] last:border-0">
+              <div key={i} className="pt-6 pb-6 border-b border-[#E8E2D9] last:border-0">
                 <div className="flex items-center gap-0.5 mb-1">
                   {[...Array(5)].map((_, j) => (
                     <svg key={j} className="w-3 h-3 fill-[#C4A55A]" viewBox="0 0 20 20">
@@ -557,23 +546,12 @@ export default function ProductPage() {
           </div>
 
           {/* Add to Cart */}
-          <button onClick={handleAddToCart} className="btn-charcoal w-full mb-4 text-center">
+          <button onClick={handleAddToCart} className="btn-charcoal w-full mb-4 text-center mt-8 py-5">
             {justAdded ? 'Added to Cart \u2713' : t('product.add_to_collection')}
-          </button>
-          {/* View in Your Room */}
-          <button
-            onClick={() => setShowARModal(true)}
-            className="w-full py-3.5 border border-[#2A2927] text-[#2A2927] font-garamond text-sm tracking-widest uppercase hover:bg-[#2A2927] hover:text-parchment transition-colors duration-200 flex items-center justify-center gap-2 mb-4"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z" />
-              <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z" />
-            </svg>
-            View in Your Room
           </button>
 
           {/* Trust signals */}
-          <p className="font-garamond text-xs text-[#A1A1AA] text-center tracking-wide mt-5 mb-2">
+          <p className="font-garamond text-xs text-[#A1A1AA] text-center tracking-wide mt-6 mb-6">
             200-year archival · Museum UV glazing · Lifetime guarantee · Ships from Austin, TX
           </p>
 
@@ -581,11 +559,11 @@ export default function ProductPage() {
           <div className="section-divider my-8" />
 
           {/* Accordion: Description / Materials / Shipping */}
-          <div>
+          <div className="mt-10">
             {/* Description */}
             <div className="border-t border-umber/20">
               <button
-                className="w-full flex items-center justify-between py-4"
+                className="w-full flex items-center justify-between py-5"
                 onClick={() => setOpenSection(openSection === 'description' ? null : 'description')}
               >
                 <span style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '15px', color: '#2C2C2C', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
@@ -605,7 +583,7 @@ export default function ProductPage() {
             {/* Materials & Dimensions */}
             <div className="border-t border-umber/20">
               <button
-                className="w-full flex items-center justify-between py-4"
+                className="w-full flex items-center justify-between py-5"
                 onClick={() => setOpenSection(openSection === 'materials' ? null : 'materials')}
               >
                 <span style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '15px', color: '#2C2C2C', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
@@ -625,7 +603,7 @@ export default function ProductPage() {
             {/* Shipping & Returns */}
             <div className="border-t border-umber/20">
               <button
-                className="w-full flex items-center justify-between py-4"
+                className="w-full flex items-center justify-between py-5"
                 onClick={() => setOpenSection(openSection === 'shipping' ? null : 'shipping')}
               >
                 <span style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '15px', color: '#2C2C2C', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
@@ -645,7 +623,7 @@ export default function ProductPage() {
             {/* Provenance & Medium */}
             <div className="border-t border-umber/20">
               <button
-                className="w-full flex items-center justify-between py-4"
+                className="w-full flex items-center justify-between py-5"
                 onClick={() => setOpenSection(openSection === 'provenance' ? null : 'provenance')}
               >
                 <span style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '15px', color: '#2C2C2C', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
@@ -819,62 +797,7 @@ export default function ProductPage() {
         </div>
       )}
 
-      {/* AR Modal */}
-      {showARModal && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center px-4"
-          style={{ backgroundColor: 'rgba(0,0,0,0.6)' }}
-          onClick={(e) => { if (e.target === e.currentTarget) setShowARModal(false) }}
-        >
-          <div className="relative w-full max-w-md bg-alabaster rounded-[14px] p-8 shadow-2xl">
-            {/* Close button */}
-            <button
-              onClick={() => setShowARModal(false)}
-              className="absolute top-4 right-4 text-umber hover:text-charcoal transition-colors text-xl leading-none"
-              aria-label="Close"
-            >
-              ×
-            </button>
 
-            {/* Title */}
-            <h2 className="font-cormorant italic font-light text-3xl text-charcoal mb-3">
-              View in Your Room
-            </h2>
-
-            {/* Body */}
-            <p className="font-garamond text-base leading-relaxed text-umber mb-8">
-              Point your camera at the wall where you'd like to hang this piece.
-              The print will appear at true scale.
-            </p>
-
-            {/* Buttons */}
-            <div className="flex flex-col gap-3 mb-6">
-              <a
-                href="https://developer.apple.com/augmented-reality/quick-look/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full py-3.5 bg-charcoal text-parchment font-garamond text-sm tracking-widest uppercase text-center hover:bg-umber transition-colors duration-200"
-              >
-                Open on iPhone / iPad
-              </a>
-              <a
-                href="https://developers.google.com/ar/develop/scene-viewer"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full py-3.5 border border-charcoal text-charcoal font-garamond text-sm tracking-widest uppercase text-center hover:bg-charcoal hover:text-parchment transition-colors duration-200"
-              >
-                Open on Android
-              </a>
-            </div>
-
-            {/* Fine print */}
-            <p className="font-garamond text-xs text-[#A1A1AA] text-center leading-relaxed">
-              AR feature available on iOS Safari and Android Chrome. Requires a
-              modern device.
-            </p>
-          </div>
-        </div>
-      )}
     </div>
   )
 }
