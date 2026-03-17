@@ -45,7 +45,7 @@ export default function WelcomeModal() {
     >
       <div
         className="relative flex w-full overflow-hidden"
-        style={{ maxWidth: '760px', backgroundColor: '#EFECE5', border: '1px solid #C4BDB3' }}
+        style={{ maxWidth: '760px', backgroundColor: '#EFECE5' }}
       >
         {/* Close */}
         <button
@@ -68,11 +68,7 @@ export default function WelcomeModal() {
             alt="Sacred portrait"
             className="absolute inset-0 w-full h-full object-cover"
           />
-          {/* Subtle dark gradient on right edge for blending */}
-          <div
-            className="absolute inset-y-0 right-0 w-16"
-            style={{ background: 'linear-gradient(to right, transparent, #EFECE5)' }}
-          />
+
         </div>
 
         {/* Right: Form */}
