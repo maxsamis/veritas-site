@@ -31,9 +31,9 @@ interface Review {
 }
 
 const IMGUR_PHOTOS = [
-  'https://i.imgur.com/M9qXc66.jpeg',
-  'https://i.imgur.com/AMY6HtW.jpeg',
-  'https://i.imgur.com/RUxl9uQ.jpeg',
+  'https://i.imgur.com/ThF68zp.jpeg',
+  'https://i.imgur.com/VqFWzKB.jpeg',
+  'https://i.imgur.com/TQIrBod.jpeg',
 ]
 
 const reviews: Review[] = [
@@ -1011,30 +1011,32 @@ export default function Reviews() {
   return (
     <div className="min-h-screen bg-parchment">
       {/* Hero */}
-      <div className="bg-parchment py-20 px-6 text-center">
-        <h1 className="font-cormorant italic font-light text-5xl lg:text-6xl text-charcoal leading-tight">
-          What Our Customers Are Saying
-        </h1>
-      </div>
-
-      {/* Rating summary */}
-      <div className="flex flex-col items-center gap-3 pb-10 px-6">
-        <div className="flex gap-1">
-          {[1, 2, 3, 4, 5].map((i) => (
-            <svg
-              key={i}
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="#C9A84C"
-              className="w-6 h-6"
-            >
-              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-            </svg>
-          ))}
-        </div>
-        <p className="font-garamond text-lg text-charcoal">
-          4.98 out of 5 · 247 reviews
+      <div className="bg-parchment pt-16 pb-12 px-6 text-center">
+        <p className="font-garamond text-xs tracking-[0.25em] uppercase text-umber mb-5">
+          Customer Reviews
         </p>
+        <h1 className="font-cormorant italic font-light text-5xl lg:text-6xl text-charcoal leading-tight mb-8">
+          The work speaks for itself.
+        </h1>
+        {/* Rating summary */}
+        <div className="flex flex-col items-center gap-2">
+          <div className="flex gap-1">
+            {[1, 2, 3, 4, 5].map((i) => (
+              <svg
+                key={i}
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="#C9A84C"
+                className="w-6 h-6"
+              >
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+              </svg>
+            ))}
+          </div>
+          <p className="font-garamond text-base text-charcoal">
+            4.98 out of 5 · 247 verified reviews
+          </p>
+        </div>
       </div>
 
       {/* Filter pills */}
@@ -1105,13 +1107,19 @@ export default function Reviews() {
 
               {/* Optional photo */}
               {review.photo && (
-                <div className="mt-4 rounded-[8px] overflow-hidden">
-                  <img
-                    src={review.photo}
-                    alt="Customer photo"
-                    className="w-full h-40 object-cover"
-                    crossOrigin="anonymous"
-                  />
+                <div className="mt-4 flex gap-2">
+                  <div className="w-20 h-24 rounded-[4px] overflow-hidden flex-shrink-0">
+                    <img
+                      src={review.photo}
+                      alt="Portrait referenced in review"
+                      className="w-full h-full object-cover object-top"
+                      crossOrigin="anonymous"
+                      loading="lazy"
+                    />
+                  </div>
+                  <p className="font-garamond text-xs text-umber/60 italic leading-relaxed self-end pb-1">
+                    {review.product}
+                  </p>
                 </div>
               )}
             </div>

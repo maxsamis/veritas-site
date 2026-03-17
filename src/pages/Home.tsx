@@ -47,15 +47,21 @@ export default function Home() {
 
         {/* Content */}
         <div className="relative z-10 flex flex-col items-center gap-8 lg:gap-10">
-          <span className="wordmark text-xs lg:text-sm text-parchment/60 tracking-widest2">
-            VERITAS
-          </span>
+          <div className="flex flex-col items-center gap-3">
+            <div className="h-px w-8 bg-parchment/40" />
+            <span className="wordmark text-[10px] lg:text-xs text-parchment/50 tracking-[0.35em]">
+              VERITAS
+            </span>
+            <div className="h-px w-8 bg-parchment/40" />
+          </div>
 
           <h1 className="font-cormorant italic font-light text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-parchment leading-tight max-w-3xl">
             {t('home.hero_headline')}
           </h1>
 
-          <div className="h-px w-12 bg-parchment/30" />
+          <p className="font-garamond text-sm lg:text-base text-parchment/60 max-w-sm text-center leading-relaxed">
+            Original compositions. Limited editions. Ready to hang.
+          </p>
 
           <Link to="/collection">
             <button className="btn-outline-parchment tracking-widest">
@@ -153,16 +159,24 @@ export default function Home() {
 
       {/* ── Pull Quote ───────────────────────────────────── */}
       <section
-        className="py-24 lg:py-36 px-6 text-center"
+        className="py-28 lg:py-44 px-6 text-center relative overflow-hidden"
         style={{ backgroundColor: '#2A2927' }}
       >
-        <div className="max-w-3xl mx-auto">
-          <div className="font-cormorant text-parchment/30 text-7xl leading-none mb-2">&ldquo;</div>
-          <blockquote className="font-cormorant italic font-light text-3xl md:text-4xl lg:text-5xl text-parchment leading-snug">
+        {/* Ambient glow */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: 'radial-gradient(ellipse 50% 60% at 50% 50%, rgba(120,90,60,0.12) 0%, transparent 70%)',
+          }}
+        />
+        <div className="max-w-3xl mx-auto relative z-10">
+          <div className="h-px w-10 bg-parchment/20 mx-auto mb-10" />
+          <div className="font-cormorant text-parchment/20 text-8xl leading-none mb-4 select-none">&ldquo;</div>
+          <blockquote className="font-cormorant italic font-light text-3xl md:text-4xl lg:text-5xl text-parchment leading-snug tracking-tight">
             {t('home.quote')}
           </blockquote>
-          <div className="mt-8 h-px w-12 bg-parchment/20 mx-auto" />
-          <p className="wordmark text-xs text-parchment/30 mt-6 tracking-widest2">VERITAS</p>
+          <div className="mt-10 h-px w-10 bg-parchment/20 mx-auto" />
+          <p className="wordmark text-[10px] text-parchment/25 mt-7 tracking-[0.35em]">VERITAS</p>
         </div>
       </section>
 

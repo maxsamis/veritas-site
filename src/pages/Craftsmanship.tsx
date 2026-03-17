@@ -6,36 +6,30 @@ const sections = [
     title: '300 GSM Fine Art Paper',
     subtitle: 'The Paper',
     body: 'We print exclusively on Hahnemühle Photo Rag 308, a 100% cotton rag paper with a smooth matte surface that eliminates glare and gives each piece the presence of an original painting. No optical brighteners. No shortcuts.',
+    image: 'https://i.imgur.com/ThF68zp.jpeg',
   },
   {
     number: '02',
     title: '12-Color Archival Pigment Inks',
     subtitle: 'The Inks',
     body: 'Our Epson SC-P9000 printers use UltraChrome HDX pigment inks rated for 200+ years of light-fastness. Blacks are deep and dimensionally rich. Colors are faithful to the original composition. Every print is inspected under museum-grade lighting before framing.',
+    image: 'https://i.imgur.com/VqFWzKB.jpeg',
   },
   {
     number: '03',
     title: 'Hand-Assembled in the United States',
     subtitle: 'The Frame',
     body: 'Each frame is built from solid wood moulding, hand-assembled by our team in Austin, Texas. We use museum-quality UV-protective glazing and acid-free backing board. The result is a piece that will outlast the wall it hangs on.',
+    image: 'https://i.imgur.com/TQIrBod.jpeg',
   },
   {
     number: '04',
     title: 'White-Glove Delivery',
     subtitle: 'The Packaging',
     body: "Every order ships double-boxed with custom foam inserts designed for each frame size. Fragile corners are individually protected. We've never had a piece arrive damaged — and we intend to keep it that way.",
+    image: 'https://i.imgur.com/ThF68zp.jpeg',
   },
 ]
-
-const GradientPlaceholder = () => (
-  <div
-    className="w-full h-full min-h-[320px] rounded-[8px]"
-    style={{
-      background:
-        'linear-gradient(135deg, #1a1916 0%, #2A2927 30%, #3d3830 60%, #1a1916 100%)',
-    }}
-  />
-)
 
 export default function Craftsmanship() {
   return (
@@ -95,9 +89,17 @@ export default function Craftsmanship() {
                 </p>
               </div>
 
-              {/* Image placeholder */}
+              {/* Portrait image */}
               <div className="flex-1 w-full">
-                <GradientPlaceholder />
+                <div className="w-full relative overflow-hidden" style={{ paddingBottom: '133%' }}>
+                  <img
+                    src={section.image}
+                    alt={section.title}
+                    crossOrigin="anonymous"
+                    className="absolute inset-0 w-full h-full object-cover"
+                    loading="lazy"
+                  />
+                </div>
               </div>
             </div>
           )

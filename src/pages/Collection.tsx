@@ -15,6 +15,7 @@ const PRODUCTS = [
     gradient: GRADIENTS.primary,
     slug: 'the-good-shepherd',
     imageUrl: 'https://i.imgur.com/ThF68zp.jpeg',
+    badge: null,
   },
   {
     title: 'Christ the Redeemer',
@@ -23,6 +24,7 @@ const PRODUCTS = [
     gradient: GRADIENTS.variantA,
     slug: 'christ-the-redeemer',
     imageUrl: 'https://i.imgur.com/VqFWzKB.jpeg',
+    badge: null,
   },
   {
     title: 'Light of the World',
@@ -31,6 +33,7 @@ const PRODUCTS = [
     gradient: GRADIENTS.variantB,
     slug: 'light-of-the-world',
     imageUrl: 'https://i.imgur.com/TQIrBod.jpeg',
+    badge: 'Few Remaining',
   },
   {
     title: 'Prince of Peace',
@@ -39,6 +42,7 @@ const PRODUCTS = [
     gradient: GRADIENTS.primary,
     slug: 'prince-of-peace',
     imageUrl: 'https://i.imgur.com/ThF68zp.jpeg',
+    badge: null,
   },
   {
     title: 'The Sacred Heart',
@@ -47,6 +51,7 @@ const PRODUCTS = [
     gradient: GRADIENTS.variantA,
     slug: 'the-sacred-heart',
     imageUrl: 'https://i.imgur.com/VqFWzKB.jpeg',
+    badge: 'Limited Edition',
   },
   {
     title: 'Emmanuel',
@@ -55,6 +60,7 @@ const PRODUCTS = [
     gradient: GRADIENTS.variantB,
     slug: 'emmanuel',
     imageUrl: 'https://i.imgur.com/TQIrBod.jpeg',
+    badge: null,
   },
 ]
 
@@ -77,7 +83,23 @@ export default function Collection() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-14">
         {PRODUCTS.map((product) => (
-          <ProductCard key={product.slug} {...product} />
+          <div key={product.slug} className="relative">
+            {product.badge && (
+              <div className="absolute top-4 left-4 z-10">
+                <span className="font-garamond text-[10px] tracking-[0.18em] uppercase bg-charcoal text-parchment px-3 py-1">
+                  {product.badge}
+                </span>
+              </div>
+            )}
+            <ProductCard
+              title={product.title}
+              style={product.style}
+              price={product.price}
+              gradient={product.gradient}
+              slug={product.slug}
+              image={product.imageUrl}
+            />
+          </div>
         ))}
       </div>
     </div>

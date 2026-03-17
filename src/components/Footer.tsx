@@ -31,6 +31,12 @@ export default function Footer() {
               <Link to="/collection" className="font-garamond text-sm text-parchment/70 hover:text-parchment transition-colors">
                 {t('footer.collection')}
               </Link>
+              <Link to="/craftsmanship" className="font-garamond text-sm text-parchment/70 hover:text-parchment transition-colors">
+                Craftsmanship
+              </Link>
+              <Link to="/reviews" className="font-garamond text-sm text-parchment/70 hover:text-parchment transition-colors">
+                Reviews
+              </Link>
               <Link to="/policies" className="font-garamond text-sm text-parchment/70 hover:text-parchment transition-colors">
                 {t('footer.policies')}
               </Link>

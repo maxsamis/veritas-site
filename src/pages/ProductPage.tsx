@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 
 const SIZES = [
   { key: 'size_sm', price: 145 },
@@ -16,8 +16,87 @@ const FRAMES = [
   { key: 'frame_natural', color: '#c4a55a' },
 ]
 
+interface ProductData {
+  title: string
+  style: string
+  edition: string
+  image: string
+  description: string
+  basePrice: number
+}
+
+const PRODUCTS: Record<string, ProductData> = {
+  'the-good-shepherd': {
+    title: 'The Good Shepherd',
+    style: 'Classical Oil · Limited Edition',
+    edition: 'Edition of 500 · Certificate of authenticity included',
+    image: 'https://i.imgur.com/ThF68zp.jpeg',
+    description:
+      'A rendering of profound stillness — the shepherd who leaves the ninety-nine. This composition draws from the Flemish tradition, rendered in the warm ochres and umbers of old master painting. Printed on 300 GSM archival fine art paper and hand-assembled into your chosen frame in the United States.',
+    basePrice: 145,
+  },
+  'christ-the-redeemer': {
+    title: 'Christ the Redeemer',
+    style: 'Renaissance · Limited Edition',
+    edition: 'Edition of 500 · Certificate of authenticity included',
+    image: 'https://i.imgur.com/VqFWzKB.jpeg',
+    description:
+      'Chiaroscuro at its most reverent — light and shadow drawn from the Flemish masters, the figure emerging from darkness as if called forth by grace itself. Deep blacks, warm golds, and an expression that rewards every hour spent in its presence. Printed on 300 GSM archival cotton rag, assembled by hand in Austin, Texas.',
+    basePrice: 165,
+  },
+  'light-of-the-world': {
+    title: 'Light of the World',
+    style: 'Contemporary Sacred · Limited Edition',
+    edition: 'Edition of 300 · Certificate of authenticity included',
+    image: 'https://i.imgur.com/TQIrBod.jpeg',
+    description:
+      'A contemporary sacred composition that speaks the language of today without surrendering the reverence of centuries. Luminous and still, this piece occupies the rare space between tradition and the modern interior. Printed on 300 GSM archival fine art paper, hand-assembled in the United States.',
+    basePrice: 175,
+  },
+  'prince-of-peace': {
+    title: 'Prince of Peace',
+    style: 'Minimalist · Limited Edition',
+    edition: 'Edition of 500 · Certificate of authenticity included',
+    image: 'https://i.imgur.com/ThF68zp.jpeg',
+    description:
+      'Restraint as devotion. This composition strips the sacred portrait to its essential gesture — a gaze of absolute peace rendered with economy and grace. For homes that understand that less, when it is the right less, says everything. Printed on 300 GSM archival fine art paper, hand-assembled in the United States.',
+    basePrice: 145,
+  },
+  'the-sacred-heart': {
+    title: 'The Sacred Heart',
+    style: 'Baroque · Limited Edition',
+    edition: 'Edition of 250 · Certificate of authenticity included',
+    image: 'https://i.imgur.com/VqFWzKB.jpeg',
+    description:
+      'The oldest symbol of love made radiant again. This Baroque composition honors the iconographic tradition with depth and formal rigor — each element considered, nothing accidental. A piece that rewards years of living with it. Printed on 300 GSM archival cotton rag, assembled by hand in Austin, Texas.',
+    basePrice: 185,
+  },
+  emmanuel: {
+    title: 'Emmanuel',
+    style: 'Icon Tradition · Limited Edition',
+    edition: 'Edition of 300 · Certificate of authenticity included',
+    image: 'https://i.imgur.com/TQIrBod.jpeg',
+    description:
+      'God with us. This composition draws from the Byzantine icon tradition — the gold ground, the frontal gaze, the timeless stillness that has sustained communities across two millennia. Nothing is decorative here. Every choice is theological. Printed on 300 GSM archival fine art paper, hand-assembled in the United States.',
+    basePrice: 155,
+  },
+}
+
+const FALLBACK: ProductData = {
+  title: 'Original Composition',
+  style: 'Classical Oil · Limited Edition',
+  edition: 'Edition of 500 · Certificate of authenticity included',
+  image: 'https://i.imgur.com/ThF68zp.jpeg',
+  description:
+    'A rendering of profound stillness. Printed on 300 GSM archival fine art paper and hand-assembled into your chosen frame in the United States.',
+  basePrice: 145,
+}
+
 export default function ProductPage() {
   const { t } = useTranslation()
+  const { slug } = useParams<{ slug: string }>()
+  const product = (slug && PRODUCTS[slug]) ? PRODUCTS[slug] : FALLBACK
+
   const [selectedSize, setSelectedSize] = useState(0)
   const [selectedFrame, setSelectedFrame] = useState(0)
   const [selectedFormat, setSelectedFormat] = useState<'framed' | 'rolled'>('framed')
@@ -33,7 +112,7 @@ export default function ProductPage() {
     }
   }, [])
 
-  const price = SIZES[selectedSize].price + (selectedFormat === 'rolled' ? -30 : 0)
+  const price = product.basePrice + (selectedSize * 50) + (selectedFormat === 'rolled' ? -30 : 0)
 
   return (
     <div className="min-h-screen">
@@ -44,8 +123,8 @@ export default function ProductPage() {
           className="w-full lg:w-[55%] lg:sticky lg:top-20 lg:h-[calc(100vh-5rem)] relative overflow-hidden"
         >
           <img
-            src="https://i.imgur.com/ThF68zp.jpeg"
-            alt="The Good Shepherd — Classical Oil Portrait"
+            src={product.image}
+            alt={product.title}
             crossOrigin="anonymous"
             className="absolute inset-0 w-full h-full object-cover"
           />
@@ -56,6 +135,19 @@ export default function ProductPage() {
         {/* ── Right: Details ───────────────────────────── */}
         <div className="w-full lg:w-[45%] px-8 lg:px-14 py-12 lg:py-16 bg-alabaster">
 
+          {/* Breadcrumb */}
+          <div className="flex items-center gap-2 mb-6">
+            <Link to="/collection">
+              <span className="font-garamond text-xs tracking-widest uppercase text-umber/70 hover:text-charcoal transition-colors">
+                Collection
+              </span>
+            </Link>
+            <span className="font-garamond text-xs text-umber/40">·</span>
+            <span className="font-garamond text-xs tracking-widest uppercase text-charcoal">
+              {product.title}
+            </span>
+          </div>
+
           {/* Wordmark */}
           <Link to="/collection">
             <span className="wordmark text-xs text-umber tracking-widest2 hover:text-charcoal transition-colors">
@@ -65,15 +157,15 @@ export default function ProductPage() {
 
           {/* Title */}
           <h1 className="font-cormorant italic font-light text-4xl lg:text-5xl text-charcoal mt-5 mb-2 leading-tight">
-            The Good Shepherd
+            {product.title}
           </h1>
 
           {/* Style + Edition */}
           <p className="font-garamond text-xs tracking-[0.18em] uppercase text-umber mb-1">
-            {t('product.style')}
+            {product.style}
           </p>
           <p className="font-garamond text-xs tracking-[0.12em] uppercase text-umber/60 mb-8">
-            {t('product.edition_note')}
+            {product.edition}
           </p>
 
           {/* Divider */}
@@ -169,6 +261,43 @@ export default function ProductPage() {
             View in Your Room
           </button>
 
+          {/* Trust signals */}
+          <div className="grid grid-cols-2 gap-3 mb-6">
+            <div className="flex items-start gap-2">
+              <div className="mt-0.5 flex-shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="#7A7365" className="w-4 h-4">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
+                </svg>
+              </div>
+              <p className="font-garamond text-xs text-umber/80 leading-snug">Lifetime warranty on frame &amp; print</p>
+            </div>
+            <div className="flex items-start gap-2">
+              <div className="mt-0.5 flex-shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="#7A7365" className="w-4 h-4">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />
+                </svg>
+              </div>
+              <p className="font-garamond text-xs text-umber/80 leading-snug">Ships double-boxed, fully assembled</p>
+            </div>
+            <div className="flex items-start gap-2">
+              <div className="mt-0.5 flex-shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="#7A7365" className="w-4 h-4">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+                </svg>
+              </div>
+              <p className="font-garamond text-xs text-umber/80 leading-snug">Certificate of authenticity included</p>
+            </div>
+            <div className="flex items-start gap-2">
+              <div className="mt-0.5 flex-shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="#7A7365" className="w-4 h-4">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 6h.008v.008H6V6Z" />
+                </svg>
+              </div>
+              <p className="font-garamond text-xs text-umber/80 leading-snug">Solid wood frame, made in the US</p>
+            </div>
+          </div>
+
           {/* Shipping note */}
           <p className="font-garamond text-xs text-umber/60 text-center tracking-wide">
             {t('product.ships_from')}
@@ -179,8 +308,18 @@ export default function ProductPage() {
 
           {/* Description */}
           <p className="font-garamond text-base leading-relaxed text-umber">
-            {t('product.description')}
+            {product.description}
           </p>
+
+          {/* Back link */}
+          <div className="mt-10">
+            <Link
+              to="/collection"
+              className="font-garamond text-xs tracking-widest uppercase text-umber/70 hover:text-charcoal transition-colors border-b border-umber/30 hover:border-charcoal pb-px"
+            >
+              ← Back to Collection
+            </Link>
+          </div>
 
         </div>
       </div>
