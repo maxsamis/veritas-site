@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { useTranslation } from 'react-i18next'
 import { Link, useParams } from 'react-router-dom'
 import { useCart } from '../contexts/CartContext'
 
@@ -10,8 +9,6 @@ const SIZES = [
   { key: 'size_lg', label: '24"\u00d736"', price: 245 },
 ]
 
-const FRAME_ADDONS = [50, 70, 110, 150]
-
 const SHOPIFY_VARIANTS: Record<string, string[]> = {
   'the-good-shepherd':    ['53318331171153','53318331203921','53318331236689','53318331269457'],
   'prince-of-peace':     ['53318331367761','53318331400529','53318331433297','53318331466065'],
@@ -20,14 +17,6 @@ const SHOPIFY_VARIANTS: Record<string, string[]> = {
   'light-of-the-world':  ['53318331957585','53318331990353','53318332023121','53318332055889'],
   'emmanuel':            ['53318332154193','53318332186961','53318332219729','53318332252497'],
 }
-
-const FRAMES = [
-  { key: 'frame_black',   color: '#1a1a1a', imageKey: 'black',        label: 'Matte Black' },
-  { key: 'frame_walnut',  color: '#5c3d1e', imageKey: 'walnut',       label: 'Walnut Brown' },
-  { key: 'frame_white',   color: '#f0ece2', imageKey: 'ivory',        label: 'Ivory White',  border: '#d4cfc4' },
-  { key: 'frame_gold',    color: '#b89040', imageKey: 'gold',         label: 'Burnished Gold' },
-  { key: 'frame_natural', color: '#c4a55a', imageKey: 'antique_gold', label: 'Antique Gold' },
-]
 
 const FRAME_IMAGES: Record<string, Record<string, string>> = {
   flemish: {
@@ -59,9 +48,15 @@ const PRINT_COMPOSITES: Record<string, string> = {
   contemporary: 'https://i.imgur.com/3IqEEby.jpeg',
 }
 
+const ROOM_IMAGES: Record<string, string> = {
+  flemish:      'https://i.imgur.com/whtAlx1.jpeg',
+  renaissance:  'https://i.imgur.com/zQCIOqy.jpeg',
+  contemporary: 'https://i.imgur.com/WGRNmXf.jpeg',
+}
+
 const PORTRAIT_IMAGES: Record<string, string> = {
-  flemish:      'https://i.imgur.com/ThF68zp.jpeg',
-  renaissance:  'https://i.imgur.com/VqFWzKB.jpeg',
+  flemish:      'https://i.imgur.com/VqFWzKB.jpeg',
+  renaissance:  'https://i.imgur.com/ThF68zp.jpeg',
   contemporary: 'https://i.imgur.com/TQIrBod.jpeg',
 }
 
@@ -150,50 +145,36 @@ const FALLBACK: ProductData = {
   basePrice: 95,
 }
 
+// Keep FRAME_IMAGES, ROOM_IMAGES, PORTRAIT_IMAGES, SLUG_TO_PORTRAIT referenced above
+void FRAME_IMAGES
+
 export default function ProductPage() {
-  const { t } = useTranslation()
   const { slug } = useParams<{ slug: string }>()
   const { addItem, openCart } = useCart()
   const product = (slug && PRODUCTS[slug]) ? PRODUCTS[slug] : FALLBACK
 
   const [selectedSize, setSelectedSize] = useState(0)
-  const [selectedFrame, setSelectedFrame] = useState(1)
-  const [selectedFormat, setSelectedFormat] = useState<'framed' | 'rolled'>('rolled')
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0)
   const [lightboxOpen, setLightboxOpen] = useState(false)
-  // 0 = print composite, 1 = frame/room composite, 2 = raw portrait
-  const [selectedImageIdx, setSelectedImageIdx] = useState(0)
   const [justAdded, setJustAdded] = useState(false)
-  const [openSection, setOpenSection] = useState<string | null>('description')
+  const [openSection, setOpenSection] = useState<string | null>(null)
 
   const portraitKey = (slug && SLUG_TO_PORTRAIT[slug]) ?? null
-  const selectedFrameKey = FRAMES[selectedFrame].imageKey
 
   const printComposite = portraitKey ? (PRINT_COMPOSITES[portraitKey] ?? product.image) : product.image
-  const frameComposite = portraitKey ? (FRAME_IMAGES[portraitKey]?.[selectedFrameKey] ?? product.image) : product.image
+  const roomComposite  = portraitKey ? (ROOM_IMAGES[portraitKey] ?? product.image) : product.image
   const rawPortrait    = portraitKey ? (PORTRAIT_IMAGES[portraitKey] ?? product.image) : product.image
 
-  const imageList = [printComposite, frameComposite, rawPortrait]
-  const displayImage = imageList[selectedImageIdx] ?? printComposite
-
-  const similarProducts = Object.entries(PRODUCTS)
-    .filter(([key]) => key !== slug)
-    .slice(0, 2)
-
-  const price = selectedFormat === 'framed'
-    ? SIZES[selectedSize].price + FRAME_ADDONS[selectedSize]
-    : SIZES[selectedSize].price
+  const displayImages = [printComposite, roomComposite, rawPortrait]
+  const displayImage = displayImages[selectedImageIndex] ?? printComposite
 
   useEffect(() => { window.scrollTo(0, 0) }, [slug])
-
-  // Reset to print composite when slug changes
-  useEffect(() => { setSelectedImageIdx(0) }, [slug])
+  useEffect(() => { setSelectedImageIndex(0) }, [slug])
 
   const handleAddToCart = () => {
-    const isFramed = selectedFormat === 'framed'
-    const frameAddon = isFramed ? FRAME_ADDONS[selectedSize] : 0
     const variantId = slug && SHOPIFY_VARIANTS[slug] ? String(SHOPIFY_VARIANTS[slug][selectedSize]) : null
     addItem({
-      id: (slug ?? 'fallback') + '_' + selectedSize + '_' + selectedFormat,
+      id: (slug ?? 'fallback') + '_' + selectedSize + '_unframed',
       slug: slug ?? 'fallback',
       title: product.title,
       sizeKey: selectedSize,
@@ -201,293 +182,170 @@ export default function ProductPage() {
       price: SIZES[selectedSize].price,
       image: product.image,
       variantId,
-      isFramed,
-      frameKey: isFramed ? FRAMES[selectedFrame].key : null,
-      frameLabel: isFramed ? FRAMES[selectedFrame].label : null,
-      frameAddon,
+      isFramed: false,
+      frameKey: null,
+      frameLabel: null,
+      frameAddon: 0,
     })
     openCart()
     setJustAdded(true)
     setTimeout(() => setJustAdded(false), 1500)
   }
 
+  const accordions = [
+    {
+      key: 'about',
+      num: '01',
+      label: 'About This Work',
+      content: product.description,
+    },
+    {
+      key: 'edition',
+      num: '02',
+      label: 'Edition Details',
+      content: 'Printed on 310 GSM Hahnem\u00fchle Photo Rag fine art paper. Museum-grade archival inks rated 200+ years. Solid wood frame, hand-assembled in Austin, TX. Museum UV-protective glazing. Available in 8\u00d712", 12\u00d718", 18\u00d727", and 24\u00d736" (all 2:3 ratio). Ships fully assembled in custom double-wall packaging.',
+    },
+    {
+      key: 'shipping',
+      num: '03',
+      label: 'Packaging & Shipping',
+      content: 'Free shipping within the US. International shipping available. Ships within 3\u20135 business days. 30-day free returns \u2014 we\u2019ll arrange pickup. Questions? Contact us at studio@veritaseditions.com',
+    },
+    {
+      key: 'provenance',
+      num: '04',
+      label: 'Provenance',
+      content: 'These portraits are original compositions rendered in archival pigments by studio artists working in the Flemish oil tradition and the Italian Renaissance manner. Each work is produced as a limited edition of 250 impressions on 310 GSM Hahnem\u00fchle Photo Rag. Hand-assembled in Austin, TX. Certificate of authenticity included.',
+    },
+  ]
+
   return (
     <div className="min-h-screen pb-20 md:pb-0">
 
+      {/* Two-column layout */}
       <div className="flex flex-col lg:flex-row">
 
-        {/* Left: Image gallery */}
-        <div className="w-full lg:w-[55%] lg:sticky lg:top-20 lg:h-[calc(100vh-5rem)] flex flex-col">
+        {/* LEFT: Image gallery — 55% */}
+        <div className="w-full lg:w-[55%] lg:sticky lg:top-20 lg:h-[calc(100vh-5rem)] flex flex-col bg-[#F5F2ED]">
 
           {/* Main image */}
           <div
-            className="relative overflow-hidden cursor-zoom-in flex-1"
+            className="relative flex-1 cursor-zoom-in flex items-center justify-center overflow-hidden"
             onClick={() => setLightboxOpen(true)}
           >
             <img
               src={displayImage}
               alt={product.title}
-              crossOrigin="anonymous"
-              className="absolute inset-0 w-full h-full object-cover"
+              className="w-full max-h-[80vh] object-contain"
             />
-            <div className="w-full" style={{ paddingBottom: '133%' }} />
           </div>
 
-          {/* Thumbnail row */}
-          {portraitKey && (
-            <div className="flex gap-2 p-3 bg-alabaster">
-              {[
-                { src: printComposite,  label: 'Print presentation' },
-                { src: frameComposite,  label: 'Framed view' },
-                { src: rawPortrait,     label: 'Portrait detail' },
-              ].map((thumb, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setSelectedImageIdx(idx)}
-                  aria-label={thumb.label}
-                  className={`w-16 h-16 overflow-hidden flex-shrink-0 transition-all duration-150 ${
-                    selectedImageIdx === idx
-                      ? 'ring-2 ring-[#2A2927] ring-offset-1'
-                      : 'ring-1 ring-[#E8E2D9] opacity-70 hover:opacity-100'
-                  }`}
-                >
-                  <img
-                    src={thumb.src}
-                    alt={thumb.label}
-                    className="w-full h-full object-cover"
-                  />
-                </button>
-              ))}
-            </div>
-          )}
+          {/* Thumbnails */}
+          <div className="flex gap-2 p-3">
+            {displayImages.map((src, idx) => (
+              <button
+                key={idx}
+                onClick={() => setSelectedImageIndex(idx)}
+                aria-label={'View image ' + (idx + 1)}
+                className={`w-20 h-20 overflow-hidden flex-shrink-0 cursor-pointer transition-all duration-150 ${
+                  selectedImageIndex === idx
+                    ? 'ring-2 ring-[#2A2927] ring-offset-1'
+                    : 'ring-1 ring-[#E8E2D9] opacity-60 hover:opacity-100'
+                }`}
+              >
+                <img
+                  src={src}
+                  alt={'Thumbnail ' + (idx + 1)}
+                  className="w-full h-full object-cover"
+                />
+              </button>
+            ))}
+          </div>
         </div>
 
-        {/* Right: Details */}
-        <div className="w-full lg:w-[45%] px-8 lg:px-14 py-12 lg:py-16 bg-alabaster">
+        {/* RIGHT: Product details — 45% */}
+        <div className="w-full lg:w-[45%] px-8 lg:px-14 py-12 lg:py-16 bg-[#EFECE5]">
 
-          {/* 1. Artist line */}
-          <p className="font-garamond text-xs tracking-[0.2em] uppercase text-[#8B7355] mb-3">
+          {/* Label */}
+          <p className="font-garamond text-xs tracking-[0.2em] uppercase text-[#8B7355]">
             VERITAS EDITIONS
           </p>
 
-          {/* 2. Title */}
-          <h1 className="font-garamond text-4xl font-normal text-[#2A2927] mb-4 leading-tight">
+          {/* Title */}
+          <h1 className="font-garamond text-3xl font-normal text-[#2A2927] mt-2 leading-tight">
             {product.title}
           </h1>
 
-          {/* 3. Price */}
-          <div className="mb-2">
-            <p className="font-garamond text-3xl text-[#2A2927]">
-              {selectedFormat === 'rolled' ? 'From ' : ''}\${price}
-            </p>
-          </div>
-
-          {/* 4. Edition metadata block */}
-          <div className="border-t border-[#E8E2D9] mt-4 mb-4">
-            <div className="flex justify-between py-2 border-b border-[#E8E2D9]">
-              <span className="text-xs tracking-widest uppercase text-[#2A2927]">Limited Edition</span>
-              <span className="text-xs text-[#8B7355]">Fine art archival print</span>
-            </div>
-            <div className="flex justify-between py-2 border-b border-[#E8E2D9]">
-              <span className="text-xs tracking-widest uppercase text-[#2A2927]">Edition of 250</span>
-              <span className="text-xs text-[#8B7355]">Hand numbered</span>
-            </div>
-            <div className="flex justify-between py-2 border-b border-[#E8E2D9]">
-              <span className="text-xs tracking-widest uppercase text-[#2A2927]">Ships in 3 Days</span>
-              <span className="text-xs text-[#8B7355]">Worldwide</span>
-            </div>
-          </div>
-
-          {/* 5. Size selector */}
-          <div className="mb-7">
-            <p className="font-garamond text-xs tracking-widest uppercase text-umber mb-3">
-              {t('product.size_label')}
-            </p>
-            <div className="flex flex-wrap gap-2">
-              {SIZES.map((s, i) => (
-                <button
-                  key={s.key}
-                  onClick={() => setSelectedSize(i)}
-                  className={`font-garamond text-xs tracking-wide px-4 py-2 border transition-all duration-150 ${
-                    selectedSize === i
-                      ? 'bg-charcoal text-parchment border-charcoal'
-                      : 'bg-transparent text-umber border-umber/40 hover:border-umber'
-                  }`}
-                >
-                  {s.label}
-                </button>
-              ))}
-            </div>
-            <p className="font-garamond text-xs text-[#8B7355] mt-2">
-              {selectedFormat === 'rolled'
-                ? '(framing available at checkout)'
-                : `(includes ${FRAMES[selectedFrame].label} frame)`}
-            </p>
-          </div>
-
-          {/* 6. Format toggle */}
-          <div className="mb-8">
-            <div className="flex gap-2">
-              <button
-                onClick={() => setSelectedFormat('rolled')}
-                className={`font-garamond text-xs tracking-widest uppercase px-5 py-2.5 border transition-all duration-150 ${
-                  selectedFormat === 'rolled'
-                    ? 'bg-charcoal text-parchment border-charcoal'
-                    : 'bg-transparent text-umber border-umber/40 hover:border-umber'
-                }`}
-              >
-                Print Only
-              </button>
-              <button
-                onClick={() => setSelectedFormat('framed')}
-                className={`font-garamond text-xs tracking-widest uppercase px-5 py-2.5 border transition-all duration-150 flex items-center gap-2 ${
-                  selectedFormat === 'framed'
-                    ? 'bg-charcoal text-parchment border-charcoal'
-                    : 'bg-transparent text-umber border-umber/40 hover:border-umber'
-                }`}
-              >
-                Add a Frame
-                <span
-                  className="font-garamond text-xs"
-                  style={{ opacity: selectedFormat === 'framed' ? 0.7 : 0.6 }}
-                >
-                  +\${FRAME_ADDONS[selectedSize]}
-                </span>
-              </button>
-            </div>
-          </div>
-
-          {/* 7. Frame swatches */}
-          {selectedFormat === 'framed' && (
-            <div className="mb-7">
-              <p className="font-garamond text-xs tracking-widest uppercase text-umber mb-3">
-                {t('product.frame_label')} &mdash; <span className="normal-case">{FRAMES[selectedFrame].label}</span>
-              </p>
-              <div className="flex gap-3">
-                {FRAMES.map((f, i) => (
-                  <button
-                    key={f.key}
-                    onClick={() => setSelectedFrame(i)}
-                    aria-label={f.label}
-                    className={`w-8 h-8 rounded-sm cursor-pointer transition-all duration-150 ${
-                      selectedFrame === i
-                        ? 'ring-2 ring-offset-1 ring-[#2A2927]'
-                        : ''
-                    }`}
-                    style={{
-                      backgroundColor: f.color,
-                      border: (f as { border?: string }).border ? `1px solid ${(f as { border?: string }).border}` : undefined,
-                    }}
-                  />
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* 8. Add to Cart */}
-          <button
-            onClick={handleAddToCart}
-            className="w-full py-4 bg-[#2A2927] text-parchment font-garamond text-sm tracking-widest uppercase mb-4 transition-opacity hover:opacity-90"
-          >
-            {justAdded ? 'Added to Cart' : t('product.add_to_collection')}
-          </button>
-
-          {/* Trust signals */}
-          <p className="font-garamond text-xs text-[#A1A1AA] text-center tracking-wide mt-5 mb-2">
-            200-year archival \u00b7 Museum UV glazing \u00b7 Lifetime guarantee \u00b7 Ships from Austin, TX
+          {/* Price */}
+          <p className="font-garamond text-2xl text-[#2A2927] mt-3">
+            From ${SIZES[selectedSize].price}
           </p>
 
+          {/* Metadata block */}
+          <div className="mt-4 border-t border-[#E8E2D9] pt-4 mb-4 border-b border-[#E8E2D9] pb-4">
+            <p className="font-garamond text-sm text-[#2A2927]">Limited edition</p>
+            <p className="font-garamond text-sm text-[#2A2927] mt-1">Edition of 250</p>
+            <p className="font-garamond text-sm text-[#2A2927] mt-1">Ships in 3 days</p>
+          </div>
+
+          {/* Size selector */}
+          <div className="flex flex-wrap gap-2">
+            {SIZES.map((s, i) => (
+              <button
+                key={s.key}
+                onClick={() => setSelectedSize(i)}
+                className={`text-xs tracking-widest uppercase px-4 py-2 border transition-all duration-150 font-garamond ${
+                  selectedSize === i
+                    ? 'bg-[#2A2927] text-[#EFECE5] border-[#2A2927]'
+                    : 'bg-transparent text-[#2A2927] border-[#2A2927] hover:bg-[#2A2927]/5'
+                }`}
+              >
+                {s.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Add to Cart */}
+          <button
+            onClick={handleAddToCart}
+            className="w-full bg-[#2A2927] text-[#EFECE5] py-4 text-xs tracking-widest uppercase font-garamond mt-4 transition-opacity hover:opacity-90"
+          >
+            {justAdded ? 'Added to Cart' : 'Add to Cart'}
+          </button>
+
           {/* Divider */}
-          <div className="section-divider my-8" />
+          <div className="border-t border-[#E8E2D9] mt-6" />
 
-          {/* 9. Accordion sections */}
+          {/* Accordions */}
           <div>
-            {/* Description */}
-            <div className="border-t border-umber/20">
-              <button
-                className="w-full flex items-center justify-between py-4"
-                onClick={() => setOpenSection(openSection === 'description' ? null : 'description')}
-              >
-                <span style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '15px', color: '#2C2C2C', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
-                  Description
-                </span>
-                <span style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '18px', color: '#2C2C2C', lineHeight: 1 }}>
-                  {openSection === 'description' ? '\u2212' : '+'}
-                </span>
-              </button>
-              {openSection === 'description' && (
-                <p className="pt-2 pb-4" style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '14px', color: '#6B6B5A', lineHeight: '1.65' }}>
-                  {product.description}
-                </p>
-              )}
-            </div>
-
-            {/* Materials & Dimensions */}
-            <div className="border-t border-umber/20">
-              <button
-                className="w-full flex items-center justify-between py-4"
-                onClick={() => setOpenSection(openSection === 'materials' ? null : 'materials')}
-              >
-                <span style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '15px', color: '#2C2C2C', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
-                  Materials &amp; Dimensions
-                </span>
-                <span style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '18px', color: '#2C2C2C', lineHeight: 1 }}>
-                  {openSection === 'materials' ? '\u2212' : '+'}
-                </span>
-              </button>
-              {openSection === 'materials' && (
-                <p className="pt-2 pb-4" style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '14px', color: '#6B6B5A', lineHeight: '1.65' }}>
-                  Printed on 310 GSM Hahnem\u00fchle Photo Rag fine art paper. Museum-grade archival inks rated 200+ years. Solid wood frame, hand-assembled in Austin, TX. Museum UV-protective glazing. Available in 8\u00d712", 12\u00d718", 18\u00d727", and 24\u00d736" (all 2:3 ratio). Ships fully assembled in custom double-wall packaging.
-                </p>
-              )}
-            </div>
-
-            {/* Shipping & Returns */}
-            <div className="border-t border-umber/20">
-              <button
-                className="w-full flex items-center justify-between py-4"
-                onClick={() => setOpenSection(openSection === 'shipping' ? null : 'shipping')}
-              >
-                <span style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '15px', color: '#2C2C2C', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
-                  Shipping &amp; Returns
-                </span>
-                <span style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '18px', color: '#2C2C2C', lineHeight: 1 }}>
-                  {openSection === 'shipping' ? '\u2212' : '+'}
-                </span>
-              </button>
-              {openSection === 'shipping' && (
-                <p className="pt-2 pb-4" style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '14px', color: '#6B6B5A', lineHeight: '1.65' }}>
-                  Free shipping within the US. International shipping available. Ships within 3\u20135 business days. 30-day free returns \u2014 we&apos;ll arrange pickup. Questions? Contact us at studio@veritaseditions.com
-                </p>
-              )}
-            </div>
-
-            {/* Provenance & Medium */}
-            <div className="border-t border-umber/20">
-              <button
-                className="w-full flex items-center justify-between py-4"
-                onClick={() => setOpenSection(openSection === 'provenance' ? null : 'provenance')}
-              >
-                <span style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '15px', color: '#2C2C2C', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
-                  Provenance &amp; Medium
-                </span>
-                <span style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '18px', color: '#2C2C2C', lineHeight: 1 }}>
-                  {openSection === 'provenance' ? '\u2212' : '+'}
-                </span>
-              </button>
-              {openSection === 'provenance' && (
-                <p className="pt-2 pb-4" style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '14px', color: '#6B6B5A', lineHeight: '1.65' }}>
-                  These portraits are original compositions rendered in archival pigments by studio artists working in the Flemish oil tradition and the Italian Renaissance manner. Each work is produced as a limited edition of 250 impressions on 310 GSM Hahnem\u00fchle Photo Rag. Hand-assembled in Austin, TX. Certificate of authenticity included.
-                </p>
-              )}
-            </div>
+            {accordions.map((acc) => (
+              <div key={acc.key} className="border-b border-[#E8E2D9]">
+                <button
+                  className="w-full flex items-center justify-between py-4 text-left"
+                  onClick={() => setOpenSection(openSection === acc.key ? null : acc.key)}
+                >
+                  <span className="flex items-center gap-3">
+                    <span className="font-garamond text-xs text-[#8B7355]">{acc.num}</span>
+                    <span className="font-garamond text-xs tracking-widest uppercase text-[#2A2927]">{acc.label}</span>
+                  </span>
+                  <span className="font-garamond text-lg text-[#2A2927] leading-none select-none">
+                    {openSection === acc.key ? '\u2212' : '+'}
+                  </span>
+                </button>
+                {openSection === acc.key && (
+                  <p className="pb-4 font-garamond text-sm text-[#6B6B5A] leading-relaxed">
+                    {acc.content}
+                  </p>
+                )}
+              </div>
+            ))}
           </div>
 
           {/* Back link */}
           <div className="mt-10">
             <Link
               to="/collection"
-              className="font-garamond text-xs tracking-widest uppercase text-umber/70 hover:text-charcoal transition-colors border-b border-umber/30 hover:border-charcoal pb-px"
+              className="font-garamond text-xs tracking-widest uppercase text-[#8B7355] hover:text-[#2A2927] transition-colors border-b border-[#8B7355]/30 hover:border-[#2A2927] pb-px"
             >
               Back to Collection
             </Link>
@@ -496,65 +354,11 @@ export default function ProductPage() {
         </div>
       </div>
 
-      {/* You May Also Like */}
-      <div className="py-16 px-6 max-w-4xl mx-auto">
-        <h2
-          className="mb-6"
-          style={{
-            fontFamily: 'Cormorant Garamond, serif',
-            fontSize: '24px',
-            color: '#2C2C2C',
-            fontWeight: 400,
-          }}
-        >
-          You May Also Like
-        </h2>
-        <div className="grid grid-cols-2 gap-4">
-          {similarProducts.map(([key, p]) => (
-            <Link
-              key={key}
-              to={`/product/${key}`}
-              className="bg-white rounded-[12px] overflow-hidden border border-[#E8E2D9] block"
-            >
-              <div style={{ aspectRatio: '3 / 4', overflow: 'hidden' }}>
-                <img
-                  src={p.image}
-                  alt={p.title}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="p-4">
-                <p
-                  style={{
-                    fontFamily: 'Cormorant Garamond, serif',
-                    fontSize: '16px',
-                    color: '#2C2C2C',
-                    fontWeight: 400,
-                    marginBottom: '4px',
-                  }}
-                >
-                  {p.title}
-                </p>
-                <p
-                  style={{
-                    fontFamily: 'Cormorant Garamond, serif',
-                    fontSize: '14px',
-                    color: '#8C8C7A',
-                  }}
-                >
-                  From \${p.basePrice}
-                </p>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </div>
-
       {/* Sticky mobile Add to Cart bar */}
-      <div className="fixed bottom-0 left-0 right-0 z-30 md:hidden bg-[#EFECE5] border-t border-[#E4E4E7] px-4 py-3 flex items-center justify-between">
+      <div className="fixed bottom-0 left-0 right-0 z-30 md:hidden bg-[#EFECE5] border-t border-[#E8E2D9] px-4 py-3 flex items-center justify-between">
         <div>
-          <p className="max-w-[160px] truncate" style={{ fontSize: '14px', color: '#2C2C2C' }}>{product.title}</p>
-          <p style={{ fontSize: '14px', color: '#8C8C7A' }}>\${price}</p>
+          <p className="font-garamond text-sm text-[#2A2927] max-w-[160px] truncate">{product.title}</p>
+          <p className="font-garamond text-sm text-[#8B7355]">${SIZES[selectedSize].price}</p>
         </div>
         <button
           onClick={handleAddToCart}
