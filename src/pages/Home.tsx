@@ -515,15 +515,15 @@ export default function Home() {
         className="relative flex flex-col items-center justify-center text-center px-6 overflow-hidden"
         style={{ minHeight: '100vh', backgroundColor: '#1C1A17' }}
       >
-        {/* Background portrait — very dark, blurred, acts as texture */}
+        {/* Background — Tribeca room wall, heavily darkened, acts as stone texture */}
         <div
           className="absolute inset-0"
           style={{
-            backgroundImage: 'url(https://i.imgur.com/ThF68zp.jpeg)',
+            backgroundImage: 'url(https://i.imgur.com/whtAlx1.jpeg)',
             backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            filter: 'blur(8px) brightness(0.18) saturate(0.6)',
-            transform: 'scale(1.05)',
+            backgroundPosition: 'center top',
+            filter: 'blur(12px) brightness(0.12) saturate(0.4) contrast(1.2)',
+            transform: 'scale(1.08)',
           }}
         />
         {/* Subtle ambient glow */}
