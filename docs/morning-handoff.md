@@ -49,7 +49,17 @@
 
 ---
 
-## Live URL
-`https://cc199911.veritas-site-27f.pages.dev`
+## Additional Round 3+4 Changes
+- Hero now has proper dark overlay (`rgba(30,22,16,0.55)`) — text is crisp against the portrait
+- Page body fades in on load (0.35s) — subtle but adds polish
+- Hero content group has a slight fade-up entrance animation
+- Collection page eyebrow upgraded with flanking hairlines
+- Craftsmanship hero has an eyebrow label
+- FAQ page has an introductory subtitle paragraph
 
-(Check Cloudflare Pages for the latest deployment URL if this one is stale.)
+---
+
+## Live URL
+`https://dd624228.veritas-site-27f.pages.dev`
+
+(Cloudflare Pages also aliases the latest deployment to the project URL. Check dashboard for canonical URL.)

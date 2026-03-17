@@ -23,3 +23,26 @@
 - **Home.tsx** — Replaced Unicode craft icons (◈◇◉◎) with proper SVG icons from Heroicons outline set. Added horizontal hairline below each icon for editorial breathing room.
 - **ProductCard.tsx** — Added `loading="lazy"` to images. Added charcoal overlay on hover (`opacity-0 → opacity-10`) for depth and interactivity.
 - **Reviews.tsx** — Rewrote hero section: "The work speaks for itself." headline with "Customer Reviews" eyebrow. Stars + rating moved inside hero area for clean single-section treatment.
+
+---
+
+## Round 3 — Collection Polish, Craftsmanship Eyebrow, FAQ Intro, Hero Overlay
+**Commit:** `4dd9f3d`
+**Deployed:** `https://69c989fa.veritas-site-27f.pages.dev`
+
+### Changes
+- **Home.tsx** — Added dark overlay to hero (`rgba(30,22,16,0.55)`) to ensure parchment text is fully legible against the oil painting.
+- **Collection.tsx** — Upgraded eyebrow treatment with flanking hairlines ("Original Composition · Limited Edition" now reads more like a luxury editorial label).
+- **Craftsmanship.tsx** — Added "Veritas · The Process" eyebrow above the hero headline.
+- **Faq.tsx** — Added subtitle paragraph: "Everything you need to know about our materials, process, and policies."
+- **index.html** — Added `<link rel="preload" as="image">` for the hero portrait for faster initial paint.
+
+---
+
+## Round 4 — Animations, Final CSS Refinements
+**Commit:** `aef90ba`
+**Deployed:** `https://dd624228.veritas-site-27f.pages.dev`
+
+### Changes
+- **index.css** — Added `@keyframes fadeInUp` and `@keyframes fadeIn`. Body now fades in on mount (0.35s ease). `.animate-fade-in-up` utility class added.
+- **Home.tsx** — Hero content group gets `animate-fade-in-up` with 0.1s delay for a subtle cinematic entrance.
