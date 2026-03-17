@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import ProductCard from '../components/ProductCard'
@@ -22,28 +22,28 @@ const carouselReviews = [
     name: 'Noah P.',
     city: 'Seattle, WA',
     title: 'Three friends ordered after seeing mine',
-    body: 'Prince of Peace has been a conversation piece since day one. Three of my friends have now ordered from Veritas after visiting and seeing it in person. That\'s the best endorsement I can give — this print sells itself.',
+    body: "Prince of Peace has been a conversation piece since day one. Three of my friends have now ordered from Veritas after visiting and seeing it in person. That's the best endorsement I can give — this print sells itself.",
   },
   {
     id: 20,
     name: 'Evelyn T.',
     city: 'Phoenix, AZ',
     title: 'My priest asked where I got it',
-    body: 'Christ the Redeemer hangs in our home chapel and my priest saw it during a house blessing. He asked immediately where I\'d purchased it. The piece has an authenticity and gravitas that you can\'t fake. Absolutely worthy of sacred space.',
+    body: "Christ the Redeemer hangs in our home chapel and my priest saw it during a house blessing. He asked immediately where I'd purchased it. The piece has an authenticity and gravitas that you can't fake. Absolutely worthy of sacred space.",
   },
   {
     id: 42,
     name: 'Lauren B.',
     city: 'Dallas, TX',
     title: 'My husband cried',
-    body: 'Gifted Emmanuel to my husband for our tenth anniversary. He\'s not a crier. He cried. The piece is that beautiful, that meaningful. It hangs in his home office now and he says it starts every workday on the right note.',
+    body: "Gifted Emmanuel to my husband for our tenth anniversary. He's not a crier. He cried. The piece is that beautiful, that meaningful. It hangs in his home office now and he says it starts every workday on the right note.",
   },
   {
     id: 72,
     name: 'Charles N.',
     city: 'Denver, CO',
-    title: 'Simply the best I\'ve seen',
-    body: 'I\'ve visited galleries in New York, London, and Paris. Emmanuel compares favorably to what hangs in those spaces. The print quality, the frame construction, the total composition — this is the real thing. Veritas has created something special.',
+    title: "Simply the best I've seen",
+    body: "I've visited galleries in New York, London, and Paris. Emmanuel compares favorably to what hangs in those spaces. The print quality, the frame construction, the total composition — this is the real thing. Veritas has created something special.",
   },
   {
     id: 77,
@@ -57,14 +57,14 @@ const carouselReviews = [
     name: 'Raymond L.',
     city: 'New York, NY',
     title: 'Better than what hangs in hotels',
-    body: 'I travel constantly and stay in luxury hotels. The art in those spaces is carefully curated and of the highest quality. Light of the World is better than most of what I\'ve seen in those rooms. That\'s the best frame of reference I can offer.',
+    body: "I travel constantly and stay in luxury hotels. The art in those spaces is carefully curated and of the highest quality. Light of the World is better than most of what I've seen in those rooms. That's the best frame of reference I can offer.",
   },
   {
     id: 100,
     name: 'Teresa M.',
     city: 'Dallas, TX',
-    title: 'The last piece of art I\'ll ever need to buy',
-    body: 'Emmanuel is the piece I\'ve been searching for my entire adult life. The quality is beyond what I imagined possible at this price, and the archival materials mean it will outlast everything else on our walls. I am done searching.',
+    title: "The last piece of art I'll ever need to buy",
+    body: "Emmanuel is the piece I've been searching for my entire adult life. The quality is beyond what I imagined possible at this price, and the archival materials mean it will outlast everything else on our walls. I am done searching.",
   },
 ]
 
@@ -76,44 +76,41 @@ const ugcPhotos = [
   'https://i.imgur.com/VqFWzKB.jpeg',
 ]
 
-const craftItems = [
-  {
-    key: 'craft_1',
-    icon: (
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="#7A7365" className="w-7 h-7">
-        <path strokeLinecap="round" strokeLinejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
-      </svg>
-    ),
-  },
-  {
-    key: 'craft_2',
-    icon: (
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="#7A7365" className="w-7 h-7">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437 1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008Z" />
-      </svg>
-    ),
-  },
-  {
-    key: 'craft_3',
-    icon: (
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="#7A7365" className="w-7 h-7">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
-      </svg>
-    ),
-  },
-  {
-    key: 'craft_4',
-    icon: (
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="#7A7365" className="w-7 h-7">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 21v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21m0 0h4.5V3.545M12.75 21h7.5V10.75M2.25 21h1.5m18 0h-18M2.25 9l4.5-1.636M18.75 3l-1.5.545m0 6.205 3 1m1.5.5-1.5-.5M6.75 7.364V3h-3v18m3-13.636 10.5-3.819" />
-      </svg>
-    ),
-  },
-]
+const craftNumbers = ['01', '02', '03', '04']
+const craftKeys = ['craft_1', 'craft_2', 'craft_3', 'craft_4']
+
+function useFadeIn() {
+  const ref = useRef<HTMLDivElement>(null)
+  const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true)
+          observer.disconnect()
+        }
+      },
+      { threshold: 0.12 }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
+  return { ref, isVisible }
+}
 
 export default function Home() {
   const { t } = useTranslation()
   const [reviewsPaused, setReviewsPaused] = useState(false)
+
+  const heroFade = useFadeIn()
+  const collectionFade = useFadeIn()
+  const craftFade = useFadeIn()
+  const quoteFade = useFadeIn()
+  const ctaFade = useFadeIn()
 
   const mergedItems = [
     { type: 'review' as const, ...carouselReviews[0] },
@@ -143,7 +140,7 @@ export default function Home() {
           backgroundPosition: 'center',
         }}
       >
-        {/* Dark overlay for text legibility */}
+        {/* Dark overlay */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{ backgroundColor: 'rgba(30, 22, 16, 0.55)' }}
@@ -157,7 +154,7 @@ export default function Home() {
           }}
         />
 
-        {/* Cross motif — ultra-subtle */}
+        {/* Cross motif */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.04]">
           <div className="relative w-px bg-parchment" style={{ height: '55%' }}>
             <div className="absolute top-[28%] left-1/2 -translate-x-1/2 h-px bg-parchment w-20 lg:w-32" />
@@ -165,7 +162,12 @@ export default function Home() {
         </div>
 
         {/* Content */}
-        <div className="relative z-10 flex flex-col items-center gap-8 lg:gap-10 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+        <div
+          ref={heroFade.ref}
+          className={`relative z-10 flex flex-col items-center gap-8 lg:gap-10 transition-all duration-700 ${
+            heroFade.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+          }`}
+        >
           <div className="flex flex-col items-center gap-3">
             <div className="h-px w-8 bg-parchment/40" />
             <span className="wordmark text-[10px] lg:text-xs text-parchment/50 tracking-[0.35em]">
@@ -178,28 +180,49 @@ export default function Home() {
             {t('home.hero_headline')}
           </h1>
 
-          <p className="font-garamond text-sm lg:text-base text-parchment/60 max-w-sm text-center leading-relaxed">
-            Museum-grade archival prints. Hand-assembled frames. Six original compositions.
+          <p
+            className="font-cormorant italic text-xl lg:text-2xl"
+            style={{ color: '#C4A55A' }}
+          >
+            Limited to 250 impressions worldwide.
           </p>
 
           <Link to="/collection">
-            <button className="btn-outline-parchment tracking-widest">
+            <button
+              className="font-garamond text-sm tracking-widest uppercase px-10 py-4 transition-all duration-200"
+              style={{
+                border: '1px solid rgba(239,236,229,0.7)',
+                color: '#EFECE5',
+                background: 'transparent',
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLButtonElement).style.background = 'rgba(239,236,229,0.12)'
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLButtonElement).style.background = 'transparent'
+              }}
+            >
               {t('home.hero_cta')}
             </button>
           </Link>
         </div>
 
-        {/* Scroll cue */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1">
-          <style>{`
-            @keyframes scroll-bounce {
-              0%, 100% { transform: translateY(0); opacity: 0.6; }
-              50% { transform: translateY(6px); opacity: 1; }
-            }
-            .scroll-cue { animation: scroll-bounce 2s ease-in-out infinite; }
-          `}</style>
-          <svg className="scroll-cue" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="#D4C9B4" width={20} height={20}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+        {/* Scroll cue — bounce */}
+        <div
+          className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 animate-bounce"
+          style={{ opacity: 0.4 }}
+        >
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#FFFFFF"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <polyline points="6 9 12 15 18 9" />
           </svg>
         </div>
       </section>
@@ -249,54 +272,68 @@ export default function Home() {
 
       {/* ── Collection Preview ───────────────────────────── */}
       <section className="max-w-7xl mx-auto px-6 lg:px-10 py-20 lg:py-28">
-        <div className="text-center mb-14 lg:mb-16">
-          <p className="font-garamond text-xs tracking-[0.25em] uppercase text-umber mb-4">
-            {t('collection.original')}
-          </p>
-          <h2 className="font-cormorant font-light text-3xl lg:text-5xl text-charcoal mb-5">
-            {t('home.preview_title')}
-          </h2>
-          <p className="font-garamond text-base lg:text-lg text-umber max-w-xl mx-auto leading-relaxed">
-            {t('home.preview_subtitle')}
-          </p>
-        </div>
+        <div
+          ref={collectionFade.ref}
+          className={`transition-all duration-700 ${
+            collectionFade.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+          }`}
+        >
+          <div className="text-center mb-14 lg:mb-16">
+            {/* Gold line + label */}
+            <div
+              style={{ width: '60px', height: '1px', backgroundColor: '#C4A55A', margin: '0 auto 16px' }}
+            />
+            <p
+              className="font-garamond text-xs tracking-widest uppercase mb-6"
+              style={{ color: '#8C8C7A' }}
+            >
+              The Collection
+            </p>
+            <h2 className="font-cormorant font-light text-3xl lg:text-5xl text-charcoal mb-5">
+              {t('home.preview_title')}
+            </h2>
+            <p className="font-garamond text-base lg:text-lg text-umber max-w-xl mx-auto leading-relaxed">
+              {t('home.preview_subtitle')}
+            </p>
+          </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10">
-          <ProductCard
-            title="The Good Shepherd"
-            style="Classical Oil"
-            price="$145"
-            gradient={GRADIENTS.primary}
-            image="https://i.imgur.com/whtAlx1.jpeg"
-            slug="the-good-shepherd"
-            showExplore={false}
-          />
-          <ProductCard
-            title="Christ the Redeemer"
-            style="Renaissance"
-            price="$145"
-            gradient={GRADIENTS.variantA}
-            image="https://i.imgur.com/zQCIOqy.jpeg"
-            slug="christ-the-redeemer"
-            showExplore={false}
-          />
-          <ProductCard
-            title="Light of the World"
-            style="Contemporary Sacred"
-            price="$175"
-            gradient={GRADIENTS.variantB}
-            image="https://i.imgur.com/WGRNmXf.jpeg"
-            slug="light-of-the-world"
-            showExplore={false}
-          />
-        </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10">
+            <ProductCard
+              title="The Good Shepherd"
+              style="Classical Oil"
+              price="$145"
+              gradient={GRADIENTS.primary}
+              image="https://i.imgur.com/whtAlx1.jpeg"
+              slug="the-good-shepherd"
+              showExplore={false}
+            />
+            <ProductCard
+              title="Christ the Redeemer"
+              style="Renaissance"
+              price="$145"
+              gradient={GRADIENTS.variantA}
+              image="https://i.imgur.com/zQCIOqy.jpeg"
+              slug="christ-the-redeemer"
+              showExplore={false}
+            />
+            <ProductCard
+              title="Light of the World"
+              style="Contemporary Sacred"
+              price="$175"
+              gradient={GRADIENTS.variantB}
+              image="https://i.imgur.com/WGRNmXf.jpeg"
+              slug="light-of-the-world"
+              showExplore={false}
+            />
+          </div>
 
-        <div className="text-center mt-14">
-          <Link to="/collection">
-            <span className="font-garamond text-sm tracking-widest uppercase text-umber border-b border-umber/50 pb-px hover:text-charcoal hover:border-charcoal transition-colors">
-              {t('home.cta_section_btn')} →
-            </span>
-          </Link>
+          <div className="text-center mt-14">
+            <Link to="/collection">
+              <span className="font-garamond text-sm tracking-widest uppercase text-umber border-b border-umber/50 pb-px hover:text-charcoal hover:border-charcoal transition-colors">
+                {t('home.cta_section_btn')} &rarr;
+              </span>
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -307,25 +344,37 @@ export default function Home() {
 
       {/* ── Craft Section ────────────────────────────────── */}
       <section className="max-w-7xl mx-auto px-6 lg:px-10 py-20 lg:py-28">
-        <div className="text-center mb-14">
-          <h2 className="font-cormorant italic font-light text-3xl lg:text-5xl text-charcoal">
-            {t('home.craft_title')}
-          </h2>
-        </div>
+        <div
+          ref={craftFade.ref}
+          className={`transition-all duration-700 ${
+            craftFade.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+          }`}
+        >
+          <div className="text-center mb-14">
+            <h2 className="font-cormorant italic font-light text-3xl lg:text-5xl text-charcoal">
+              {t('home.craft_title')}
+            </h2>
+          </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
-          {craftItems.map(({ key, icon }) => (
-            <div key={key} className="text-center">
-              <div className="mb-5 flex justify-center">{icon}</div>
-              <div className="h-px w-8 bg-umber/20 mb-5 mx-auto" />
-              <h3 className="font-cormorant font-light text-xl lg:text-2xl text-charcoal mb-3">
-                {t(`home.${key}_title`)}
-              </h3>
-              <p className="font-garamond text-sm leading-relaxed text-umber">
-                {t(`home.${key}_desc`)}
-              </p>
-            </div>
-          ))}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
+            {craftKeys.map((key, idx) => (
+              <div key={key} className="text-center">
+                <p
+                  className="font-cormorant italic text-5xl select-none pointer-events-none mb-4"
+                  style={{ color: '#E4E4E7' }}
+                >
+                  {craftNumbers[idx]}
+                </p>
+                <div className="h-px w-8 bg-umber/20 mb-5 mx-auto" />
+                <h3 className="font-cormorant font-semibold text-xl lg:text-2xl text-charcoal mb-3">
+                  {t(`home.${key}_title`)}
+                </h3>
+                <p className="font-garamond text-sm leading-relaxed text-umber">
+                  {t(`home.${key}_desc`)}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -341,12 +390,33 @@ export default function Home() {
             background: 'radial-gradient(ellipse 50% 60% at 50% 50%, rgba(120,90,60,0.12) 0%, transparent 70%)',
           }}
         />
-        <div className="max-w-3xl mx-auto relative z-10">
+        <div
+          ref={quoteFade.ref}
+          className={`max-w-3xl mx-auto relative z-10 transition-all duration-700 ${
+            quoteFade.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+          }`}
+        >
           <div className="h-px w-10 bg-parchment/20 mx-auto mb-10" />
-          <div className="font-cormorant text-parchment/20 text-8xl leading-none mb-4 select-none">&ldquo;</div>
-          <blockquote className="font-cormorant italic font-light text-3xl md:text-4xl lg:text-5xl text-parchment leading-snug tracking-tight">
-            {t('home.quote')}
-          </blockquote>
+          {/* Opening quote — absolute, gold */}
+          <div className="relative inline-block w-full">
+            <span
+              className="font-cormorant absolute select-none pointer-events-none"
+              style={{
+                color: '#C4A55A',
+                fontSize: '7rem',
+                lineHeight: 1,
+                top: '-2rem',
+                left: '0',
+              }}
+            >
+              &ldquo;
+            </span>
+            <blockquote
+              className="font-cormorant italic font-light text-4xl lg:text-5xl text-parchment leading-snug tracking-tight pt-8"
+            >
+              {t('home.quote')}
+            </blockquote>
+          </div>
           <div className="mt-10 h-px w-10 bg-parchment/20 mx-auto" />
           <p className="wordmark text-[10px] text-parchment/25 mt-7 tracking-[0.35em]">VERITAS</p>
         </div>
@@ -361,7 +431,6 @@ export default function Home() {
           <p style={{ fontSize: '14px', color: '#8C8C7A' }}>Delivered to homes in 40+ countries</p>
         </div>
 
-        {/* Single merged carousel — alternates UGC photos and review cards */}
         <div
           className="scrollbar-hide"
           style={{ overflow: 'hidden', width: '100%' }}
@@ -428,11 +497,11 @@ export default function Home() {
                         overflow: 'hidden',
                       }}
                     >
-                      "{item.body}"
+                      &ldquo;{item.body}&rdquo;
                     </p>
                   </div>
                   <p style={{ fontSize: '12px', color: '#8C8C7A', marginTop: '12px' }}>
-                    {item.name} — {(item as any).city || ''}
+                    {item.name} &mdash; {(item as { city?: string }).city || ''}
                   </p>
                 </div>
               )
@@ -442,21 +511,83 @@ export default function Home() {
       </section>
 
       {/* ── Final CTA ────────────────────────────────────── */}
-      <section className="max-w-7xl mx-auto px-6 lg:px-10 py-20 lg:py-28 text-center">
-        <p className="font-garamond text-xs tracking-[0.25em] uppercase text-umber mb-5">
-          {t('collection.original')}
-        </p>
-        <h2 className="font-cormorant font-light text-3xl lg:text-5xl text-charcoal mb-5">
-          {t('home.cta_section_title')}
-        </h2>
-        <p className="font-garamond text-base text-umber mb-10 max-w-md mx-auto leading-relaxed">
-          {t('home.cta_section_desc')}
-        </p>
-        <Link to="/collection">
-          <button className="btn-charcoal tracking-widest">
-            {t('home.cta_section_btn')}
-          </button>
-        </Link>
+      <section
+        className="relative flex flex-col items-center justify-center text-center px-6 overflow-hidden"
+        style={{ minHeight: '100vh', backgroundColor: '#1C1A17' }}
+      >
+        {/* Subtle ambient glow */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: 'radial-gradient(ellipse 60% 60% at 50% 50%, rgba(196,165,90,0.06) 0%, transparent 70%)',
+          }}
+        />
+
+        <div
+          ref={ctaFade.ref}
+          className={`relative z-10 flex flex-col items-center gap-8 max-w-2xl transition-all duration-700 ${
+            ctaFade.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+          }`}
+        >
+          {/* Gold line */}
+          <div style={{ width: '60px', height: '1px', backgroundColor: '#C4A55A' }} />
+
+          <h2
+            className="font-cormorant italic font-light text-5xl lg:text-6xl leading-tight"
+            style={{ color: '#FFFFFF' }}
+          >
+            Every portrait tells a story of faith.
+          </h2>
+
+          <p
+            className="font-garamond text-base leading-relaxed"
+            style={{ color: '#A8A39C' }}
+          >
+            Limited editions. Museum-grade materials. Made to last a lifetime.
+          </p>
+
+          {/* Two buttons */}
+          <div className="flex flex-col sm:flex-row items-center gap-6 mt-2">
+            <Link to="/collection">
+              <button
+                className="font-garamond text-sm tracking-widest uppercase px-10 py-4 transition-all duration-200"
+                style={{
+                  border: '1px solid rgba(239,236,229,0.7)',
+                  color: '#EFECE5',
+                  background: 'transparent',
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLButtonElement).style.background = 'rgba(239,236,229,0.12)'
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLButtonElement).style.background = 'transparent'
+                }}
+              >
+                View the Collection
+              </button>
+            </Link>
+            <Link
+              to="/craftsmanship"
+              className="font-garamond text-sm tracking-widest uppercase transition-colors duration-200"
+              style={{
+                color: '#A8A39C',
+                textDecoration: 'underline',
+                textUnderlineOffset: '4px',
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLAnchorElement).style.color = '#EFECE5'
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLAnchorElement).style.color = '#A8A39C'
+              }}
+            >
+              Our Process
+            </Link>
+          </div>
+
+          {/* Gold line bottom */}
+          <div style={{ width: '60px', height: '1px', backgroundColor: '#C4A55A', marginTop: '8px' }} />
+        </div>
       </section>
 
     </div>
