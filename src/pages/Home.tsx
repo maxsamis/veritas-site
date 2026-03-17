@@ -135,7 +135,7 @@ export default function Home() {
       <section
         className="relative min-h-[92vh] lg:min-h-screen flex flex-col items-center justify-center text-center px-6"
         style={{
-          backgroundImage: 'url(https://i.imgur.com/ZYiWmF9.jpeg)',
+          backgroundImage: 'url(https://i.imgur.com/zQCIOqy.jpeg)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
