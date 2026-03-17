@@ -186,9 +186,6 @@ export default function ProductPage() {
     setTimeout(() => setJustAdded(false), 1500)
   }
 
-  const scarcityRemaining = SCARCITY[slug ?? ''] ?? 50
-  const scarcityFillPct = Math.round(((250 - scarcityRemaining) / 250) * 100)
-
   return (
     <div className="min-h-screen pb-20 md:pb-0">
 
