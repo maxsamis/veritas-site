@@ -1,38 +1,16 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import CountryFlag from 'react-country-flag'
 import { useCart } from '../contexts/CartContext'
-
-const LANGUAGES = [
-  { code: 'en', country: 'US', label: 'English' },
-  { code: 'es', country: 'ES', label: 'Español' },
-  { code: 'pt', country: 'BR', label: 'Português' },
-  { code: 'it', country: 'IT', label: 'Italiano' },
-  { code: 'fr', country: 'FR', label: 'Français' },
-  { code: 'pl', country: 'PL', label: 'Polski' },
-]
 
 export default function Nav() {
   const { t, i18n } = useTranslation()
   const [menuOpen, setMenuOpen] = useState(false)
-  const [langOpen, setLangOpen] = useState(false)
   const location = useLocation()
-  const langRef = useRef<HTMLDivElement>(null)
   const { count: cartCount, openCart } = useCart()
 
-  const currentLang = LANGUAGES.find(l => i18n.language.startsWith(l.code)) ?? LANGUAGES[0]
-
-  // Close dropdown on outside click
-  useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      if (langRef.current && !langRef.current.contains(e.target as Node)) {
-        setLangOpen(false)
-      }
-    }
-    document.addEventListener('mousedown', handler)
-    return () => document.removeEventListener('mousedown', handler)
-  }, [])
+  const isSpanish = i18n.language.startsWith('es')
+  const toggleLang = () => i18n.changeLanguage(isSpanish ? 'en' : 'es')
 
   const isActive = (path: string) =>
     location.pathname === path || location.pathname.startsWith(path + '/')
@@ -40,8 +18,8 @@ export default function Nav() {
   const links = [
     { href: '/collection', label: t('nav.collection') },
     { href: '/craftsmanship', label: 'Craftsmanship' },
-    { href: '/reviews', label: 'Reviews' },
     { href: '/about', label: t('nav.about') },
+    { href: '/reviews', label: 'Reviews' },
     { href: '/faq', label: 'FAQ' },
   ]
 
@@ -51,7 +29,7 @@ export default function Nav() {
         {/* Announcement bar */}
         <div className="bg-[#2A2927] py-2 px-4">
           <p className="text-center font-garamond text-xs tracking-[0.15em] uppercase text-[#D4C9B4]">
-            Free US Shipping · Lifetime Guarantee · Delivered to 40+ Countries
+            Free US Shipping · Lifetime Guarantee · Made to Order
           </p>
         </div>
 
@@ -91,8 +69,8 @@ export default function Nav() {
                 </span>
               </Link>
 
-              {/* Right: Reviews + FAQ + lang + cart */}
-              <div className="flex items-center gap-5 lg:gap-7">
+              {/* Right: Reviews + FAQ + language + cart */}
+              <div className="flex items-center gap-5 lg:gap-6">
                 <div className="hidden lg:flex items-center gap-7">
                   {[{ href: '/reviews', label: 'Reviews' }, { href: '/faq', label: 'FAQ' }].map(link => (
                     <Link
@@ -105,42 +83,14 @@ export default function Nav() {
                   ))}
                 </div>
 
-                {/* Language flag dropdown — desktop only */}
-                <div ref={langRef} className="relative hidden lg:block">
-                  <button
-                    onClick={() => setLangOpen(!langOpen)}
-                    className="flex items-center gap-1.5 text-umber hover:text-charcoal transition-colors"
-                    aria-label="Language"
-                  >
-                    <CountryFlag
-                      countryCode={currentLang.country}
-                      svg
-                      style={{ width: '20px', height: '14px', borderRadius: '2px' }}
-                    />
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-3 h-3 opacity-60">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-                    </svg>
-                  </button>
-
-                  {langOpen && (
-                    <div className="absolute right-0 top-8 bg-[#EFECE5] border border-umber/20 shadow-lg w-44 z-50">
-                      {LANGUAGES.map(lang => (
-                        <button
-                          key={lang.code}
-                          onClick={() => { i18n.changeLanguage(lang.code); setLangOpen(false) }}
-                          className={`w-full flex items-center gap-3 px-4 py-2.5 font-garamond text-xs tracking-wide text-left hover:bg-[#E5E1D8] transition-colors ${lang.code === currentLang.code ? 'text-charcoal' : 'text-umber'}`}
-                        >
-                          <CountryFlag
-                            countryCode={lang.country}
-                            svg
-                            style={{ width: '18px', height: '13px', borderRadius: '2px', flexShrink: 0 }}
-                          />
-                          {lang.label}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
+                {/* Language toggle — bold pill */}
+                <button
+                  onClick={toggleLang}
+                  className="font-garamond text-[10px] tracking-widest uppercase px-3 py-1.5 bg-[#2A2927] text-[#EFECE5] hover:bg-[#1C1A17] transition-colors"
+                  aria-label="Toggle language"
+                >
+                  {isSpanish ? 'English' : 'Español'}
+                </button>
 
                 {/* Cart icon with badge */}
                 <button
@@ -175,18 +125,13 @@ export default function Nav() {
                     {link.label}
                   </Link>
                 ))}
-                {/* Mobile language options */}
-                <div className="flex flex-wrap gap-4 pt-2 border-t border-umber/20">
-                  {LANGUAGES.map(lang => (
-                    <button
-                      key={lang.code}
-                      onClick={() => { i18n.changeLanguage(lang.code); setMenuOpen(false) }}
-                      className={`flex items-center gap-2 font-garamond text-xs tracking-wide ${lang.code === currentLang.code ? 'text-charcoal' : 'text-umber'}`}
-                    >
-                      <CountryFlag countryCode={lang.country} svg style={{ width: '18px', height: '13px', borderRadius: '2px' }} />
-                      {lang.label}
-                    </button>
-                  ))}
+                <div className="pt-2 border-t border-umber/20">
+                  <button
+                    onClick={() => { toggleLang(); setMenuOpen(false) }}
+                    className="font-garamond text-xs tracking-widest uppercase px-4 py-2.5 bg-[#2A2927] text-[#EFECE5] w-full text-center"
+                  >
+                    {isSpanish ? 'English' : 'Español'}
+                  </button>
                 </div>
               </div>
             </div>

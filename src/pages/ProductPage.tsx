@@ -79,25 +79,25 @@ const PRODUCTS: Record<string, ProductData> = {
   'the-good-shepherd': {
     title: 'The Good Shepherd',
     style: 'Classical Oil · Limited Edition',
-    edition: 'Edition of 250 · Certificate of authenticity included',
+    edition: 'Edition of 250',
     image: 'https://i.imgur.com/whtAlx1.jpeg',
     description:
-      'A rendering of profound stillness — the shepherd who leaves the ninety-nine. This composition draws from the Flemish tradition, rendered in the warm ochres and umbers of old master painting. Printed on 300 GSM archival fine art paper and hand-assembled into your chosen frame in the United States.',
+      'A rendering of profound stillness — the shepherd who leaves the ninety-nine. This composition draws from the Flemish tradition, rendered in the warm ochres and umbers of old master painting. Printed on 300 GSM archival fine art paper and hand-assembled in the United States.',
     basePrice: 145,
   },
   'christ-the-redeemer': {
     title: 'Christ the Redeemer',
     style: 'Renaissance · Limited Edition',
-    edition: 'Edition of 250 · Certificate of authenticity included',
+    edition: 'Edition of 250',
     image: 'https://i.imgur.com/zQCIOqy.jpeg',
     description:
-      'Chiaroscuro at its most reverent — light and shadow drawn from the Flemish masters, the figure emerging from darkness as if called forth by grace itself. Deep blacks, warm golds, and an expression that rewards every hour spent in its presence. Printed on 300 GSM archival cotton rag, assembled by hand in Austin, Texas.',
+      'Chiaroscuro at its most reverent — light and shadow drawn from the Flemish masters, the figure emerging from darkness as if called forth by grace itself. Deep blacks, warm golds, and an expression that rewards every hour spent in its presence. Printed on 300 GSM archival cotton rag, hand-assembled in the United States.',
     basePrice: 165,
   },
   'light-of-the-world': {
     title: 'Light of the World',
     style: 'Contemporary Sacred · Limited Edition',
-    edition: 'Edition of 250 · Certificate of authenticity included',
+    edition: 'Edition of 250',
     image: 'https://i.imgur.com/WGRNmXf.jpeg',
     description:
       'A contemporary sacred composition that speaks the language of today without surrendering the reverence of centuries. Luminous and still, this piece occupies the rare space between tradition and the modern interior. Printed on 300 GSM archival fine art paper, hand-assembled in the United States.',
@@ -106,7 +106,7 @@ const PRODUCTS: Record<string, ProductData> = {
   'prince-of-peace': {
     title: 'Prince of Peace',
     style: 'Minimalist · Limited Edition',
-    edition: 'Edition of 250 · Certificate of authenticity included',
+    edition: 'Edition of 250',
     image: 'https://i.imgur.com/whtAlx1.jpeg',
     description:
       'Restraint as devotion. This composition strips the sacred portrait to its essential gesture — a gaze of absolute peace rendered with economy and grace. For homes that understand that less, when it is the right less, says everything. Printed on 300 GSM archival fine art paper, hand-assembled in the United States.',
@@ -115,16 +115,16 @@ const PRODUCTS: Record<string, ProductData> = {
   'the-sacred-heart': {
     title: 'The Sacred Heart',
     style: 'Baroque · Limited Edition',
-    edition: 'Edition of 250 · Certificate of authenticity included',
+    edition: 'Edition of 250',
     image: 'https://i.imgur.com/zQCIOqy.jpeg',
     description:
-      'The oldest symbol of love made radiant again. This Baroque composition honors the iconographic tradition with depth and formal rigor — each element considered, nothing accidental. A piece that rewards years of living with it. Printed on 300 GSM archival cotton rag, assembled by hand in Austin, Texas.',
+      'The oldest symbol of love made radiant again. This Baroque composition honors the iconographic tradition with depth and formal rigor — each element considered, nothing accidental. A piece that rewards years of living with it. Printed on 300 GSM archival cotton rag, hand-assembled in the United States.',
     basePrice: 185,
   },
   emmanuel: {
     title: 'Emmanuel',
     style: 'Icon Tradition · Limited Edition',
-    edition: 'Edition of 250 · Certificate of authenticity included',
+    edition: 'Edition of 250',
     image: 'https://i.imgur.com/WGRNmXf.jpeg',
     description:
       'God with us. This composition draws from the Byzantine icon tradition — the gold ground, the frontal gaze, the timeless stillness that has sustained communities across two millennia. Nothing is decorative here. Every choice is theological. Printed on 300 GSM archival fine art paper, hand-assembled in the United States.',
@@ -135,10 +135,10 @@ const PRODUCTS: Record<string, ProductData> = {
 const FALLBACK: ProductData = {
   title: 'Original Composition',
   style: 'Classical Oil · Limited Edition',
-  edition: 'Edition of 250 · Certificate of authenticity included',
+  edition: 'Edition of 250',
   image: 'https://i.imgur.com/whtAlx1.jpeg',
   description:
-    'A rendering of profound stillness. Printed on 300 GSM archival fine art paper and hand-assembled into your chosen frame in the United States.',
+    'A rendering of profound stillness. Printed on 300 GSM archival fine art paper and hand-assembled in the United States.',
   basePrice: 145,
 }
 
@@ -482,7 +482,7 @@ export default function ProductPage() {
 
           {/* Trust signals */}
           <p className="font-garamond text-xs text-[#A1A1AA] text-center tracking-wide mt-6 mb-6">
-            200-year archival · Museum UV glazing · Lifetime guarantee · Ships from Austin, TX
+            200-year archival · Museum UV glazing · Lifetime guarantee · Made to order in the USA
           </p>
 
           {/* Divider */}
@@ -525,7 +525,7 @@ export default function ProductPage() {
               </button>
               {openSection === 'materials' && (
                 <p className="pt-2 pb-4" style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '14px', color: '#6B6B5A', lineHeight: '1.65' }}>
-                  Printed on 310 GSM Hahnemühle Photo Rag fine art paper. Museum-grade archival inks rated 200+ years. Solid wood frame, hand-assembled in Austin, TX. Museum UV-protective glazing. Available in 8×12", 12×18", 18×27", and 24×36" (all 2:3 ratio). Ships fully assembled in custom double-wall packaging.
+                  Printed on 310 GSM Hahnemühle Photo Rag fine art paper. Museum-grade archival inks rated 200+ years. Wood frame with UV-protective glazing, hand-assembled in the United States. Available in 8×12", 12×18", 18×27", and 24×36" (all 2:3 ratio). Ships fully assembled in custom double-wall packaging.
                 </p>
               )}
             </div>
@@ -545,7 +545,7 @@ export default function ProductPage() {
               </button>
               {openSection === 'shipping' && (
                 <p className="pt-2 pb-4" style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '14px', color: '#6B6B5A', lineHeight: '1.65' }}>
-                  Free shipping within the US. International shipping available. Ships within 3–5 business days. 30-day free returns — we&apos;ll arrange pickup. Questions? Contact us at studio@veritaseditions.com
+                  Free shipping within the United States. Each piece is made to order and ships within 7 business days. Delivery typically within 10 business days. All sales are final. If your print arrives damaged, contact us within 7 days at studio@veritaseditions.com and we will make it right.
                 </p>
               )}
             </div>
@@ -565,7 +565,7 @@ export default function ProductPage() {
               </button>
               {openSection === 'provenance' && (
                 <p className="pt-2 pb-4" style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '14px', color: '#6B6B5A', lineHeight: '1.65' }}>
-                  These portraits are original compositions rendered in archival pigments by studio artists working in the Flemish oil tradition and the Italian Renaissance manner. Each work is produced as a limited edition of 250 impressions on 310 GSM Hahnemühle Photo Rag. Hand-assembled in Austin, TX. Certificate of authenticity included.
+                  These portraits are original compositions rendered in archival pigments, working in the Flemish oil tradition and the Italian Renaissance manner. Each work is produced as a limited edition of 250 impressions on 310 GSM Hahnemühle Photo Rag, hand-assembled in the United States.
                 </p>
               )}
             </div>
@@ -583,41 +583,6 @@ export default function ProductPage() {
 
         </div>
       </div>
-
-      {/* ── Press Bar ────────────────────────────────── */}
-      <section className="border-t border-[#E8E2D9] py-8 overflow-hidden bg-[#FAFAF8]">
-        <p className="text-[10px] tracking-widest uppercase font-garamond text-[#8B7355] text-center mb-5">As Seen In</p>
-        <style>{`
-          @keyframes pdp-press-scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-          }
-          .pdp-press-track {
-            display: flex;
-            align-items: center;
-            gap: 64px;
-            animation: pdp-press-scroll 28s linear infinite;
-            width: max-content;
-            padding: 0 32px;
-          }
-          .pdp-press-track:hover { animation-play-state: paused; }
-          .pdp-press-logo {
-            font-family: 'Cormorant Garamond', Georgia, serif;
-            font-size: 13px;
-            letter-spacing: 0.05em;
-            color: #A1A1AA;
-            opacity: 0.6;
-            white-space: nowrap;
-            flex-shrink: 0;
-          }
-        `}</style>
-        <div className="pdp-press-track">
-          {['The New York Times', 'Architectural Digest', 'The Wall Street Journal', 'Elle Decor', 'Forbes',
-            'The New York Times', 'Architectural Digest', 'The Wall Street Journal', 'Elle Decor', 'Forbes'].map((name, i) => (
-            <span key={i} className="pdp-press-logo">{name}</span>
-          ))}
-        </div>
-      </section>
 
       {/* ── You May Also Like ────────────────────────── */}
       <div className="py-16 px-6 max-w-4xl mx-auto">

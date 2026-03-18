@@ -26,7 +26,7 @@ export default function Shipping() {
               International Shipping
             </h3>
             <p className="font-garamond text-base text-umber leading-relaxed">
-              We ship to Australia, Canada, the United Kingdom, and the UAE. International orders ship via FedEx International Priority. Duties and taxes may apply and are the responsibility of the buyer. Contact us for international shipping rates.
+              We ship to Australia, Canada, the United Kingdom, and the UAE. International orders ship via FedEx International Priority. Duties and taxes may apply and are the responsibility of the buyer. Contact us for US shipping rates.
             </p>
           </div>
 
@@ -35,7 +35,7 @@ export default function Shipping() {
               Packaging
             </h3>
             <p className="font-garamond text-base text-umber leading-relaxed">
-              Every print ships fully assembled in a custom-designed double-wall box engineered specifically for this frame size. We wrap each piece in archival tissue and include a certificate of authenticity.
+              Every print ships fully assembled in a custom-designed double-wall box engineered specifically for this frame size. We wrap each piece in archival tissue and include a limited edition print.
             </p>
           </div>
 
@@ -44,7 +44,7 @@ export default function Shipping() {
               Returns
             </h3>
             <p className="font-garamond text-base text-umber leading-relaxed">
-              We offer free 30-day returns on all orders. If your print arrives damaged or you&rsquo;re not satisfied, contact us at{' '}
+              We offer free All sales final on all orders. If your print arrives damaged or you&rsquo;re not satisfied, contact us at{' '}
               <a href="mailto:studio@veritas.art" className="text-charcoal hover:underline transition-colors">studio@veritas.art</a>
               {' '}and we will arrange a free pickup. Refunds are processed within 3&ndash;5 business days of receipt.
             </p>

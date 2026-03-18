@@ -58,9 +58,6 @@ export default function WelcomeModal() {
           </svg>
         </button>
 
-        {/* Gold top rule */}
-        <div className="absolute top-0 left-0 right-0 z-10" style={{ height: '2px', backgroundColor: '#C4A55A' }} />
-
         {/* Left: Portrait image */}
         <div className="hidden sm:block w-[48%] flex-shrink-0 relative" style={{ minHeight: '520px' }}>
           <img

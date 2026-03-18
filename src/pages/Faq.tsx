@@ -7,18 +7,18 @@ const FAQ_ITEMS = [
   },
   {
     q: 'What paper and printing method do you use?',
-    a: 'Printed on 310 GSM Hahnemühle Photo Rag, a museum-grade archival fine art paper used by galleries worldwide. We use archival pigment printing — the same process used by major art museums — rated for 200+ years of light fastness. Frames are hand-assembled in Austin, TX using kiln-dried hardwood mouldings.',
+    a: 'Printed on 310 GSM Hahnemühle Photo Rag, a museum-grade archival fine art paper used by galleries worldwide. We use archival pigment printing — the same process used by major art museums — rated for 200+ years of light fastness. Frames are hand-assembled in the United States using kiln-dried hardwood mouldings.',
   },
   {
     q: 'How long does shipping take?',
-    a: 'Orders ship within 3–5 business days from Austin, TX. US delivery typically 5–7 business days. International 10–14 business days.',
+    a: 'Orders ship within 7 business days from the United States. US delivery typically 5–7 business days. International 10–14 business days.',
   },
   {
     q: 'Is this a real photograph?',
     a: 'These are archival pigment prints of original paintings rendered in the Flemish, Renaissance, and contemporary sacred art traditions. They are not photographs, but are printed using the same archival pigment process used by major art museums.',
   },
   {
-    q: 'Do you ship internationally?',
+    q: 'Do you ship within the United States?',
     a: 'Yes. We ship to over 40 countries. Shipping rates are calculated at checkout.',
   },
   {
@@ -34,8 +34,8 @@ const FAQ_ITEMS = [
     a: 'We stand behind every print with a lifetime guarantee. If your print arrives damaged or deteriorates under normal conditions, we will replace it at no charge. Our archival materials are rated for 200+ years.',
   },
   {
-    q: 'Does it come with a certificate of authenticity?',
-    a: 'Yes. Every edition includes a numbered certificate of authenticity signed by the studio.',
+    q: 'Does it come with a limited edition print?',
+    a: 'Yes. Every edition includes a numbered limited edition print signed by the studio.',
   },
 ]
 

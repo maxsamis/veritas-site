@@ -50,7 +50,7 @@
     "add_to_collection": "Agregar al Carrito",
     "description": "Una representación de quietud profunda — el pastor que deja a los noventa y nueve. Esta composición bebe de la tradición flamenca, renderizada en los cálidos ocres y sombras de la pintura de los viejos maestros.",
     "ships_from": "Envío desde Estados Unidos · Garantía de por vida",
-    "edition_note": "Edición de 500 · Certificado de autenticidad incluido"
+    "edition_note": "Edición de 250"
   },
   "about": {
     "hero_quote": "Creemos en el poder transformador del arte sagrado — no como decoración, sino como devoción.",
@@ -67,9 +67,9 @@
     "q1": "¿Qué materiales se utilizan?",
     "a1": "Todas las impresiones se producen en papel de bellas artes archivístico de 300 g/m² con tintas de pigmento resistentes a los rayos UV.",
     "q2": "¿Cuánto tarda la producción?",
-    "a2": "Cada pieza se ensambla a pedido. Por favor, permita de 7 a 10 días hábiles para la producción, más el tiempo de envío.",
+    "a2": "Cada pieza se elabora a mano por encargo. Por favor, permita 7 días hábiles para la producción. Los pedidos generalmente se entregan dentro de los 10 días hábiles.",
     "q3": "¿Ofrecen devoluciones?",
-    "a3": "Todas las ventas son definitivas. Si su pedido llega dañado, contáctenos dentro de las 48 horas.",
+    "a3": "Todas las ventas son finales. Dado que cada pieza se elabora por encargo, no podemos aceptar devoluciones. Si su pedido llega dañado, contáctenos en un plazo de 7 días a studio@veritaseditions.com y lo solucionaremos.",
     "q4": "¿Puedo cancelar mi pedido?",
     "a4": "Los pedidos pueden cancelarse dentro de las 24 horas de su realización.",
     "q5": "¿Qué tamaños están disponibles?",
@@ -77,7 +77,7 @@
     "q6": "¿Qué estilos de marco están disponibles?",
     "a6": "Actualmente ofrecemos cinco acabados de marco: Negro Mate, Nogal, Blanco Marfil, Oro Bruñido y Oro Antiguo.",
     "q7": "¿Envían internacionalmente?",
-    "a7": "Sí. Enviamos a más de 40 países. Las tarifas de envío se calculan al momento del pago.",
+    "a7": "Actualmente solo enviamos dentro de los Estados Unidos.",
     "q8": "¿Hay garantía?",
     "a8": "Sí. Ofrecemos garantía de por vida en todos los defectos de marco e impresión.",
     "q9": "¿Puedo solicitar un tamaño personalizado?",
@@ -93,7 +93,7 @@
     "faq": "FAQ",
     "policies": "Políticas",
     "copyright": "© 2026 Veritas. Todos los derechos reservados.",
-    "made_in": "Ensamblado a mano en los Estados Unidos."
+    "made_in": "Hecho a pedido. Envíos dentro de los Estados Unidos."
   },
   "policies": {
     "title": "Políticas",

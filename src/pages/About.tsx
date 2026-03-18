@@ -48,7 +48,7 @@ export default function About() {
               Veritas works with studio artists in the Flemish and Renaissance tradition. Every portrait is limited to 250 impressions. None will ever be reprinted.
             </p>
             <p className="font-garamond text-base leading-relaxed" style={{ color: '#8C8C7A' }}>
-              Each print is produced on 310 GSM Hahnemühle Photo Rag — the same museum-grade paper used by the Louvre for archival reproductions — using 12-color archival pigment inks rated for 200+ years of light-fastness. Then hand-assembled into solid wood frames in Austin, TX.
+              Each print is produced on 310 GSM Hahnemühle Photo Rag — the same museum-grade paper used by the Louvre for archival reproductions — using 12-color archival pigment inks rated for 200+ years of light-fastness. Then hand-assembled into wood frames in the United States.
             </p>
           </div>
 
@@ -86,7 +86,7 @@ export default function About() {
           250
         </p>
         <p className="font-garamond text-xs tracking-[0.25em] uppercase mt-4" style={{ color: '#8C8C7A' }}>
-          impressions per portrait · never reprinted
+          impressions per portrait · limited edition
         </p>
       </section>
 

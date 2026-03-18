@@ -44,7 +44,7 @@ export default function Footer() {
           </div>
           <div>
             <p className="font-garamond text-xs tracking-[0.2em] uppercase text-[#8C8C7A] mb-5">Veritas</p>
-            <p className="font-garamond text-sm text-[#8C8C7A] leading-relaxed mb-5">Sacred art. Museum grade. Hand-assembled in Austin, TX.</p>
+            <p className="font-garamond text-sm text-[#8C8C7A] leading-relaxed mb-5">Sacred art. Museum grade. Hand-assembled in the United States.</p>
             <p className="font-garamond text-xs tracking-wide text-[#8C8C7A]">studio@veritaseditions.com</p>
           </div>
         </div>

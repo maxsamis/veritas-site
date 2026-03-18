@@ -135,7 +135,7 @@ export default function Home() {
       <section
         className="relative min-h-[92vh] lg:min-h-screen flex flex-col items-center justify-center text-center px-6 pt-[104px] lg:pt-0"
         style={{
-          backgroundImage: 'url(https://i.imgur.com/zQCIOqy.jpeg)',
+          backgroundImage: 'url(https://i.imgur.com/ThF68zp.jpeg)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
@@ -224,43 +224,6 @@ export default function Home() {
           >
             <polyline points="6 9 12 15 18 9" />
           </svg>
-        </div>
-      </section>
-
-      {/* ── Press Bar ────────────────────────────────────── */}
-      <section className="py-8 border-y border-[#E4E4E7] bg-[#FAFAF8] overflow-hidden">
-        <div className="flex items-center justify-center mb-5">
-          <span className="font-garamond text-xs tracking-[0.2em] uppercase text-[#B0A898]">As featured in</span>
-        </div>
-        <style>{`
-          @keyframes press-scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-          }
-          .press-track {
-            display: flex;
-            align-items: center;
-            gap: 64px;
-            animation: press-scroll 28s linear infinite;
-            width: max-content;
-            padding: 0 32px;
-          }
-          .press-track:hover { animation-play-state: paused; }
-          .press-logo {
-            font-family: 'Cormorant Garamond', Georgia, serif;
-            font-size: 13px;
-            letter-spacing: 0.05em;
-            color: #A1A1AA;
-            opacity: 0.6;
-            white-space: nowrap;
-            flex-shrink: 0;
-          }
-        `}</style>
-        <div className="press-track">
-          {['The New York Times', 'Architectural Digest', 'The Wall Street Journal', 'Elle Decor', 'Forbes',
-            'The New York Times', 'Architectural Digest', 'The Wall Street Journal', 'Elle Decor', 'Forbes'].map((name, i) => (
-            <span key={i} className="press-logo">{name}</span>
-          ))}
         </div>
       </section>
 
